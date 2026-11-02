@@ -4966,7 +4966,7 @@ function pvpRe(fromOpp){OL.rm=OL.rm||{};if(fromOpp){OL.rm.o=1;if(BS&&BS.mode=='e
 function pvpQuit(){olClose()}
 setTimeout(()=>{try{if(pg.av=='\u{1F9D1}‍\u{1F393}'){pg.av='👨‍🎓';save()}}catch(e){}},0);
 // ===== Usuario en el servidor (Supabase), guardado automático, historial y rankings =====
-const SB={url:window.SB_URL||'',key:window.SB_KEY||''};
+const SB={url:window.SB_URL||'https://zozpaodujfwxnpvtnfpj.supabase.co',key:window.SB_KEY||'sb_publishable_qZTU7dFHhjkSvHTEDuAFcA_syG93qmw'};
 const sbOn=()=>/^https?:\/\//.test(SB.url)&&SB.key.length>10;
 async function sbRPC(fn,args){let r;try{r=await fetch(SB.url.replace(/\/$/,'')+'/rest/v1/rpc/'+fn,{method:'POST',headers:{apikey:SB.key,'Content-Type':'application/json',...(/^eyJ/.test(SB.key)?{Authorization:'Bearer '+SB.key}:{})},body:JSON.stringify(args)})}catch(e){throw new Error('red: '+(e&&e.message||e))}
  let j=null;try{j=await r.json()}catch(e){}if(!r.ok)throw new Error((j&&j.message)||('http_'+r.status+(r.statusText?' '+r.statusText:'')));if(j&&j.error)throw new Error(j.error);return j}

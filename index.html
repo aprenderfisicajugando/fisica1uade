@@ -322,6 +322,15 @@ tr.pzused td,.pzau.pzused{opacity:.55}
 .pide{display:block;margin-top:7px;padding:6px 9px;border-left:3px solid #2563eb;background:rgba(37,99,235,.08);border-radius:6px;line-height:1.45}
 .pide .pi{display:block}
 @media (orientation:landscape) and (max-height:520px){.pide{font-size:.9em;padding:4px 8px;margin-top:4px}.pide .pi{display:inline}.pide .pi+.pi::before{content:"";display:inline-block;width:2px;height:1em;background:currentColor;opacity:.35;margin:0 .6em;vertical-align:-.15em}}
+/* v19: recuadro «Lo que ya planteaste» y enunciado en los pasos de reemplazo */
+.plt{display:flex;flex-wrap:wrap;align-items:baseline;gap:0 14px;border:1.5px dashed #94a3b8;border-radius:10px;padding:2px 9px;margin:0 0 4px;font-size:.8em;line-height:1.4;background:rgba(148,163,184,.10)}
+.plt>b{font-size:.85em;color:#64748b}
+.plt .pll{display:contents}.plt .plv .pli{color:#0f766e;font-weight:600}
+.plt .pli{white-space:nowrap}.plt .pli small{color:#64748b}
+@media (orientation:landscape) and (max-height:520px){.plt>b{display:none}.plt::before{content:'📌';margin-right:-8px}}
+.rpq{font-size:.92em;margin:0 0 4px}
+@media (max-height:540px){#calc .clk button{padding:6px 0}}
+@media (orientation:landscape) and (max-height:520px){#right .rpeq{padding:5px 8px;margin:3px 0}#right .rpch{margin:3px 0}#right .rpq+.dsq{display:none}}
 </style></head><body>
 <div class="app">
 <header class="top"><div class="lvh"><button class="mb" id="bkb" aria-label="Volver al paso anterior" title="Volver al paso anterior (en el primer paso, a los niveles)">⬅</button><button class="mb" id="fwb" style="display:none" aria-label="Avanzar al paso siguiente" title="Avanzar (solo pasos que ya hiciste)">➡</button><span class="lvn" id="lvn"></span></div><div class="steps" id="steps"></div><div class="hud"><span class="hearts" id="hud"></span><button class="mb" id="clcb" aria-label="Calculadora" title="Calculadora">🧮</button><button class="mb" id="crb" aria-label="Cartas">🃏</button><button class="mb" id="chb" aria-label="Personajes">🎭</button><button class="mb" id="shb" aria-label="Tienda">🛒</button><button class="mb" id="thm" aria-label="Modo oscuro">🌙</button><button class="mb" id="mapb">🗺</button><button class="mb" id="hb">?</button><div class="xpm" id="xpm"><div></div><span></span></div></div></header>
@@ -4334,13 +4343,13 @@ AL.auto=p=>{const A=p.al;AL.q=1;AL.start(A);
 window.__alSolve=()=>{const p=curP();if(!p||p.k!='alg')return;AL.auto(p);rr()};
 // ===== 🔢 Reemplazar los datos en la fórmula despejada (arrastrar o tocar) y calcular =====
 // p.rp = {lhs:'v_B', ex:'√(g×h_A×2)', vars:{g:'10 m/s²', h_A:'6 m'}, extra:['3 kg','9 m'], ans, u, auto (la cuenta la hace el juego), q}
-const RP={val:t=>String(t).split(' ')[0]};
+const RP={val:t=>{const v=String(t).split(' ')[0];return /^[−-]/.test(v)?'('+v+')':v}};
 Object.assign(RS,{rep(p){const P=p.rp;if(ST.fill==null){ST.fill={};ST.ph=0;if(stage<(X.top||0)){Object.keys(P.vars).forEach(k=>ST.fill[k]=P.vars[k]);ST.ph=1}}
  if(!ST.chips)ST.chips=mix(Object.values(P.vars).concat(P.extra||[]));
  const vv={};Object.keys(P.vars).forEach(k=>vv[k]=ST.fill[k]!=null?RP.val(ST.fill[k]):null);
  const eqh=`<div class="rpeq"><b>${P.lhs} =</b> ${mathHTML(P.ex,ST.ph?Object.fromEntries(Object.keys(P.vars).map(k=>[k,RP.val(P.vars[k])])):vv)}</div>`;
  const ex=P.ex.replace(/[A-Za-zΔαβγθμωρφ][A-Za-z0-9]*(?:_[A-Za-z0-9]+)?/g,k=>k in P.vars?RP.val(P.vars[k]):k),res=calcEval(ex);
- if(ST.ph==0){R(`<h3>🔢 ${P.q||'Reemplazá los datos'}</h3><p class="dsq">Arrastrá cada dato a su letra (o tocá el dato y después la letra).</p>${eqh}<div class="rpch" id="rpc">${ST.chips.map((c,j)=>`<button class="f chipb ${ST.sel===j?'on':''} ${Object.values(ST.fill).includes(c)?'used':''}" data-c="${j}">${c}</button>`).join('')}</div>`);
+ if(ST.ph==0){R(`<h3>🔢 ${P.q||'Reemplazá los datos'}</h3>${P.qq?`<div class="rpq">${P.qq}</div>`:''}<p class="dsq">Arrastrá cada dato a su letra (o tocá el dato y después la letra).</p>${eqh}<div class="rpch" id="rpc">${ST.chips.map((c,j)=>`<button class="f chipb ${ST.sel===j?'on':''} ${Object.values(ST.fill).includes(c)?'used':''}" data-c="${j}">${c}</button>`).join('')}</div>`);
   $('submit').textContent='Comprobar';
   document.querySelectorAll('.rpeq .mvar').forEach(e=>{if(ST.bad&&ST.bad.includes(e.dataset.v))e.classList.add('bad');e.onclick=()=>{if(ST.sel!=null){ST.fill[e.dataset.v]=ST.chips[ST.sel];ST.sel=null;ST.bad=null;rr()}else if(ST.fill[e.dataset.v]!=null){delete ST.fill[e.dataset.v];rr()}else msg('Elegí primero un dato de abajo.')}});
   document.querySelectorAll('#rpc [data-c]').forEach(b=>{b.onpointerdown=e=>{e.preventDefault();const j=+b.dataset.c,x0=e.clientX,y0=e.clientY;let g=null;try{b.setPointerCapture(e.pointerId)}catch(_){}
@@ -4350,7 +4359,7 @@ Object.assign(RS,{rep(p){const P=p.rp;if(ST.fill==null){ST.fill={};ST.ph=0;if(st
     if(!g){ST.sel=ST.sel===j?null:j;return rr()}g.remove();const t=document.querySelector('.rpeq .mvar.on');if(t){ST.fill[t.dataset.v]=ST.chips[j];ST.sel=null;ST.bad=null}rr()};
    b.addEventListener('pointermove',mv);b.addEventListener('pointerup',up);b.addEventListener('pointercancel',up)}})}
  else{const fmt=calcFmt(+res.toPrecision(4));
-  R(`<h3>🔢 ${P.q||'Reemplazá los datos'}</h3>${eqh}`+(P.auto?`<p class="dsend">= <b>${fmt} ${P.u}</b></p><p class="mut">Esta cuenta la hizo el juego.</p>`:`<p class="dsq">Ahora calculá (podés usar la 🧮 calculadora: escribí la cuenta tal como la ves).</p><div class="nrow"><span>${P.lhs} =</span><input id="ni" class="ninp" inputmode="decimal" autocomplete="off" value="${ST.v||''}" placeholder="?"><span class="nu">${P.u}</span></div>`));
+  R(`<h3>🔢 ${P.q||'Reemplazá los datos'}</h3>${P.qq?`<div class="rpq">${P.qq}</div>`:''}${eqh}`+(P.auto?`<p class="dsend">= <b>${fmt} ${P.u}</b></p><p class="mut">Esta cuenta la hizo el juego.</p>`:`<p class="dsq">Ahora calculá (podés usar la 🧮 calculadora: escribí la cuenta tal como la ves).</p><div class="nrow"><span>${P.lhs} =</span><input id="ni" class="ninp" inputmode="decimal" autocomplete="off" value="${ST.v||''}" placeholder="?"><span class="nu">${P.u}</span></div>`));
   if(!P.auto){const i=$('ni');i.oninput=()=>ST.v=i.value;i.onkeydown=e=>{if(e.key=='Enter'){e.preventDefault();i.blur();$('submit').click()}}}
   $('submit').textContent=P.auto?'Seguir ▶':'Comprobar'}
  document.querySelector('.main').classList.add('nofig')}});
@@ -5517,6 +5526,281 @@ SET('U10e10',{T:3.5,at:t=>({n:t<1?1:t<2?2:3}),base:`<rect x="20" y="190" width="
  draw:f=>{const M=[[5,0,'#2563eb'],[10,2,'#f97316'],[15,5,'#16a34a']].slice(0,f.n);const mt=M.reduce((a,b)=>a+b[0],0),xc=M.reduce((a,b)=>a+b[0]*b[1],0)/mt;return M.map(([m,x,c])=>`<circle cx="${30+x*52}" cy="${190-m*1.6}" r="${m*1.6}" fill="${c}"/>`+UT(30+x*52,182-m*3.2,m+' kg',10)).join('')+L_(30+xc*52,130,30+xc*52,240,'#dc2626',2,'stroke-dasharray="4 3"')+UT(30+xc*52,124,'CM',11,'#dc2626','middle',700)+TXT('El CM se corre hacia la masa más grande',24)},
  panel:(f,hd,c)=>PNL('x_cm (m)',[{n:'x_cm',v:[0,0,4/3,3.167][f.n],mx:5,col:'#dc2626'}],hd,c)});
 SET('U10e14',S1D({T:.8,xmin:-2.5,xmax:3.5,objs:[{x:t=>-2+4*t,lab:'2 kg',kind:'box',col:'#2563eb'},{x:t=>3-2*t,lab:'3 kg',kind:'box',col:'#f97316'}],extra:(f,px)=>{const x=(2*f.xs[0]+3*f.xs[1])/5;return L_(px(x),140,px(x),206,'#dc2626',2,'stroke-dasharray="4 3"')+UT(px(x),134,'CM',11,'#dc2626','middle',700)},txt:'El CM avanza a 0,4 m/s, siempre igual'}));
+})();
+// ===== Física I · UADE (v19): planteo completo en todos los niveles =====
+// Orden de la profe: DCL → ecuaciones de Newton (Σ F) → peso P = m·g → despeje en letras → reemplazar los datos.
+// 1) Recuadro «Lo que ya planteaste» arriba de cada paso: Σ F del DCL y los resultados que ya calculaste.
+// 2) Pasos de peso (REP P = m·g) después de Σ F en dinámica, y las fórmulas usan P (calculado) en vez de un dato regalado.
+// 3) Los pasos «Calculá» numéricos pasan a «Reemplazá los datos en la fórmula» (REP), con la fórmula en letras.
+(()=>{
+const LV=id=>{const e=EX.find(x=>x.id==id);if(!e||!e.pasos)throw 'PLANT '+id;return e};
+const IXK=(e,name,k)=>{const i=e.pasos.findIndex(s=>s.n==name&&(!k||s.k==k));if(i<0)throw 'PLANT '+e.id+' · '+name;return i};
+const strip=s=>String(s==null?'':s);
+// num → REP (conserva respuesta, unidad y textos del paso numérico)
+const NR=(id,name,lhs,ex,vars,o={})=>{const e=LV(id),i=IXK(e,name,'num'),s=e.pasos[i];
+ const r=REP(name,o.q||'Reemplazá los datos y calculá',lhs,ex,vars,o.ans!=null?o.ans:s.ans,o.u!=null?o.u:(s.u||''),{qq:o.qq!=null?o.qq:strip(s.q),extra:o.extra||[],y:typeof s.y=='string'?s.y:undefined,...(o.tol!=null?{tol:o.tol}:{})});
+ r.h=o.h||(typeof s.h=='string'?s.h:undefined);if(!r.h)delete r.h;e.pasos[i]=r;return r};
+// reemplaza el paso «name» (de tipo k) por otros
+const RPL=(id,name,k,steps)=>{const e=LV(id),i=IXK(e,name,k);e.pasos.splice(i,1,...steps)};
+const DEL=(id,name,k)=>RPL(id,name,k,[]);
+// inserta pasos después de Σ F (o antes del paso «before»)
+const INS=(id,steps,before)=>{const e=LV(id);let i=before?IXK(e,before):e.pasos.findIndex(s=>s.k=='suma')+1;if(i<=0&&!before)throw 'PLANT INS '+id;e.pasos.splice(i,0,...steps);
+ if(e.sim&&e.simDesde!=null){const j=e.pasos.findIndex(s=>s.k=='suma');if(j>=0)e.simDesde=j+1}};
+// peso: [lhs, var masa, masa, P, texto, distractores, nombre del paso]
+const PS=(lhs,mv,m,P,qq,extra,n)=>Object.assign(REP(n||'Peso','Calculá el peso: P = m·g',lhs,mv+'×g',{[mv]:m,g:G10},P,'N',{qq,extra:extra||[]}),{h:'El peso es la masa por la gravedad: P = m·g. Reemplazá m y g.'});
+const PESO=(id,list,before)=>INS(id,list.map(a=>PS(...a)),before);
+const NORM='La normal sale del eje perpendicular: N − P = 0 → <b>N = P = m·g</b>.';
+
+// ================= TP 6 · Leyes de Newton =================
+// ---- U6b · lección: el rozamiento con DCL → Newton → peso → reemplazo ----
+{const e=LV('U6b'),o=e.pasos.find(s=>s.k=='orden');
+ if(o)o.o=['Dibujar el diagrama de cuerpo libre (DCL) de cada cuerpo','Elegir los ejes (uno en la dirección del movimiento)','Escribir Σ F = m·a en cada eje (descomponiendo las fuerzas)','Calcular el peso: P = m·g','Despejar la incógnita en letras','Reemplazar los datos y calcular'];
+ Object.assign(e,{B:[125,186],rect:[70,40],bg:FLOOR,F:{P:{d:[0,60]},N:{d:[0,-60]},F:{d:[72,0],n:'F'},Fr:{d:[-58,0]},Fm:{d:[0,-50],n:'«Fuerza del movimiento»'}},ok:['P','N','F','Fr'],
+  S:[{a:'Σ Fₓ',r:'0',e:['+F','-Fr']},{a:'Σ Fᵧ',r:'0',e:['+N','-P']}],tm:['F','Fr','N','P'],
+  axn:'Ejemplo: una caja de 10 kg quieta en el piso (μₑ = 0,5) y la empujás con 20 N. Eje x hacia donde empujás, eje y hacia arriba. Está quieta: a = 0.',
+  dclw:'Sobre la caja: el peso, la normal del piso, tu fuerza F y el rozamiento, que se opone a que deslice.'});
+ RPL('U6b','Pensá','mc',[
+  {k:'info',n:'Ejemplo',t:'Ejemplo con rozamiento',html:'Una <b>caja de 10 kg</b> está quieta en el piso (<b>μₑ = 0,5</b>) y la empujás horizontalmente con <b>20 N</b>, pero no se mueve. ¿Cuánto vale el rozamiento?<br>Lo resolvemos como en el parcial: <b>1)</b> DCL, <b>2)</b> Newton en cada eje, <b>3)</b> peso, <b>4)</b> despeje, <b>5)</b> reemplazo.'},
+  {k:'dcl',n:'DCL'},{k:'suma',n:'Σ F'},
+  PS('N = P','m','10 kg',100,'Del eje y: N − P = 0 → la normal es igual al peso.',['20 N']),
+  REP('Rozamiento','Despejá del eje x y reemplazá','Fr','F',{F:'20 N'},20,'N',{qq:'Del eje x (está quieta): F − Fr = 0 → <b>Fr = F</b>.',extra:['100 N']}),
+  REP('Máximo','¿Alcanza el estático?','Fr máx','μ_e×N',{μ_e:'0,5',N:'100 N'},50,'N',{qq:'El rozamiento estático tiene un <b>máximo</b>: Fr ≤ μₑ·N.',extra:['20 N']}),
+  UM('Pensá','Fr = 20 N y el máximo es 50 N. Entonces…',['No desliza: el estático vale 20 N (lo justo), que es menor que 50 N','Desliza, porque 20 N es poco','El rozamiento vale 50 N'],'μₑ·N = 50 N es el <b>máximo</b>, no el valor.','Fr = 20 N: lo justo para que no se mueva.')]);
+ const pi=e.pasos.findIndex(s=>s.t=='Plano inclinado');if(pi<0)throw 'PLANT U6b plano';e.pasos[pi].fig=()=>FU_PLANO(30,{tit:'Pₓ = P·sen θ   |   Pᵧ = P·cos θ'});e.simDesde=pi;
+ RPL('U6b','Probá','num',[
+  REP('Probá: peso','Un bloque de 10 kg en un plano de 30° (sin rozamiento). Primero, el peso','P','m×g',{m:'10 kg',g:G10},100,'N',{extra:['30 °']}),
+  REP('Probá: Pₓ','Ahora la componente del peso a lo largo del plano','Pₓ','P×sin(θ)',{P:'100 N',θ:'30 °'},50,'N',{qq:'Descomponemos el peso: <b>Pₓ = P·sen θ</b> (en la calculadora, modo DEG).',extra:['10 kg']})]);
+}
+// ---- U6e2 · balde ----
+PESO('U6e2',[['P','m','40 kg',400,'Primero el peso del balde.',['2 m/s²']]]);
+DEL('U6e2','Caso 3','alg');
+RPL('U6e2','Caso 1','num',[ALG('Despejá','Despejamos T de la ecuación de Newton que planteamos (sirve para los cuatro casos).','T − P = m·a','T',{lab0:'Σ Fᵧ = m·a'}),
+ REP('Caso 1','Caso 1: en reposo (a = 0)','T','m×a+P',{m:'40 kg',a:'0 m/s²',P:'400 N'},400,'N',{qq:'El balde está en <b>reposo</b>: a = 0.',extra:['2 m/s²']})]);
+RPL('U6e2','Caso 2','num',[REP('Caso 2','Caso 2: velocidad constante','T','m×a+P',{m:'40 kg',a:'0 m/s²',P:'400 N'},400,'N',{qq:'Sube con <b>velocidad constante</b> de 2 m/s: ¿cuánto vale a?',extra:['2 m/s']})]);
+// ---- U6e5 · rozamiento estático y dinámico (kgf → N) ----
+{const e=LV('U6e5');e.q=e.q.replace('Empieza a deslizar','(1 kgf = 10 N, g = 10 m/s²) Empieza a deslizar');
+ RPL('U6e5','Normal','mc',[PS('N = P','m','20 kg',200,'«Pesa 20 kgf» quiere decir que su masa es <b>20 kg</b>. '+NORM,['8 kgf'])]);
+ RPL('U6e5','a) μₑ','rep',[REP('a) μₑ','Reemplazá y calculá','μₑ','F÷N',{F:'80 N',N:'200 N'},.4,'',{qq:'Justo antes de deslizar, F = 8 kgf = <b>80 N</b>.',extra:['8 N']})]);
+ RPL('U6e5','b) μ_d','rep',[REP('b) μ_d','Reemplazá y calculá','μ_d','F÷N',{F:'40 N',N:'200 N'},.2,'',{qq:'Con velocidad constante (a = 0) el planteo es el mismo, con F = 4 kgf = <b>40 N</b> y el rozamiento dinámico.',extra:['80 N']})]);}
+// ---- U6e6 · ángulo límite ----
+NR('U6e6','a) Ángulo','θ','atan(μ_e)',{μ_e:'0,75'},{qq:'Del planteo: tan θ = μₑ → <b>θ = arctan(μₑ)</b>. En la calculadora: tecla tan⁻¹ (modo DEG).',extra:['0,5']});
+// ---- U6e9 · dos cuerpos en el plano ----
+DEL('U6e9','Componentes','match');
+PESO('U6e9',[['P₁','m_1','60 kg',600,'Peso del cuerpo 1.',['30 °'],'Peso m₁'],['P₂','m_2','40 kg',400,'Peso del cuerpo 2.',['30 °'],'Peso m₂']]);
+INS('U6e9',[REP('P₁ₓ','Componente del peso a lo largo del plano','P₁ₓ','P_1×sin(θ)',{P_1:'600 N',θ:'30 °'},300,'N',{qq:'Pₓ = P·sen θ.',extra:['400 N']}),
+ REP('P₂ₓ','Componente del peso a lo largo del plano','P₂ₓ','P_2×sin(θ)',{P_2:'400 N',θ:'30 °'},200,'N',{qq:'Pₓ = P·sen θ.',extra:['600 N']})],'b) v constante');
+{const V=a=>({m_1:'60 kg',m_2:'40 kg',a,P_1x:'300 N',P_2x:'200 N'}),T=a=>({m_2:'40 kg',a,P_2x:'200 N'});
+ RPL('U6e9','b) v constante','num',[ALG('b) Despejá','Sumamos las ecuaciones de los dos cuerpos: la tensión se cancela.','F − P_1x − P_2x = (m_1+m_2)·a','F',{lab0:'sumando las dos ecuaciones'}),
+  REP('b) v constante','Velocidad constante: a = 0','F','(m_1+m_2)×a+P_1x+P_2x',V('0 m/s²'),500,'N',{extra:['2 m/s²']})]);
+ RPL('U6e9','c) Tensión','num',[ALG('c) Despejá','La tensión sale de la ecuación de m₂ sola.','T − P_2x = m_2·a','T',{lab0:'ecuación de m₂'}),
+  REP('c) Tensión','Con a = 0','T','m_2×a+P_2x',T('0 m/s²'),200,'N',{extra:['2 m/s²']})]);
+ RPL('U6e9','d) Con a = 2','num',[REP('d) Con a = 2','Misma fórmula de F, ahora con a = 2 m/s²','F','(m_1+m_2)×a+P_1x+P_2x',V('2 m/s²'),700,'N',{extra:['0 m/s²']})]);
+ RPL('U6e9','e) Tensión','num',[REP('e) Tensión','Misma fórmula de T, con a = 2 m/s²','T','m_2×a+P_2x',T('2 m/s²'),280,'N',{extra:['0 m/s²']})]);
+ RPL('U6e9','f) Sin F','num',[ALG('f) Despejá','Sin F, sumamos las ecuaciones de los dos cuerpos: la tensión se cancela.','− P_1x − P_2x = (m_1+m_2)·a','a',{lab0:'sumando las dos ecuaciones (F = 0)'}),
+  REP('f) Sin F','Reemplazá y calculá (con signo)','a','(−P_1x−P_2x)÷(m_1+m_2)',{P_1x:'300 N',P_2x:'200 N',m_1:'60 kg',m_2:'40 kg'},-5,'m/s²',{y:'a = −5 m/s²: siguen subiendo, pero frenando.'})]);
+ RPL('U6e9','f) Tensión','num',[REP('f) Tensión','Fórmula de T (ecuación de m₂) con a = −5 m/s²','T','m_2×a+P_2x',T('−5 m/s²'),0,'N',{tol:.5,y:'T = 0: ¡la cuerda no hace nada! Los dos frenan igual (g·sen θ).'})]);}
+// ---- U6e16 · bloques en el borde ----
+PESO('U6e16',[['P₁','m_1','3 kg',30,'Peso de m₁ (en el piso).',['40 °'],'Peso m₁'],['P₂','m_2','10 kg',100,'Peso de m₂ (en el plano de 40°).',['40 °'],'Peso m₂']]);
+RPL('U6e16','Fuerzas','match',[
+ REP('P₂ₓ','Componente de P₂ a lo largo del plano','P₂ₓ','P_2×sin(θ)',{P_2:'100 N',θ:'40 °'},64.28,'N',{extra:['30 N']}),
+ REP('N₂','Normal sobre m₂ (eje perpendicular al plano)','N₂','P_2×cos(θ)',{P_2:'100 N',θ:'40 °'},76.6,'N',{qq:'Eje perpendicular al plano: N₂ − P₂ᵧ = 0 → N₂ = P₂·cos θ.',extra:['30 N']}),
+ REP('Fr₂ máx','Rozamiento estático máximo sobre m₂','Fr₂ máx','μ_e×N_2',{μ_e:'0,5',N_2:'76,6 N'},38.3,'N',{extra:['0,2']})]);
+NR('U6e16','a) F mínima','F','(P_2x−F_r2−μ_e×P_1)÷(cos(α)+μ_e×sin(α))',{P_2x:'64,28 N',F_r2:'38,3 N',μ_e:'0,5',P_1:'30 N',α:'60 °'},{qq:'Del planteo en letras: P₂ₓ − Fr₂ − F·cos α − μₑ·(P₁ + F·sen α) = 0 → <b>F = (P₂ₓ − Fr₂ − μₑ·P₁) / (cos α + μₑ·sen α)</b>.',extra:['0,2']});
+NR('U6e16','b) Aceleración','a','(P_2x−μ_d×N_2−μ_d×P_1)÷(m_1+m_2)',{P_2x:'64,28 N',μ_d:'0,2',N_2:'76,6 N',P_1:'30 N',m_1:'3 kg',m_2:'10 kg'},{qq:'Sumando las ecuaciones: P₂ₓ − μ_d·N₂ − μ_d·N₁ = (m₁ + m₂)·a, con N₁ = P₁ (sin F).',extra:['0,5']});
+NR('U6e16','b) Tensión','T','m_1×a+μ_d×P_1',{m_1:'3 kg',a:'3,304 m/s²',μ_d:'0,2',P_1:'30 N'},{qq:'Ecuación de m₁: T − μ_d·N₁ = m₁·a → <b>T = m₁·a + μ_d·P₁</b>.',extra:['10 kg']});
+// ---- U6e17 · transporte inclinado ----
+PESO('U6e17',[['P₁','m_1','4 kg',40,'Peso de m₁ (cuelga).',['30 °'],'Peso m₁'],['P₂','m_2','6 kg',60,'Peso de m₂ (en el plano).',['30 °'],'Peso m₂']]);
+INS('U6e17',[REP('P₂ₓ','Componente de P₂ a lo largo del plano','P₂ₓ','P_2×sin(θ)',{P_2:'60 N',θ:'30 °'},30,'N',{extra:['40 N']}),
+ REP('Rozamiento','Rozamiento dinámico sobre m₂','Fr','μ_d×P_2×cos(θ)',{μ_d:'0,25',P_2:'60 N',θ:'30 °'},12.99,'N',{qq:'Del eje perpendicular: N = P₂·cos θ, y Fr = μ_d·N.',extra:['40 N']})],'Planteá');
+NR('U6e17','b) F mínima','F','P_2x+F_r−T',{P_2x:'30 N',F_r:'12,99 N',T:'40 N'},{qq:'Del eje x de m₂ con a = 0: F + T − P₂ₓ − Fr = 0 → <b>F = P₂ₓ + Fr − T</b>.',extra:['60 N']});
+NR('U6e17','c) Tensión','T','P_1',{P_1:'40 N'},{qq:'Ecuación de m₁ con a = 0: T − P₁ = 0 → <b>T = P₁</b>.',extra:['60 N']});
+
+// ================= TP 7 · Fuerza elástica =================
+PESO('U7e13',[['N = P','m','5 kg',50,NORM,['300 N/m']]]);
+RPL('U7e13','Despejá','alg',[ALG('Despejá','En el límite la fuerza elástica iguala al rozamiento estático máximo (eje x).','k·Δx = μ_e·N','Δx',{lab0:'Σ Fₓ = 0 en el límite'})]);
+RPL('U7e13','a) Elongación máxima','rep',[REP('a) Elongación máxima','Reemplazá y calculá','Δx','μ_e×N÷k',{μ_e:'0,4',N:'50 N',k:'300 N/m'},.0667,'m',{extra:['5 kg']})]);
+PESO('U7e14',[['P₂','m_2','2 kg',20,'Peso del cuerpo que cuelga.',['600 N/m']]]);
+RPL('U7e14','b) Despejá','alg',[ALG('b) Despejá','Al soltarlo el resorte no hace fuerza: sumando las ecuaciones de los dos cuerpos, la tensión se cancela.','P_2 = (m_1+m_2)·a','a',{lab0:'sumando las dos ecuaciones'})]);
+RPL('U7e14','b) a inicial','rep',[REP('b) a inicial','Reemplazá y calculá','a','P_2÷(m_1+m_2)',{P_2:'20 N',m_1:'3 kg',m_2:'2 kg'},4,'m/s²',{extra:['600 N/m']})]);
+RPL('U7e14','c) Despejá','alg',[ALG('c) Despejá','En el equilibrio (a = 0): de m₂, T = P₂; de m₁, F_e = T. Entonces la fuerza elástica iguala al peso de m₂.','k·Δx = P_2','Δx',{lab0:'a = 0'})]);
+RPL('U7e14','c) Equilibrio','rep',[REP('c) Equilibrio','Reemplazá y calculá','Δx','P_2÷k',{P_2:'20 N',k:'600 N/m'},.0333,'m',{extra:['3 kg']})]);
+NR('U7e14','d) Tensión','T','P_2',{P_2:'20 N'},{qq:'Ecuación de m₂ en equilibrio: P₂ − T = 0 → <b>T = P₂</b>.',extra:['30 N']});
+PESO('U7e15',[['P₁','m_1','4 kg',40,'Peso de m₁ (en el piso).',['100 N/m'],'Peso m₁'],['P₂','m_2','2 kg',20,'Peso de m₂ (cuelga).',['100 N/m'],'Peso m₂']]);
+NR('U7e15','a) F mínima','F','P_2÷μ_e−P_1',{P_2:'20 N',μ_e:'0,4',P_1:'40 N'},{qq:'En letras: T = P₂ y en el límite P₂ = μₑ·(P₁ + F) → <b>F = P₂ / μₑ − P₁</b>.',extra:['0,2']});
+NR('U7e15','c) Rozamiento','Fr','F_e−T',{F_e:'41 N',T:'20 N'},{qq:'Eje x de m₁ sin moverse: F_e − T − Fr = 0 → <b>Fr = F_e − T</b>.',extra:['36 N']});
+// U7din (números al azar): el peso va después de Σ F
+{const e=EX.find(x=>x.id=='U7din');if(e&&e.mk){const m0=e.mk;e.mk=function(){const X=m0.apply(this,arguments),i=X.pasos.findIndex(s=>s.k=='suma');
+ if(i>=0&&X.v)X.pasos.splice(i+1,0,PS('P','m',String(X.v.m).replace('.',',')+' kg',X.v.m*10,'Primero el peso de la masa colgada.',[X.v.k+' N/m']));return X}}}
+
+// ================= TP 8 · Dinámica del movimiento circular =================
+PESO('U8e1',[['P','m','1 kg',10,'El peso del bloque (lo vamos a usar arriba y abajo).',['0,6 m']]]);
+NR('U8e1','c) Horizontal','T','m×a_c',{m:'1 kg',a_c:'23,69 m/s²'},{qq:'Cable horizontal: el peso es tangente, no apunta al centro. Eje radial: T = m·a_c.',extra:['10 N']});
+NR('U8e4','b) ω','ω','√(g÷(L×cos(θ)))',{g:G10,L:'4,5 m',θ:'30 °'},{qq:'Del planteo: ω² = g / (L·cos θ) → <b>ω = √(g / (L·cos θ))</b>.',extra:['5 kg']});
+PESO('U8e4',[['P','m','5 kg',50,'Tomamos m = 5 kg: primero su peso.',['4,5 m']]],'c) Despejá');
+RPL('U8e4','c) Despejá','alg',[ALG('c) Despejá','En el eje vertical no hay aceleración: la componente vertical de T equilibra al peso.','T·cos(θ) = P','T',{lab0:'Σ Fᵧ = 0'})]);
+RPL('U8e4','c) Tensión','rep',[REP('c) Tensión','Reemplazá y calculá','T','P÷cos(θ)',{P:'50 N',θ:'30 °'},57.74,'N',{extra:['5 kg']})]);
+PESO('U8e5',[['P','m','4 kg',40,'Peso del bloque.',['70 N']]]);
+NR('U8e5','a) T₂','T₂','(T_1×cos(θ)−P)÷cos(θ)',{T_1:'70 N',θ:'36,87 °',P:'40 N'},{qq:'Eje vertical: T₁·cos θ − T₂·cos θ − P = 0 → <b>T₂ = (T₁·cos θ − P) / cos θ</b>. (cos θ = 0,8 → θ ≈ 36,87°.)',extra:['0,75 m']});
+RPL('U8e5','b) rpm','num',[REP('b) ω','Eje radial: (T₁ + T₂)·sen θ = m·ω²·r','ω','√((T_1+T_2)×sin(θ)÷(m×r))',{T_1:'70 N',T_2:'20 N',θ:'36,87 °',m:'4 kg',r:'0,75 m'},4.243,'rad/s',{qq:'Despejando ω de la ecuación radial: <b>ω = √((T₁ + T₂)·sen θ / (m·r))</b>.',extra:['40 N']}),
+ REP('b) rpm','Pasá a rpm (1 vuelta = 2π rad, 1 min = 60 s)','f','ω×60÷(2×π)',{ω:'4,243 rad/s'},40.51,'rpm')]);
+RPL('U8e5','c) T₂ = 0','num',[REP('c) T₁','Con la cuerda inferior floja (T₂ = 0), el eje vertical queda T₁·cos θ = P','T₁','P÷cos(θ)',{P:'40 N',θ:'36,87 °'},50,'N',{extra:['70 N']}),
+ REP('c) ω','Eje radial con T₂ = 0: T₁·sen θ = m·ω²·r','ω','√(T_1×sin(θ)÷(m×r))',{T_1:'50 N',θ:'36,87 °',m:'4 kg',r:'0,75 m'},3.162,'rad/s',{extra:['70 N']}),
+ REP('c) rpm','Pasá a rpm','f','ω×60÷(2×π)',{ω:'3,162 rad/s'},30.2,'rpm',{y:'≈ 30,2 rpm: más lento, la cuerda de abajo se afloja.'})]);
+NR('U8e6','Radio','r','L×sin(θ)',{L:'4,5 m',θ:'30 °'},{qq:'La cuerda (L) es la hipotenusa y θ se mide desde el eje: <b>r = L·sen θ</b>.'});
+PESO('U8e6',[['P','m','5 kg',50,'Peso del cuerpo.',['10 rpm']]]);
+NR('U8e6','b) Tensión','T','m×ω²×r×sin(θ)+P×cos(θ)',{m:'5 kg',ω:'1,047 rad/s',r:'2,25 m',θ:'30 °',P:'50 N'},{qq:'Lo que despejamos: <b>T = m·ω²·r·sen θ + P·cos θ</b>.'});
+NR('U8e6','a) Normal','N','P×sin(θ)−m×ω²×r×cos(θ)',{P:'50 N',θ:'30 °',m:'5 kg',ω:'1,047 rad/s',r:'2,25 m'},{qq:'Lo que despejamos: <b>N = P·sen θ − m·ω²·r·cos θ</b>.'});
+NR('U8e6','c) N = 0','ω','√(g÷(L×cos(θ)))',{g:G10,L:'4,5 m',θ:'30 °'},{qq:'Del planteo con N = 0: ω² = g / (L·cos θ).',extra:['5 kg']});
+PESO('U8e7',[['N = P','m','1000 kg',10000,NORM,['20 m/s']]]);
+RPL('U8e7','b) Despejá','alg',[ALG('b) Despejá','En el límite el rozamiento máximo (μ·N) hace de centrípeta.','μ·N = m·v^2/R','μ',{lab0:'Σ F_r = m·a_c'})]);
+RPL('U8e7','b) μ mínimo','rep',[REP('b) μ mínimo','Reemplazá y calculá','μ','m×v²÷(R×N)',{m:'1000 kg',v:'20 m/s',R:'150 m',N:'10000 N'},.2667,'',{extra:[G10]})]);
+NR('U8e8','a) Peralte','θ','atan(v²÷(g×R))',{v:'10 m/s',g:G10,R:'25 m'},{qq:'Del planteo: tan θ = v² / (g·R) → <b>θ = arctan(v² / (g·R))</b> (tecla tan⁻¹).',extra:['1400 kg']});
+NR('U8e8','b) v máxima','v','√(g×R×(sin(θ)+μ×cos(θ))÷(cos(θ)−μ×sin(θ)))',{g:G10,R:'25 m',θ:'21,8 °',μ:'0,2'},{qq:'Lo que despejamos: <b>v² = g·R·(sen θ + μ·cos θ) / (cos θ − μ·sen θ)</b>.',extra:['1400 kg']});
+NR('U8e8','c) v mínima','v','√(g×R×(sin(θ)−μ×cos(θ))÷(cos(θ)+μ×sin(θ)))',{g:G10,R:'25 m',θ:'21,8 °',μ:'0,2'},{qq:'Mismo planteo con el rozamiento hacia arriba del peralte (cambia el signo de μ): <b>v² = g·R·(sen θ − μ·cos θ) / (cos θ + μ·sen θ)</b>.',extra:['10 m/s']});
+NR('U8e10','c) En g','a_c / g','ω²×R÷g',{ω:'125,66 rad/s',R:'0,2 m',g:G10},{qq:'a_c = ω²·R; para compararla con g, dividí por g.',extra:['2 kg']});
+NR('U8e11','Radio','R','r+L×sin(θ)',{r:'4 m',L:'2,5 m',θ:'28 °'},{qq:'Radio de la plataforma (8 m / 2) más lo que se abre la cadena: <b>R = r + L·sen θ</b>.',extra:['8 m']});
+NR('U8e11','a) ω','ω','√(g×tan(θ)÷R)',{g:G10,θ:'28 °',R:'5,174 m'},{qq:'Lo que despejamos: ω² = g·tan θ / R.',extra:['4 m']});
+PESO('U8e11',[['P','m','50 kg',500,'Peso de la silla con la persona.',['28 °']]],'b) Despejá');
+RPL('U8e11','b) Despejá','alg',[ALG('b) Despejá','En el eje vertical no hay aceleración: la componente vertical de T equilibra al peso.','T·cos(θ) = P','T',{lab0:'Σ Fᵧ = 0'})]);
+RPL('U8e11','b) Tensión','rep',[REP('b) Tensión','Reemplazá y calculá','T','P÷cos(θ)',{P:'500 N',θ:'28 °'},566.3,'N',{extra:['50 kg']})]);
+NR('U8e11','c) v','v','ω×R',{ω:'1,014 rad/s',R:'5,174 m'},{qq:'Relación entre velocidad tangencial y angular: v = ω·R.',extra:['4 m']});
+PESO('U8e12',[['P₂','m_2','4 kg',40,'Peso del cuerpo que cuelga.',['1 kg']]]);
+RPL('U8e12','b) Despejá','alg',[ALG('b) Despejá','m₂ está en reposo: T = P₂. Esa tensión es la centrípeta de m₁.','P_2 = m_1·v^2/r','v',{lab0:'T = P₂'})]);
+RPL('U8e12','b) v','rep',[REP('b) v','Reemplazá y calculá','v','√(P_2×r÷m_1)',{P_2:'40 N',r:'0,10 m',m_1:'1 kg'},2,'m/s',{extra:['4 kg']})]);
+NR('U8e13','Radio','r','AC×sin(α)',{AC:'1,268 m',α:'30 °'},{qq:'El tramo AC forma 30° con la vertical: <b>r = AC·sen 30°</b>.',extra:['0,732 m']});
+NR('U8e13','c) Rapidez','v','√(g×r)',{g:G10,r:'0,634 m'},{qq:'Del planteo: v² = g·r.'});
+NR('U8e15','ω máxima','ω','√(g×(sin(φ)+μ_e×cos(φ))÷(R×(cos(φ)−μ_e×sin(φ))))',{g:G10,φ:'45 °',μ_e:'0,5',R:'0,3 m'},{qq:'Lo que despejamos: <b>ω² = g·(sen φ + μₑ·cos φ) / [R·(cos φ − μₑ·sen φ)]</b>.'});
+NR('U8e15','ω mínima','ω','√(g×(sin(φ)−μ_e×cos(φ))÷(R×(cos(φ)+μ_e×sin(φ))))',{g:G10,φ:'45 °',μ_e:'0,5',R:'0,3 m'},{qq:'Con ω mínima el rozamiento apunta hacia arriba de la pared: cambia el signo de μₑ → <b>ω² = g·(sen φ − μₑ·cos φ) / [R·(cos φ + μₑ·sen φ)]</b>.'});
+NR('U8e16','d) Ángulo','θ','acos(g÷(ω²×R))',{g:G10,ω:'10 rad/s',R:'0,2 m'},{qq:'Del planteo: cos θ = g / (ω²·R) → <b>θ = arccos(g / (ω²·R))</b> (tecla cos⁻¹).'});
+
+// ================= Cinemática, energía y choques: reemplazar en la fórmula =================
+const RES='(−b+√(b²−4×a×c))÷(2×a)',RES2='(−b−√(b²−4×a×c))÷(2×a)',PIT='√(v_x²+v_y²)';
+[
+['U1b','Probá','v','Δx÷Δt',{Δx:'120 m',Δt:'20 s'},{qq:'Velocidad media: v = Δx / Δt.'}],
+['U1e4','Tiempo total','t','t_1+t_2+t_3',{t_1:'5 h',t_2:'4 h',t_3:'3,333 h'},{qq:'Tiempo de cada tramo: t = d / v (t₁ = 200/40, t₂ = 200/50, t₃ = 200/60).'}],
+['U1e4','Promedio','v_prom','(v_1+v_2+v_3)÷3',{v_1:'40 km/h',v_2:'50 km/h',v_3:'60 km/h'},{qq:'Promedio aritmético de las tres velocidades (¡no es la velocidad media!).'}],
+['U1e8','a) Mismo sentido','t','d÷(v_B−v_A)',{d:'1600 m',v_B:'50 m/s',v_A:'30 m/s'},{qq:'Mismo sentido: x_B − x_A = (v_B − v_A)·t = d → <b>t = d / (v_B − v_A)</b>.'}],
+['U1e8','b) Sentidos opuestos','t','d÷(v_B+v_A)',{d:'1600 m',v_B:'50 m/s',v_A:'30 m/s'},{qq:'Sentidos opuestos: se separan a v_A + v_B → <b>t = d / (v_A + v_B)</b>.'}],
+['U1e10','v₁','v₁','Δx÷Δt',{Δx:'300 km',Δt:'3,75 h'},{qq:'v = Δx / Δt (225 min = 3,75 h).'}],
+['U1e10','v₂','v₂','Δx÷Δt',{Δx:'−300 km',Δt:'6 h'},{qq:'Va de B hacia A: su Δx es negativo (360 min = 6 h).',extra:['300 km']}],
+['U1e10','Encuentro','t','(d−v_2×t_0)÷(v_1+v_2)',{d:'300 km',v_2:'50 km/h',t_0:'1 h',v_1:'80 km/h'},{qq:'Igualando 80·t = 300 − 50·(t + 1) y despejando: <b>t = (d − v₂·t₀) / (v₁ + v₂)</b> (v₂ en módulo, t₀ = 1 h de ventaja).'}],
+['U1e11','Distancia','d','t÷(1÷v_b+1÷v_s)',{t:'1,89 s',v_b:'200 m/s',v_s:'340 m/s'},{qq:'De d/v_b + d/v_s = t, sacando factor común d: <b>d = t / (1/v_b + 1/v_s)</b>.'}],
+['U2a','Probá','v','v_0+a×t',{v_0:'0 m/s',a:'2 m/s²',t:'5 s'},{qq:'Velocidad en el MRUV: v = v₀ + a·t (parte del reposo).'}],
+['U2e15','b) Tramo 3','d₃','v_0×t+a×t²÷2',{v_0:'24 m/s',t:'6 s',a:'−4 m/s²'},{qq:'Frena de 24 m/s a 0 en 6 s: a = −4 m/s². Ecuación horaria: <b>d = v₀·t + ½·a·t²</b>.'}],
+['U2e15','c) Total','d','d_1+d_2+d_3',{d_1:'96 m',d_2:'240 m',d_3:'72 m'},{qq:'Sumá los tres tramos.'}],
+['U2e17','b) Instante','t',RES,{a:'1',b:'25',c:'−300'},{qq:'Resolvente de t² + 25·t − 300 = 0 (raíz positiva): <b>t = (−b + √(b² − 4·a·c)) / (2·a)</b>.'}],
+['U2e19','b) Instante','t',RES,{a:'1',b:'25',c:'−490'},{qq:'Resolvente de t² + 25·t − 490 = 0 (raíz positiva).'}],
+['U2e22','c) Total','t','2×v_0÷g',{v_0:'18 m/s',g:G10},{qq:'Vuelve cuando y = 0: 0 = v₀·t − ½·g·t² → (t ≠ 0) <b>t = 2·v₀ / g</b>.'}],
+['U2e23','a) Primera','t₁',RES2,{a:'5',b:'−24',c:'20'},{qq:'Resolvente de 5·t² − 24·t + 20 = 0, raíz menor: <b>t = (−b − √(b² − 4·a·c)) / (2·a)</b>.'}],
+['U2e23','a) Segunda','t₂',RES,{a:'5',b:'−24',c:'20'},{qq:'La otra raíz (con +).'}],
+['U2e25','a) Altura máxima','h_máx','h_1+h_2',{h_1:'525 m',h_2:'118,1 m'},{qq:'Altura con motores más la subida extra.'}],
+['U2e25','b) Hasta estrellarse','t',RES2,{a:'−5',b:'48,6',c:'525'},{qq:'Resolvente de −5·t² + 48,6·t + 525 = 0. Con a negativo, la raíz positiva es la del «−».'}],
+['U2e27','c) Caída','t₁',RES,{a:'5',b:'340',c:'−2720'},{qq:'Resolvente de 5·t₁² + 340·t₁ − 2720 = 0 (raíz positiva).'}],
+['U2e27','b) Profundidad','h','g×t²÷2',{g:G10,t:'7,231 s'},{qq:'Caída libre desde el reposo: <b>h = ½·g·t²</b>.'}],
+['U3a','Probá','v₀ₓ','v_0×cos(θ)',{v_0:'40 m/s',θ:'37 °'},{qq:'Componente horizontal: <b>v₀ₓ = v₀·cos θ</b> (calculadora en DEG).'}],
+['U3e2','a) Ángulo mínimo','θ₁','atan('+RES2+')',{a:'3,2',b:'−20',c:'13,2'},{qq:'Con u = tan θ queda 3,2·u² − 20·u + 13,2 = 0. Raíz menor y después θ = arctan(u): <b>θ = arctan((−b − √(b² − 4·a·c)) / (2·a))</b>.'}],
+['U3e2','b) Otro ángulo','θ₂','atan('+RES+')',{a:'3,2',b:'−20',c:'13,2'},{qq:'La otra raíz (con +).'}],
+['U3e3','c) Módulo','|v|',PIT,{v_x:'6 m/s',v_y:'−15,49 m/s'},{qq:'Pitágoras: <b>|v| = √(vₓ² + vᵧ²)</b>.'}],
+['U3e3','c) Ángulo','α','atan(v_y÷v_x)',{v_y:'15,49 m/s',v_x:'6 m/s'},{qq:'tan α = |vᵧ| / vₓ → <b>α = arctan(|vᵧ| / vₓ)</b> (tecla tan⁻¹).'}],
+['U3e9','c) Altura máxima del árbol','y','y_0+v_0y×t−g×t²÷2',{y_0:'1,25 m',v_0y:'16 m/s',t:'2 s',g:G10},{qq:'Reemplazá en y(t) = y₀ + v₀ᵧ·t − ½·g·t².'}],
+['U3e9','a) Impacto','t',RES,{a:'5',b:'−16',c:'8,75'},{qq:'10 = 1,25 + 16·t − 5·t² → 5·t² − 16·t + 8,75 = 0. Bajando: la raíz mayor.'}],
+['U3e9','b) Velocidad','|v|',PIT,{v_x:'12 m/s',v_y:'−9 m/s'},{qq:'vᵧ = 16 − 10·2,5 = −9 m/s. Pitágoras: <b>|v| = √(vₓ² + vᵧ²)</b>.'}],
+['U3e9','b) Ángulo','α','atan(v_y÷v_x)',{v_y:'9 m/s',v_x:'12 m/s'},{qq:'α = arctan(|vᵧ| / vₓ).'}],
+['U3e11','b) Tiempo de vuelo','t',RES,{a:'1',b:'−20',c:'−30'},{qq:'Resolvente de t² − 20·t − 30 = 0 (raíz positiva).'}],
+['U3e11','c) Velocidad','|v|',PIT,{v_x:'173,2 m/s',v_y:'−114 m/s'},{qq:'Pitágoras: |v| = √(vₓ² + vᵧ²).'}],
+['U3e13','a) v₀','v₀','d÷(cos(θ)×t)',{d:'60 m',θ:'30 °',t:'3,151 s'},{qq:'De x: d = v₀·cos θ·t → <b>v₀ = d / (cos θ·t)</b>, con el t que sale de y.'}],
+['U3e13','b) Módulo','v',PIT,{v_x:'19,04 m/s',v_y:'−20,5 m/s'},{qq:'vₓ = v₀·cos 30° ≈ 19,04 m/s; vᵧ = v₀·sen 30° − g·t ≈ −20,5 m/s. Pitágoras.'}],
+['U3e13','b) Dirección','α','atan(v_y÷v_x)',{v_y:'20,5 m/s',v_x:'19,04 m/s'},{qq:'α = arctan(|vᵧ| / vₓ).'}],
+['U3e14','b) x del choque','x','v_x×t',{v_x:'4 m/s',t:'0,3 s'},{qq:'En x es MRU: x = vₓ·t.'}],
+['U3e14','b) y del choque','y','v_0y×t−g×t²÷2',{v_0y:'3 m/s',t:'0,3 s',g:G10},{qq:'y(t) = v₀ᵧ·t − ½·g·t².'}],
+['U3e14','c) Altura H','H','y+g×t²÷2',{y:'0,45 m',t:'0,3 s',g:G10},{qq:'La piedra 2 cae desde H: y = H − ½·g·t² → <b>H = y + ½·g·t²</b>.'}],
+['U3e15','a) Ángulo','θ','atan(y÷x)',{y:'30 m',x:'20 m'},{qq:'Apunta directo a la botella: tan θ = y / x.'}],
+['U3e15','f) v relativa','v_rel','√(v_Px²+(v_Py−v_By)²)',{v_Px:'8,32 m/s',v_Py:'−11,56 m/s',v_By:'−24,04 m/s'},{qq:'v_PB = v_P − v_B, componente a componente (la botella no tiene vₓ). Después Pitágoras.'}],
+['U4a','Probá','v_PT','v_CT+v_PC',{v_CT:'20 m/s',v_PC:'−2 m/s'},{qq:'v_PT = v_CT + v_PC (camina hacia atrás: negativa).'}],
+['U4b','Probá','φ','asin(v_A÷v_N)',{v_A:'1 m/s',v_N:'2 m/s'},{qq:'Despejamos: 1 − 2·sen φ = 0 → sen φ = v_A / v_N → <b>φ = arcsen(v_A / v_N)</b> (tecla sin⁻¹).'}],
+['U4e1','c) Módulo','|v|',PIT,{v_x:'25 km/h',v_y:'20 km/h'},{qq:'Pitágoras.'}],
+['U4e1','c) Dirección','α','atan(v_x÷v_y)',{v_x:'25 km/h',v_y:'20 km/h'},{qq:'Respecto del norte: tan α = |vₓ| / vᵧ.'}],
+['U4e2','b) Módulo','|v|',PIT,{v_x:'5 km/h',v_y:'90 km/h'},{qq:'Pitágoras.'}],
+['U4e2','c) Ángulo','α','atan(v_x÷v_y)',{v_x:'5 km/h',v_y:'90 km/h'},{qq:'tan α = este / norte.'}],
+['U4e3','a) Ángulo','φ','asin(v_v÷v_a)',{v_v:'15 km/h',v_a:'40 km/h'},{qq:'Del planteo: sen φ = v_viento / v_avión → <b>φ = arcsen(v_v / v_a)</b>.'}],
+['U4e3','b) Velocidad efectiva','v','v_a×cos(φ)',{v_a:'40 km/h',φ:'22,02 °'},{qq:'Lo que queda hacia el norte: <b>v = v_a·cos φ</b>.'}],
+['U4e3','c) Sin corregir','α','atan(v_v÷v_a)',{v_v:'15 km/h',v_a:'40 km/h'},{qq:'Ahora v = (−15 ; 40): tan α = 15 / 40.'}],
+['U4e4','a) Módulo','|v|',PIT,{v_x:'2 m/s',v_y:'3 m/s'},{qq:'Pitágoras.'}],
+['U4e4','d) Llegar enfrente','φ','asin(v_r÷v_b)',{v_r:'2 m/s',v_b:'3 m/s'},{qq:'Para llegar enfrente: v_b·sen φ = v_r → <b>φ = arcsen(v_r / v_b)</b>.'}],
+['U4e6','a) Ángulo','φ','asin(v_A÷v_N)',{v_A:'1 m/s',v_N:'2 m/s'},{qq:'Del planteo: sen φ = v_A / v_N → <b>φ = arcsen(v_A / v_N)</b>.'}],
+['U4e9','Vuelta','v','v_BA−v_AT',{v_BA:'180 m/min',v_AT:'120 m/min'},{qq:'A la vuelta la corriente va en contra: <b>v = v_BA − v_AT</b>.'}],
+['U4e10','c) Módulo','v',PIT,{v_x:'3,30 mm/s',v_y:'0,75 mm/s'},{qq:'Pitágoras.'}],
+['U4e10','c) Dirección','α','atan(v_y÷v_x)',{v_y:'0,75 mm/s',v_x:'3,30 mm/s'},{qq:'tan α = vᵧ / vₓ.'}],
+['U4e10','d) Desplazamiento','d','v×t',{v:'3,383 mm/s',t:'10 s'},{qq:'MRU: d = v·t.'}],
+['U4e11','a) Sin corregir','v','√(v_x²+(v_a−v_v)²)',{v_x:'86,6 km/h',v_a:'300 km/h',v_v:'50 km/h'},{qq:'v = (86,6 ; 300 − 50) km/h. Pitágoras.'}],
+['U4e11','b) Rumbo','φ','asin(v_x÷v_a)',{v_x:'86,6 km/h',v_a:'300 km/h'},{qq:'sen φ = v_viento,x / v_avión → φ = arcsen(…).'}],
+['U4e11','Rapidez real','v','v_a×cos(φ)−v_v',{v_a:'300 km/h',φ:'16,78 °',v_v:'50 km/h'},{qq:'Hacia el norte: v = v_a·cos φ − v_viento,y.'}],
+['U4e11','c) Tiempo','t','d÷v',{d:'400 km',v:'237,2 km/h'},{qq:'MRU: t = d / v.'}],
+['U5a','Probá','ω','f×2×π÷60',{f:'33,33 rpm'},{qq:'1 vuelta = 2π rad y 1 min = 60 s: <b>ω = f·2π / 60</b>.'}],
+['U5b','Probá','ω','ω_0+α×t',{ω_0:'0 rad/s',α:'2 rad/s²',t:'5 s'},{qq:'Como en el MRUV: ω = ω₀ + α·t.'}],
+['U5e2','c) En g','a_c / g','a_c÷g',{a_c:'9870 m/s²',g:G10},{qq:'Dividí la aceleración por g.'}],
+['U5e7','a) Relativa','ω_rel','ω_2−ω_1',{ω_2:'6 rad/s',ω_1:'4 rad/s'},{qq:'Como en el movimiento relativo: ω_rel = ω₂ − ω₁.'}],
+['U5e7','b) Tiempo','t','2×π÷ω_rel',{ω_rel:'2 rad/s'},{qq:'Lo que despejamos: la 2 le saca una vuelta (2π) a la 1 → <b>t = 2π / ω_rel</b>.'}],
+['U5e7','d) Vueltas 2','n₂','ω_2×t÷(2×π)',{ω_2:'6 rad/s',t:'3,1416 s'},{qq:'Ángulo girado θ₂ = ω₂·t; vueltas = θ / 2π.'}],
+['U5e8','a) a_c','a_c','n×g',{n:'3000',g:G10},{qq:'«3000 g» quiere decir 3000 veces g.'}],
+['U5e11','e) |a|','|a|','√(a_c²+a_t²)',{a_c:'50 m/s²',a_t:'1 m/s²'},{qq:'La centrípeta y la tangencial son perpendiculares: Pitágoras.'}],
+['U5e12','c) Vueltas','n','θ÷(2×π)',{θ:'150 rad'},{qq:'Cada vuelta son 2π rad: n = Δθ / 2π.'}],
+['U9a','Probá','W','k×x^3÷3',{k:'5 N/m²',x:'2 m'},{qq:'W = ∫ k·x² dx de 0 a x = <b>k·x³ / 3</b>.'}],
+['U9b','Probá','h','R÷2+2×R',{R:'20 m'},{qq:'Lo que despejamos arriba: <b>h = ½·R + 2·R</b>.'}],
+['U9e1','c) Total','W','W_F+W_P+W_N',{W_F:'1200 J',W_P:'0 J',W_N:'0 J'},{qq:'Trabajo total = suma de los trabajos de todas las fuerzas.'}],
+['U9e4','c) Total','W','W_F+W_Fr',{W_F:'3000 J',W_Fr:'−1690 J'},{qq:'Suma de los trabajos (la normal y el peso no trabajan).'}],
+['U9e10','Normal','N','P_y+F_y',{P_y:'20,7 N',F_y:'5,5 N'},{qq:'Σ Fᵧ = 0: N − Pᵧ − Fᵧ = 0 → <b>N = Pᵧ + Fᵧ</b> (F empuja contra el plano).'}],
+['U9e10','a) W_res','W','W_F+W_P+W_Fr+W_N',{W_F:'46,6 J',W_P:'−23,3 J',W_Fr:'−16,2 J',W_N:'0 J'},{qq:'Suma de los trabajos de todas las fuerzas.'}],
+['U9e19','b) W_Fr','W_Fr','E_f−E_i',{E_f:'0 J',E_i:'40 J'},{qq:'La única fuerza no conservativa que trabaja es el rozamiento: <b>W_Fr = ΔE_m = E_f − E_i</b>.'}],
+['U9e24','c) Normal en B','N','3×m×g',{m:'0,5 kg',g:G10},{qq:'En B: N = m·v_B²/R con v_B² = 3·g·R → <b>N = 3·m·g</b>.'}],
+['U9e25','c) E_m en C','E_C','E_A+W_Fr',{E_A:'180 J',W_Fr:'−54 J'},{qq:'ΔE_m = W_Fr → <b>E_C = E_A + W_Fr</b>.'}],
+['U9e26','a) Altura máxima','h','s×sin(θ)',{s:'25,8 m',θ:'36,87 °'},{qq:'Recorre s = 25,8 m sobre el plano: <b>h = s·sen θ</b> (sen θ = 0,6).'}],
+['U9e26','b) Vuelta a B','v','√(2×g×(h−μ×cos(θ)×s))',{g:G10,h:'15,48 m',μ:'0,2',θ:'36,87 °',s:'25,8 m'},{qq:'m·g·h − μ·m·g·cos θ·s = ½·m·v² → <b>v = √(2·g·(h − μ·cos θ·s))</b>.'}],
+['U9e26','c) W total','W','m×g×(h−h_A)',{m:'50 kg',g:G10,h:'15,48 m',h_A:'30 m'},{qq:'W_Fr = ΔE_m (quieto al principio y al final): <b>W = m·g·(h − h_A)</b>.'}],
+['U9e27','f) Compresión','Δx',RES,{a:'250',b:'1,2',c:'−9,084'},{qq:'Queda 250·Δx² + 1,2·Δx − 9,084 = 0. Resolvente, raíz positiva.'}],
+['U10a','Probá','Δp','m×(v_f−v_i)',{m:'0,25 kg',v_f:'−8 m/s',v_i:'12 m/s'},{qq:'Δp = m·(v_f − v_i). ¡Ojo con el signo de la velocidad de rebote!'}],
+['U10b','Probá','x_cm','(m_1×x_1+m_2×x_2)÷(m_1+m_2)',{m_1:'1 kg',x_1:'−1 m',m_2:'1 kg',x_2:'2 m'},{qq:'x_cm = Σ mᵢ·xᵢ / M.'}],
+['U10e1','b) Impulso','J','Δp',{Δp:'−30800 kg·m/s'},{qq:'Teorema del impulso: J = Δp.'}],
+['U10e6','c) |J|','|J|','√(J_x²+J_y²)',{J_x:'6 N·s',J_y:'8 N·s'},{qq:'Pitágoras con las componentes del impulso.'}],
+['U10e6','d) |F|','|F|','J÷Δt',{J:'10 N·s',Δt:'0,10 s'},{qq:'J = F_M·Δt → <b>F_M = J / Δt</b>.'}],
+['U10e10','Numerador','Σ mᵢ·xᵢ','m_1×x_1+m_2×x_2+m_3×x_3',{m_1:'5 kg',x_1:'0 m',m_2:'10 kg',x_2:'2 m',m_3:'15 kg',x_3:'5 m'},{qq:'Cada masa por su posición, y se suman.'}],
+['U10e17','a) v_A','v_A','(p−m_B×Δv)÷(m_A+m_B)',{p:'24 kg·m/s',m_B:'2 kg',Δv:'6 m/s',m_A:'4 kg'},{qq:'p = m_A·v_A + m_B·(v_A + Δv) → <b>v_A = (p − m_B·Δv) / (m_A + m_B)</b>.'}],
+['U10e17','a) v_B','v_B','v_A+Δv',{v_A:'2 m/s',Δv:'6 m/s'},{qq:'v_B = v_A + Δv.'}],
+['U10e17','b) E_c','E_c','m_A×v_A²÷2+m_B×v_B²÷2',{m_A:'4 kg',v_A:'2 m/s',m_B:'2 kg',v_B:'8 m/s'},{qq:'E_c = ½·m_A·v_A² + ½·m_B·v_B².'}],
+['U10e18','b) Pérdida','ΔE','E_i−M×v²÷2',{E_i:'8000 J',M:'2500 kg',v:'1,6 m/s'},{qq:'Energía perdida = E_c inicial − E_c final (½·M·v²).'}],
+['U10e19','b) E_c antes','E_c','m×(v_x²+v_y²)÷2',{m:'1 kg',v_x:'4 m/s',v_y:'2 m/s'},{qq:'E_c = ½·m·|v|² y |v|² = vₓ² + vᵧ².'}],
+['U10e19','b) E_c después','E_c','m_1×v_1²÷2+m_2×v_2²÷2',{m_1:'1 kg',v_1:'2,236 m/s',m_2:'2 kg',v_2:'1,118 m/s'},{qq:'Sumá las energías de los dos cuerpos.'}],
+['U10e20','a) v₁′','v₁′','(v_1+v_2−e×(v_1−v_2))÷2',{v_1:'4 m/s',v_2:'−2 m/s',e:'0,75'},{qq:'Masas iguales: v₁′ + v₂′ = v₁ + v₂ y v₂′ − v₁′ = e·(v₁ − v₂). Restando: <b>v₁′ = (v₁ + v₂ − e·(v₁ − v₂)) / 2</b>.'}],
+['U10e20','a) v₂′','v₂′','u_1+e×(v_1−v_2)',{u_1:'−1,25 m/s',e:'0,75',v_1:'4 m/s',v_2:'−2 m/s'},{qq:'De la restitución: v₂′ = v₁′ + e·(v₁ − v₂).'}],
+['U10e20','b) Pérdida','pérdida','(1−(u_1²+u_2²)÷(v_1²+v_2²))×100',{u_1:'−1,25 m/s',u_2:'3,25 m/s',v_1:'4 m/s',v_2:'−2 m/s'},{qq:'Las masas se simplifican: fracción perdida = 1 − E_c después / E_c antes (× 100 para %).'}],
+['U10e21','v_B','v_B','v_A+u_A',{v_A:'7 m/s',u_A:'−5 m/s'},{qq:'Elástico (e = 1): v_B − u_A = v_A − 0 → <b>v_B = v_A + u_A</b> (u_A = −5 m/s, rebota).'}],
+['U10e21','m_B','m_B','m_A×(v_A−u_A)÷v_B',{m_A:'2 kg',v_A:'7 m/s',u_A:'−5 m/s',v_B:'2 m/s'},{qq:'p: m_A·v_A = m_A·u_A + m_B·v_B → <b>m_B = m_A·(v_A − u_A) / v_B</b>.'}],
+['U10e23','Restitución','v₂ − v₁','e×(v_1i−v_2i)',{e:'0,8',v_1i:'12 m/s',v_2i:'−3 m/s'},{qq:'Restitución: v₂ − v₁ = e·(v₁ᵢ − v₂ᵢ).'}],
+['U10e23','v₁','v₁','(m_1×v_1i+m_2×v_2i−m_2×Δv)÷(m_1+m_2)',{m_1:'5 kg',v_1i:'12 m/s',m_2:'10 kg',v_2i:'−3 m/s',Δv:'12 m/s'},{qq:'Reemplazando v₂ = v₁ + Δv en la conservación de p: <b>v₁ = (m₁·v₁ᵢ + m₂·v₂ᵢ − m₂·Δv) / (m₁ + m₂)</b>.'}],
+['U10e23','v₂','v₂','v_1+Δv',{v_1:'−6 m/s',Δv:'12 m/s'},{qq:'v₂ = v₁ + Δv.'}],
+['U10e24','v₂′','v₂′','v÷(sin(β)÷sin(α)×cos(α)+cos(β))',{v:'2 m/s',α:'30 °',β:'45 °'},{qq:'Del eje y: v₁′ = v₂′·sen β / sen α. En el eje x: v = v₁′·cos α + v₂′·cos β → <b>v₂′ = v / (sen β / sen α · cos α + cos β)</b>.'}],
+['U10e24','v₁′','v₁′','u_2×sin(β)÷sin(α)',{u_2:'1,035 m/s',α:'30 °',β:'45 °'},{qq:'Del eje y: <b>v₁′ = v₂′·sen β / sen α</b>.'}],
+['U10e26','u₁','u₁','(p_x−m_2×Δu)÷(m_1+m_2)',{p_x:'−17,98 kg·m/s',m_2:'10 kg',Δu:'11,83 m/s',m_1:'5 kg'},{qq:'Con u₂ = u₁ + Δu en la conservación de p en x: <b>u₁ = (pₓ − m₂·Δu) / (m₁ + m₂)</b>.'}],
+['U10e26','|v₁′|','v₁′','√(u_1²+v_1y²)',{u_1:'−9,086 m/s',v_1y:'5 m/s'},{qq:'La componente y no cambia (v₁ᵧ = 5 m/s). Pitágoras.'}],
+['U10e26','|v₂′|','v₂′','√((u_1+Δu)²+v_2y²)',{u_1:'−9,086 m/s',Δu:'11,83 m/s',v_2y:'5,14 m/s'},{qq:'u₂ = u₁ + Δu y v₂ᵧ no cambia. Pitágoras.'}],
+['U10e28','u₁','u₁','(p_x−m_2×Δu)÷(m_1+m_2)',{p_x:'−13 kg·m/s',m_2:'5 kg',Δu:'3,9 m/s',m_1:'8 kg'},{qq:'Con u₂ = u₁ + Δu en la conservación de p en x: <b>u₁ = (pₓ − m₂·Δu) / (m₁ + m₂)</b>.'}],
+['U10e28','u₂','u₂','u_1+Δu',{u_1:'−2,5 m/s',Δu:'3,9 m/s'},{qq:'u₂ = u₁ + Δu.'}],
+['U10e28','|v₁′|','v₁′','√(u_1²+v_1y²)',{u_1:'−2,5 m/s',v_1y:'2,598 m/s'},{qq:'La componente y no cambia. Pitágoras.'}],
+].forEach(a=>NR(...a));
+
+// ================= recuadro «Lo que ya planteaste» =================
+const fmt=v=>calcFmt(+(+v).toPrecision(4));
+const term=(x,j)=>{const s=x[0]=='-'?'−':'+',n=x.replace(/^[+-]/,'');return j==0?(s=='−'?'−':'')+n:` ${s} ${n}`};
+window.plBox=()=>{if(!X||!X.pasos)return '';const p=curP();if(!p||p.k=='dcl'||p.k=='suma'||p.k=='orden')return '';
+ const prev=X.pasos.slice(0,stage),eq=[],val=[];
+ if(X.S&&prev.some(s=>s.k=='suma'))X.S.forEach(r=>eq.push(`<span class="pli"><small>${r.a}:</small> ${r.e.map(term).join('')} = ${r.r}</span>`));
+ prev.forEach(s=>{if(s.k=='rep'&&typeof s.rp.ans=='number')val.push(`${s.rp.lhs} = ${fmt(s.rp.ans)}${s.rp.u?' '+s.rp.u:''}`);
+  else if(s.k=='num'&&typeof s.ans=='number')val.push(`${String(s.pre||'').replace(/\s*=\s*$/,'')} = ${fmt(s.ans)}${s.u?' '+s.u:''}`);
+  else if(s.k=='desp'&&s.ds&&s.ds.subs&&s.ds.subs.length){const l=s.ds.subs[s.ds.subs.length-1];if(l&&l[2])eq.push(`<span class="pli">${l[2]}</span>`)}});
+ if(!eq.length&&!val.length)return '';
+ const v=val.slice(-8);
+ return `<div class="plt"><b>📌 Lo que ya planteaste</b>${eq.length?`<div class="pll">${eq.join('')}</div>`:''}${v.length?`<div class="pll plv">${v.map(x=>`<span class="pli">${x}</span>`).join('')}</div>`:''}</div>`};
+const R0=R;R=function(h){let b='';try{b=plBox()}catch(e){}R0(b+h)};
 })();
 // ===== Física I · UADE: quedan solo los niveles de la facultad (y el tutorial) =====
 dsApply();
@@ -6837,9 +7121,9 @@ const CALC={e:'',ans:0,deg:1,target:null,last:null,err:0};
 document.addEventListener('focusin',e=>{const t=e.target;if(t&&t.matches&&t.matches('input.ninp'))CALC.target=t});
 // parser propio (sin eval): + − × ÷ ^ ² √ sin cos tan π Ans ( ) y coma decimal
 function calcEval(src){const s=src.replace(/\s/g,'');let i=0;const pk=()=>s[i],eat=c=>{if(s.startsWith(c,i)){i+=c.length;return true}return false};
- const trig=f=>x=>{const v=Math[f](CALC.deg?x*Math.PI/180:x);return Math.abs(v)<1e-12?0:v};const FN={'sin(':trig('sin'),'cos(':trig('cos'),'tan(':trig('tan'),'√(':Math.sqrt,'log(':Math.log10,'ln(':Math.log};
+ const trig=f=>x=>{const v=Math[f](CALC.deg?x*Math.PI/180:x);return Math.abs(v)<1e-12?0:v};const itr=f=>x=>{const v=Math[f](x);if(!isFinite(v))throw 'dom';return CALC.deg?v*180/Math.PI:v};const FN={'asin(':itr('asin'),'acos(':itr('acos'),'atan(':itr('atan'),'sin(':trig('sin'),'cos(':trig('cos'),'tan(':trig('tan'),'√(':Math.sqrt,'log(':Math.log10,'ln(':Math.log};
  function expr(){let v=term();for(;;){if(eat('+'))v+=term();else if(eat('−')||eat('-'))v-=term();else return v}}
- function term(){let v=fac();for(;;){if(eat('×')||eat('*'))v*=fac();else if(eat('÷')||eat('/')){const d=fac();if(d===0)throw 'div0';v/=d}else if(i<s.length&&/[\d,.(π√]|^A|^s|^c|^t|^l/.test(s.slice(i,i+1)))v*=fac();else return v}}
+ function term(){let v=fac();for(;;){if(eat('×')||eat('*'))v*=fac();else if(eat('÷')||eat('/')){const d=fac();if(d===0)throw 'div0';v/=d}else if(i<s.length&&/[\d,.(π√]|^A|^a|^s|^c|^t|^l/.test(s.slice(i,i+1)))v*=fac();else return v}}
  function fac(){const b=un();if(eat('^'))return Math.pow(b,fac());return b}
  function un(){if(eat('−')||eat('-'))return -un();let v=prim();while(eat('²'))v=v*v;return v}
  function prim(){for(const f in FN)if(eat(f)){const v=expr();eat(')');return FN[f](v)}
@@ -6847,9 +7131,9 @@ function calcEval(src){const s=src.replace(/\s/g,'');let i=0;const pk=()=>s[i],e
   const m=/^\d*[.,]?\d+|^\d+[.,]?/.exec(s.slice(i));if(m){i+=m[0].length;return parseFloat(m[0].replace(',','.'))}throw 'sint'}
  const v=expr();if(i<s.length)throw 'sint';if(!isFinite(v))throw 'inf';return v}
 const calcFmt=v=>{if(v===0)return '0';const a=Math.abs(v);let t=(a>=1e10||a<1e-6)?v.toExponential(6).replace(/\.?0+e/,'e'):String(+v.toPrecision(10));return t.replace('.',',')};
-const CK_KEYS=[['C','⌫','(',')','÷'],['sin(','cos(','tan(','√(','×'],['7','8','9','^','−'],['4','5','6','²','+'],['1','2','3','π','Ans'],['0',',','EXP','=','']];
+const CK_KEYS=[['C','⌫','(',')','÷'],['sin(','cos(','tan(','√(','×'],['asin(','acos(','atan(','log(','ln('],['7','8','9','^','−'],['4','5','6','²','+'],['1','2','3','π','Ans'],['0',',','EXP','=','']];
 function calcOpen(){let o=$('calc');if(o){o.classList.toggle('on');return}
- o=document.createElement('div');o.id='calc';o.innerHTML=`<div class="clh" id="clh"><b>🧮 Calculadora</b><button class="cld" id="cldeg"></button><button class="clx" id="clx" aria-label="Cerrar">✕</button></div><div class="cls"><div class="cle" id="cle"></div><div class="clr" id="clr">0</div></div><div class="clk">${CK_KEYS.flat().filter(k=>k&&k!='EXP').map(k=>`<button data-k="${k}" class="${'=C⌫'.includes(k)&&k.length==1?'op':''} ${k=='='?'eq':''}">${k=='sin('?'sin':k=='cos('?'cos':k=='tan('?'tan':k=='√('?'√':k=='²'?'x²':k=='^'?'xʸ':k}</button>`).join('')}</div><button class="clp" id="clp">📋 Pegar el resultado en el casillero</button>`;
+ o=document.createElement('div');o.id='calc';o.innerHTML=`<div class="clh" id="clh"><b>🧮 Calculadora</b><button class="cld" id="cldeg"></button><button class="clx" id="clx" aria-label="Cerrar">✕</button></div><div class="cls"><div class="cle" id="cle"></div><div class="clr" id="clr">0</div></div><div class="clk">${CK_KEYS.flat().filter(k=>k&&k!='EXP').map(k=>`<button data-k="${k}" class="${'=C⌫'.includes(k)&&k.length==1?'op':''} ${k=='='?'eq':''}">${k=='asin('?'sin⁻¹':k=='acos('?'cos⁻¹':k=='atan('?'tan⁻¹':k=='log('?'log':k=='ln('?'ln':k=='sin('?'sin':k=='cos('?'cos':k=='tan('?'tan':k=='√('?'√':k=='²'?'x²':k=='^'?'xʸ':k}</button>`).join('')}</div><button class="clp" id="clp">📋 Pegar el resultado en el casillero</button>`;
  document.body.appendChild(o);o.classList.add('on');calcShow();
  o.querySelectorAll('[data-k]').forEach(b=>{b.onpointerdown=e=>e.preventDefault();b.onclick=()=>calcKey(b.dataset.k)});
  $('clx').onclick=()=>o.classList.remove('on');$('cldeg').onclick=()=>{CALC.deg=CALC.deg?0:1;calcShow()};
@@ -6859,16 +7143,16 @@ function calcOpen(){let o=$('calc');if(o){o.classList.toggle('on');return}
  $('clh').onpointermove=e=>{if(!d)return;o.style.left=Math.max(0,Math.min(innerWidth-o.offsetWidth,e.clientX-d[0]))+'px';o.style.top=Math.max(0,Math.min(innerHeight-40,e.clientY-d[1]))+'px';o.style.right='auto';o.style.bottom='auto'};
  $('clh').onpointerup=()=>d=null}
 function calcShow(){$('cle').innerHTML=(CALC.e?mathHTML(CALC.e):'')+(CALC.done?'':'<i class="mcur"></i>');$('clr').textContent=CALC.err?'Error':calcFmt(CALC.last??CALC.ans);$('clr').classList.toggle('err',!!CALC.err);$('cldeg').textContent=CALC.deg?'DEG':'RAD';$('cldeg').title=CALC.deg?'Ángulos en grados (tocá para radianes)':'Ángulos en radianes (tocá para grados)'}
-function calcKey(k){CALC.err=0;if(k=='C'){CALC.e='';CALC.last=0}else if(k=='⌫'){const m=/(sin\(|cos\(|tan\(|√\(|Ans|.)$/.exec(CALC.e);CALC.e=m?CALC.e.slice(0,-m[0].length):''}
+function calcKey(k){CALC.err=0;if(k=='C'){CALC.e='';CALC.last=0}else if(k=='⌫'){const m=/(asin\(|acos\(|atan\(|sin\(|cos\(|tan\(|log\(|ln\(|√\(|Ans|.)$/.exec(CALC.e);CALC.e=m?CALC.e.slice(0,-m[0].length):''}
  else if(k=='='){if(!CALC.e)return;try{const v=calcEval(CALC.e);CALC.ans=v;CALC.last=v;CALC.done=1}catch(e){CALC.err=1}}
- else{if(CALC.done&&/^[\d,π(sct√A]/.test(k))CALC.e='';else if(CALC.done&&CALC.e)CALC.e='Ans';CALC.done=0;CALC.e+=k;try{CALC.last=calcEval(CALC.e)}catch(e){}}
+ else{if(CALC.done&&/^[\d,π(sctal√A]/.test(k))CALC.e='';else if(CALC.done&&CALC.e)CALC.e='Ans';CALC.done=0;CALC.e+=k;try{CALC.last=calcEval(CALC.e)}catch(e){}}
  calcShow()}
 function calcPaste(){const t=CALC.target;if(!t||!document.body.contains(t))return toast('Tocá primero el casillero donde querés poner el número');const v=CALC.last??CALC.ans;t.value=String(+(+v).toPrecision(6)).replace('.',',');t.dispatchEvent(new Event('input',{bubbles:true}));t.focus();toast('Pegado: '+t.value)}
 document.addEventListener('keydown',e=>{const o=$('calc');if(!o||!o.classList.contains('on')||(document.activeElement&&document.activeElement.tagName=='INPUT'))return;const m={'*':'×','/':'÷','-':'−','+':'+','Enter':'=','Backspace':'⌫','Escape':'C','.':',',',':',','(':'(',')':')','^':'^'};const k=/^\d$/.test(e.key)?e.key:m[e.key];if(k){e.preventDefault();calcKey(k)}});
 // ===== visor «natural» (como las calculadoras de dos líneas): fracciones apiladas, raíz con barra, potencias arriba =====
 // vars: {nombre:valor|null} → casilleros para reemplazar datos (data-v); sin vars, las letras se muestran tal cual
 function mathHTML(src,vars){const s=src.replace(/\s/g,'');let i=0;const eat=c=>{if(s.startsWith(c,i)){i+=c.length;return true}return false};
- const BOX='<span class="mxb"></span>',FN={'sin(':'sin','cos(':'cos','tan(':'tan','log(':'log','ln(':'ln'};
+ const BOX='<span class="mxb"></span>',FN={'asin(':'sin⁻¹','acos(':'cos⁻¹','atan(':'tan⁻¹','sin(':'sin','cos(':'cos','tan(':'tan','log(':'log','ln(':'ln'};
  const fr=(a,b)=>`<span class="mfr"><span>${a}</span><span>${b}</span></span>`;
  function expr(){let h=term();for(;;){if(eat('+'))h+='<i class="mo">+</i>'+term();else if(eat('−')||eat('-'))h+='<i class="mo">−</i>'+term();else return h}}
  function term(){let h=fac();for(;;){if(eat('×')||eat('*')||eat('·'))h+='<i class="mo">·</i>'+fac();else if(eat('÷')||eat('/'))h=fr(h,fac());else if(i<s.length&&!/[+\-−)×*·÷/^²]/.test(s[i]))h+='<i class="mo">·</i>'+fac();else return h}}

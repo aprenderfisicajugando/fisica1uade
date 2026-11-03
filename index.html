@@ -319,6 +319,9 @@ tr.pzused td,.pzau.pzused{opacity:.55}
 .ptab{border-collapse:collapse;margin:.4em 0}.ptab td,.ptab th{border:1px solid var(--mut);padding:3px 9px;text-align:center}
 .fbox{background:var(--bg);border:2px dashed var(--acc);border-radius:10px;padding:6px 10px;margin:.4em 0;display:inline-block}
 .fsep{display:inline-block;width:2px;height:1.1em;background:currentColor;opacity:.35;margin:0 .75em;vertical-align:-.2em;border-radius:1px}
+.pide{display:block;margin-top:7px;padding:6px 9px;border-left:3px solid #2563eb;background:rgba(37,99,235,.08);border-radius:6px;line-height:1.45}
+.pide .pi{display:block}
+@media (orientation:landscape) and (max-height:520px){.pide{font-size:.9em;padding:4px 8px;margin-top:4px}.pide .pi{display:inline}.pide .pi+.pi::before{content:"";display:inline-block;width:2px;height:1em;background:currentColor;opacity:.35;margin:0 .6em;vertical-align:-.15em}}
 </style></head><body>
 <div class="app">
 <header class="top"><div class="lvh"><button class="mb" id="bkb" aria-label="Volver al paso anterior" title="Volver al paso anterior (en el primer paso, a los niveles)">⬅</button><button class="mb" id="fwb" style="display:none" aria-label="Avanzar al paso siguiente" title="Avanzar (solo pasos que ya hiciste)">➡</button><span class="lvn" id="lvn"></span></div><div class="steps" id="steps"></div><div class="hud"><span class="hearts" id="hud"></span><button class="mb" id="clcb" aria-label="Calculadora" title="Calculadora">🧮</button><button class="mb" id="crb" aria-label="Cartas">🃏</button><button class="mb" id="chb" aria-label="Personajes">🎭</button><button class="mb" id="shb" aria-label="Tienda">🛒</button><button class="mb" id="thm" aria-label="Modo oscuro">🌙</button><button class="mb" id="mapb">🗺</button><button class="mb" id="hb">?</button><div class="xpm" id="xpm"><div></div><span></span></div></div></header>
@@ -427,14 +430,14 @@ return h.split(/(<[^>]+>)/).map(seg=>{if(seg[0]=='<'||!seg.trim())return seg;con
 keys.forEach(k=>{const f=fmt(k),b=bv[k],num=b.u?f.slice(0,f.length-b.u.length-1):f,z=num.includes(',')?'0*':'',re=b.u?new RegExp('(^|[^\\d,.])('+esc(num)+z+'\\s?'+esc(b.u)+')(?![\\w/²])','g'):new RegExp('(=\\s*)('+esc(num)+z+')(?![\\d,])','g');let m;while((m=re.exec(seg)))M.push({s:m.index+m[1].length,e:m.index+m[0].length,k})});
 M.sort((a,b)=>a.s-b.s);let out='',p=0;M.forEach(m=>{if(m.s<p)return;out+=seg.slice(p,m.s)+`<span class="dv" data-k="${m.k}">${seg.slice(m.s,m.e)}</span>`;p=m.e});return out+seg.slice(p)}).join('')}
 const GH='<rect x="0" y="206" width="320" height="30" fill="#8a8f98"/>',CPp=(a,b,p)=>({...CP(a,b),p}),SIG=(k,mk)=>Q([k,mk,'g','al'],['','=','·','·',''],[a=>a[1]*a[2]*S(rad(a[3])),a=>a[0]/(a[2]*S(rad(a[3]))),a=>a[0]/(a[1]*S(rad(a[3]))),a=>deg(As(a[0]/(a[1]*a[2])))],{tr:'sen',tj:3,hint:'El peso va hacia abajo: la componente paralela al plano usa seno del ángulo.'});
-const ARW=(x,y,dx,dy,c,t)=>{const l=Math.hypot(dx,dy),ux=dx/l,uy=dy/l,ex=x+dx,ey=y+dy,h=Math.abs(ux)>.7;return L_(x,y,ex-ux*9,ey-uy*9,c,3.5)+`<polygon points="${ex},${ey} ${ex-ux*11-uy*5.5},${ey-uy*11+ux*5.5} ${ex-ux*11+uy*5.5},${ey-uy*11-ux*5.5}" fill="${c}"/>`+(t?(h?T_((x+ex)/2,Math.min(y,ey)-9,t,'middle'):T_(ex+(ux>.3?6:ux<-.3?-6:0),ey-8,t,ux<-.3?'end':ux>.3?'start':'middle')):'')};
+const ARW=(x,y,dx,dy,c,t)=>{const l=Math.hypot(dx,dy),ux=dx/l,uy=dy/l,ex=x+dx,ey=y+dy,h=Math.abs(ux)>.93;return L_(x,y,ex-ux*9,ey-uy*9,c,3.5)+`<polygon points="${ex},${ey} ${ex-ux*11-uy*5.5},${ey-uy*11+ux*5.5} ${ex-ux*11+uy*5.5},${ey-uy*11-ux*5.5}" fill="${c}"/>`+(t?(h?T_((x+ex)/2,Math.min(y,ey)-9,t,'middle'):T_(ex+ux*8+(ux>.3?5:ux<-.3?-5:0),uy>0?ey+uy*6+13:ey+uy*10-3,t,ux<-.3?'end':ux>.3?'start':'middle')):'')};
 const KG=(x,y,t,w=44,h=38)=>BK(x,y,w,h)+'<text x="'+(x+w/2)+'" y="'+(y+h/2+5)+'" font-size="12" fill="#fff" text-anchor="middle">'+t+'</text>';
 const nf=v=>Math.abs(v)>=100?String(Math.round(v)):String(+v.toFixed(Math.abs(v)<10?1:0)).replace('.',','),tx2=(x,y,t,z=13,w=700)=>`<text x="${x}" y="${y}" text-anchor="middle" font-size="${z}" font-weight="${w}" style="fill:var(--ink)">${t}</text>`;
 const ZG='#16a34a',ZV='#7c3aed',ZS='#0ea5e9',ZR='#dc2626',ZO='#d97706',ZZ='#64748b';
 const PNL=(title,it,hd,c)=>{const n=it.length,w=Math.min(28,Math.floor(136/n)-6),g=(150-n*w)/(n+1),neg=it.some(i=>i.v<0),y0=neg?170:240,up=neg?85:150;let b=`<rect width="150" height="290" fill="${c.cv}"/>`+tx2(75,18,title)+`<line x1="6" y1="${y0}" x2="144" y2="${y0}" stroke="${c.gd}"/>`;
 it.forEach((o,i)=>{const x=g+i*(w+g),h=Math.min(1,Math.abs(o.v)/o.mx)*up,y=o.v>=0?y0-h:y0;b+=`<rect x="${x}" y="${y}" width="${w}" height="${h}" rx="5" fill="${o.col}"/>`+(hd?'':`<text x="${x+w/2}" y="${o.v>=0?y-4:y+h+11}" text-anchor="middle" font-size="10" style="fill:var(--ink)">${nf(o.v)}</text>`)+`<text x="${x+w/2}" y="${neg?282:262}" text-anchor="middle" font-size="10" style="fill:var(--ink)">${o.n}</text>`});return b};
 const atFr=S=>Array.from({length:Math.floor(S.T*60)+1},(_,k)=>({t:k/60,...S.at(k/60)}));
-function gFrame(f){const S=SM.S,c=thm(),hd=SM.hide;$('ssc').innerHTML=`<rect width="320" height="290" fill="${c.cv}"/>`+GRID(c)+skin((typeof S.base=='function'?S.base(f):S.base||'')+S.draw(f,hd));$('sbr').innerHTML=S.panel(f,hd,c);$('srg').value=SM.i;$('stx').textContent=`t = ${f.t.toFixed(1)} s`+(hd||!S.ro?'':S.ro(f))}
+function gFrame(f){const S=SM.S,c=thm(),hd=SM.hide;$('ssc').innerHTML=`<rect width="320" height="290" fill="${c.cv}"/>`+GRID(c)+skin((typeof S.base=='function'?S.base(f):S.base||'')+S.draw(f,hd));$('sbr').innerHTML=S.panel(f,hd,c);$('srg').value=SM.i;$('stx').textContent=(S.tf?S.tf(f.t):`t = ${f.t.toFixed(1)} s`)+(hd||!S.ro?'':S.ro(f))}
 const blk=(cx,cy,w,h,t)=>KG(cx-w/2,cy-h/2,t||'',w,h),rb=(cx,cy,r,w=44,h=30)=>`<g transform="translate(${cx} ${cy}) rotate(${r})"><rect x="${-w/2}" y="${-h/2}" width="${w}" height="${h}" rx="4" fill="#f97316" stroke="#c2410c" stroke-width="1.5"/></g>`;
 const inc=(a,x0,y0)=>{const u=[Math.cos(rad(a)),-Math.sin(rad(a))],n=[-Math.sin(rad(a)),-Math.cos(rad(a))];return s=>[x0+s*u[0]+15*n[0],y0+s*u[1]+15*n[1]]};
 // ===== Cartas de científicos =====
@@ -3146,10 +3149,10 @@ const FU_RECTA=(it,ticks=[],tit='')=>{let s=`<rect x="0" y="206" width="320" hei
 const FU_VERT=(o={})=>{const hp=o.hp||150,top=246-hp,bx=o.bx||(o.plat!==false?80:150),by=o.by||top;let s=UG+(o.plat!==false?`<rect x="40" y="${top}" width="80" height="${hp}" fill="#94a3b8"/>`+DV(24,top,246,o.h||'h'):'')+BALL(bx,by-10,10);
  if(o.v)s+=ARW(bx+(o.up?0:24),by-(o.up?24:10),0,o.up?-40:40,'#16a34a',o.v);return s+(o.tit?UT(220,280,o.tit,12,'#222','middle',700):'')+(o.extra||'')};
 // tiro oblicuo: ang, h0 (px), etiqueta de v0, alcance (px), obstáculo
-const FU_TIRO=(o={})=>{const ang=o.ang||37,h0=o.h0||0,y0=246-h0,x0=o.x0||36,R=o.R||230,H=o.H||120,r=rad(ang);let s=UG+(h0?`<rect x="0" y="${y0}" width="${x0+10}" height="${h0}" fill="#94a3b8"/>`+DV(14,y0,246,o.hl||'h₀'):'');
+const FU_TIRO=(o={})=>{const ang=o.ang==null?37:o.ang,h0=o.h0||0,y0=246-h0,x0=o.x0||36,R=o.R||230,H=o.H||120,r=rad(ang);let s=UG+(h0?`<rect x="0" y="${y0}" width="${x0+10}" height="${h0}" fill="#94a3b8"/>`+DV(14,y0,246,o.hl||'h₀'):'');
  const k=(o.end==null?0:o.end),pts=Array.from({length:41},(_,i)=>{const u=i/40,X=x0+u*R,Y=y0-4*H*u*(1-u)*(1-k)-(-k*(o.drop||0))*u*u;return X.toFixed(1)+','+Math.min(246,Y).toFixed(1)}).join(' ');
  s+=`<polyline points="${pts}" fill="none" stroke="#7c3aed" stroke-width="2" stroke-dasharray="6 5"/>`+BALL(x0,y0-8,8)+ARW(x0,y0-8,70*Math.cos(r),-70*Math.sin(r),'#16a34a',o.v||'v₀');
- s+=`<path d="M${x0+28} ${y0-8} A28 28 0 0 0 ${x0+28*Math.cos(r)} ${y0-8-28*Math.sin(r)}" fill="none" stroke="#222" stroke-width="1.5"/>`+UT(x0+40,y0-14,o.al||'θ',13,'#222','start');
+ if(ang)s+=`<path d="M${x0+28} ${y0-8} A28 28 0 0 0 ${x0+28*Math.cos(r)} ${y0-8-28*Math.sin(r)}" fill="none" stroke="#222" stroke-width="1.5"/>`+UT(x0+40,y0-14,o.al||'θ',13,'#222','start');
  if(o.wall)s+=`<rect x="${o.wall[0]}" y="${246-o.wall[1]}" width="10" height="${o.wall[1]}" fill="#a16207"/>`+UT(o.wall[0]+5,240-o.wall[1],o.wl||'',11);
  return s+(o.lbl||'')+(o.tit?UT(160,20,o.tit,13,'#222','middle',700):'')};
 // río: corriente hacia la derecha (o la izquierda), bote que apunta con ángulo
@@ -3217,7 +3220,7 @@ UP({id:'U1e1',sec:1,t:'Ej. 1 · Pieza en la cinta',v:()=>({}),bv:()=>({x0:2,v:1.
  c:mc('¿Qué tipo de movimiento tiene la pieza?',['MRU: velocidad constante (a = 0)','MRUV','Está en reposo'],'«Velocidad constante».'),
  eq:['x(t) = x₀ + v·(t − t₀)','x(t) = v·t²','x(t) = x₀ − v / t'],eqw:'Es la ecuación horaria del MRU.',
  r:()=>mc('¿Qué representa el 2 m de la ecuación horaria x(t) = 2 m + 1,5 m/s · t?',['La posición de la pieza en t = 0','La distancia recorrida','La velocidad'],'Reemplazá t = 0.','Es x₀: depende del sistema de referencia elegido.'),
- fig:()=>FU_RECTA([{x:.07,box:1,lab:'',col:'#f97316',v:'1,5 m/s'}],[[0,'0'],[.07,'2 m'],[.47,'14 m']],'Cinta transportadora'),
+ fig:()=>FU_RECTA([{x:.07,box:1,lab:'',col:'#f97316',v:'1,5 m/s'}],[[0,'0'],[.07,'2 m'],[.47,'x(8 s) = ?']],'Cinta transportadora'),
  sim:()=>simH({T:8,x:t=>2+1.5*t,v:()=>1.5,a:0,xmin:0,xmax:16})});
 
 UE(1,'U1e2',2,'Paquete por fibra óptica','Un paquete de datos viaja por un enlace de fibra óptica de <b>200 km</b> con velocidad constante de <b>2,0 × 10⁸ m/s</b>. Determinar el tiempo de propagación.',{fig:()=>FU_RECTA([{x:0,box:1,lab:'',col:'#7c3aed',v:'2·10⁸ m/s'}],[[0,'0'],[1,'200 km']],'Enlace de fibra óptica')},[
@@ -3251,7 +3254,7 @@ UP({id:'U1e7',sec:1,t:'Ej. 7 · Dos trenes',v:()=>({}),bv:()=>({dk:600,v1k:100,v
  c:mc('Con el origen en A y el eje hacia B, la velocidad del tren de B es…',['Negativa: −50 km/h','Positiva: +50 km/h','Cero'],'Va de B hacia A.'),
  eq:['x_A = 100·t ; x_B = 600 − 50·t ; x_A = x_B','x_A = x_B = 600','t = 600 / 50'],eqw:'Ecuaciones horarias de los dos y condición de encuentro.',
  r:()=>mc('En el gráfico x(t), el encuentro es…',['El punto donde se cortan las dos rectas','El origen','Donde las rectas son paralelas'],'Misma x en el mismo t.','Encuentro: intersección de x_A(t) y x_B(t).'),
- fig:()=>FU_RECTA([{x:0,lab:'A',col:'#2563eb',v:'100'},{x:1,lab:'B',col:'#dc2626',v:'50',dir:-1}],[[0,'0'],[.67,'400 km'],[1,'600 km']],'Encuentro de dos trenes'),
+ fig:()=>FU_RECTA([{x:0,lab:'A',col:'#2563eb',v:'100'},{x:1,lab:'B',col:'#dc2626',v:'50',dir:-1}],[[0,'0'],[1,'600 km']],'Encuentro de dos trenes'),
  sim:()=>simH({T:6,x:t=>100*t,x2:t=>600-50*t,v:()=>100,a:0,xmin:0,xmax:600,fx2:-1,plots:[['x_A','x','km','#2563eb'],['x_B','x2','km','#db2777']]})});
 D_('U1e7','Cada tren tiene su ecuación horaria. Se encuentran cuando están en el mismo lugar al mismo tiempo.',[
  ['Con origen en A y eje hacia B, ¿cuáles son las ecuaciones horarias?',['x_A = 100·t ; x_B = 600 − 50·t','x_A = 100·t ; x_B = 600 + 50·t','x_A = 600 − 100·t ; x_B = 50·t'],'x_A = 100·t ; x_B = 600 − 50·t','ecuaciones horarias','El tren de B arranca en x = 600 km y va hacia el origen: v negativa.','x(t) = x₀ + v·t para cada uno.'],
@@ -3422,7 +3425,7 @@ UN('c) Módulo','Módulo de la velocidad de impacto:','|v| =','m/s',16.61,'√(6
 UN('c) Ángulo','Ángulo bajo la horizontal (en grados):','α =','°',68.8,'arctan(15,49 / 6).','tan α = |vᵧ| / vₓ.','α ≈ 68,8° bajo la horizontal.',{tol:.3}),
 UM('e) Doble altura','Si se duplica la altura, el alcance…',['Se multiplica por √2 ≈ 1,41','Se duplica','No cambia'],'t = √(2h/g): depende de √h.','x = 6·√(48/10) ≈ 13,1 m.')]);
 
-UE(3,'U3e2',2,'Superar el muro','Se quiere lanzar un objeto desde el suelo para superar un muro de <b>10 m</b> de altura a <b>20 m</b>, con <b>v₀ = 25 m/s</b> (g = 10 m/s²).',{fig:()=>FU_TIRO({ang:37,R:240,H:90,wall:[190,90],wl:'10 m',v:'25 m/s',tit:'¿Con qué ángulo?'})},[
+UE(3,'U3e2',2,'Superar el muro','Se quiere lanzar un objeto desde el suelo para superar un muro de <b>10 m</b> de altura a <b>20 m</b>, con <b>v₀ = 25 m/s</b> (g = 10 m/s²).',{fig:()=>FU_TIRO({ang:37,R:240,H:90,wall:[190,90],wl:'10 m',v:'25 m/s',tit:'¿Con qué ángulo?',lbl:L_(36,262,195,262,'#fff',1.5)+L_(36,256,36,268,'#fff',1.5)+L_(195,256,195,268,'#fff',1.5)+UT(115,280,'20 m',12,'#fff')})},[
 UM('¿Por qué y(x)?','No nos dicen <b>cuándo</b> pasa por el muro, sino <b>dónde</b>. ¿Qué ecuación conviene?',['La de la trayectoria y(x), que no tiene t','x(t) sola','vᵧ(t)'],'Eliminando t se relacionan directamente x, y y θ.','y = x·tan θ − g·x² / (2·v₀²·cos²θ).'),
 UD('Reemplazamos el punto del muro en la trayectoria y queda una ecuación para tan θ.',[
  ['Con x = 20, y = 10, v₀ = 25, g = 10 y 1/cos²θ = 1 + tan²θ:',['10 = 20·tan θ − 3,2·(1 + tan²θ)','10 = 20·tan θ − 3,2','10 = 20 − 3,2·tan θ'],'10 = 20·u − 3,2·(1 + u²)','u = tan θ','g·x²/(2·v₀²) = 10·400/1250 = 3,2.','La identidad convierte cos² en tan².'],
@@ -3432,7 +3435,7 @@ UN('b) Otro ángulo','El otro ángulo posible:','θ₂ =','°',79.7,'u = (20 + �
 UN('d) Altura máx (37°)','Altura máxima con 37° (v₀ᵧ = 15 m/s):','h =','m',11.25,'225 / 20.','v₀ᵧ² / (2g).','h = 11,25 m.',{tol:.05}),
 UM('c) Física','¿Por qué hay dos ángulos?',['Uno «tenso» (bajo, rápido) y otro «bombeado» (alto, lento) pasan por el mismo punto','Porque hay dos muros','Por un error de la cuenta'],'Imaginá las dos parábolas.','Igual que los ángulos complementarios del alcance.')]);
 
-UE(3,'U3e9',9,'Entre dos árboles','Desde una plataforma a <b>1,25 m</b> se dispara un proyectil con <b>20 m/s</b> a <b>53°</b> (sen 53° ≈ 0,8; cos 53° ≈ 0,6; g = 10 m/s²). A 24 m hay un árbol que debe superar; más atrás, el proyectil impacta en otro árbol a <b>10 m</b> de altura.',{fig:()=>FU_TIRO({ang:53,h0:14,R:250,H:150,end:.15,wall:[170,120],wl:'¿h?',tit:'Proyectil y dos árboles'}),sim:simP({v0:20,al:53.13,h0:1.25,xmax:34,ymax:16}),simDesde:0},[
+UE(3,'U3e9',9,'Entre dos árboles','Desde una plataforma a <b>1,25 m</b> se dispara un proyectil con <b>20 m/s</b> a <b>53°</b> (sen 53° ≈ 0,8; cos 53° ≈ 0,6; g = 10 m/s²). A 24 m hay un árbol que debe superar; más atrás, el proyectil impacta en otro árbol a <b>10 m</b> de altura.',{fig:()=>FU_TIRO({ang:53,h0:14,R:250,H:150,end:.15,wall:[170,120],wl:'¿h?',tit:'Proyectil y dos árboles',lbl:`<rect x="286" y="146" width="10" height="100" fill="#a16207"/><circle cx="291" cy="140" r="16" fill="#65a30d" opacity=".8"/>`+UT(291,118,'10 m',11)+UT(175,262,'24 m',11,'#fff')}),sim:simP({v0:20,al:53.13,h0:1.25,xmax:34,ymax:16}),simDesde:0},[
 UMT('Componentes','Completá:',[['v₀ₓ =','12 m/s'],['v₀ᵧ =','16 m/s']],'v₀ₓ = 20 · 0,6 y v₀ᵧ = 20 · 0,8.','¡Bien!',{x:['20 m/s','8 m/s']}),
 UN('c) Primer árbol','¿En qué instante pasa por x = 24 m?','t =','s',2,'x = 12·t.','MRU en x.','t = 2 s.',{tol:.01}),
 UN('c) Altura máxima del árbol','Altura del proyectil en ese instante (altura máxima que puede tener el primer árbol):','y =','m',13.25,'y = 1,25 + 16·2 − 5·4.','Reemplazá en y(t).','y = 13,25 m.',{tol:.05}),
@@ -3485,7 +3488,7 @@ UN('b) Tiempo','Tiempo para cruzar:','t =','s',40,'Solo cuenta la componente que
 UN('c) Desvío','Desplazamiento lateral (río abajo):','x =','m',80,'2 m/s · 40 s.','MRU en x.','x = 80 m.',{tol:.1}),
 UN('d) Llegar enfrente','¿Qué ángulo respecto de la perpendicular, río arriba, para llegar justo enfrente?','φ =','°',41.81,'sen φ = 2/3.','La componente del bote a lo largo del río compensa la corriente.','φ ≈ 41,8° (y tardaría 120/√5 ≈ 53,7 s).',{tol:.2})]);
 
-UE(4,'U4e6',6,'El nadador','Un nadador quiere cruzar un río de <b>80 m</b> sin desviarse. Nada a <b>2 m/s</b> respecto del agua y la corriente va a <b>1 m/s</b>.',{fig:()=>FRIOV({w:'80 m',vec:ARW(160,214,-50,-100,'#16a34a','2 m/s')+ARW(160,214,0,-86,'#dc2626','')})},[
+UE(4,'U4e6',6,'El nadador','Un nadador quiere cruzar un río de <b>80 m</b> sin desviarse. Nada a <b>2 m/s</b> respecto del agua y la corriente va a <b>1 m/s</b>.',{fig:()=>FRIOV({w:'80 m',vec:ARW(160,214,-50,-100,'#16a34a','')+UT(128,170,'v_NA = 2 m/s',11,'#16a34a','end')+ARW(160,214,0,-86,'#dc2626','v_NT')+UT(240,92,'corriente: 1 m/s',11,'#0369a1')})},[
 UD('Para no desviarse, la velocidad respecto de la orilla tiene que ser perpendicular a ella.',[
  ['Escribimos <i class="vc">v</i>_NT = <i class="vc">v</i>_AT + <i class="vc">v</i>_NA en componentes. Si apunta con ángulo φ río arriba:',['<i class="vc">v</i>_NT = (1 − 2·sen φ ; 2·cos φ)','<i class="vc">v</i>_NT = (1 + 2 ; 0)','<i class="vc">v</i>_NT = (2·cos φ ; 1)'],'<i class="vc">v</i>_NT = (1 − 2·sen φ ; 2·cos φ)','componentes','La componente del nadador a lo largo del río es 2·sen φ, en contra de la corriente.','Corriente +1 en x.'],
  ['Sin desvío, la componente x es…',['0 → 2·sen φ = 1','1','2'],'sen φ = 1/2','vₓ = 0','No se mueve a lo largo del río.','Despejá sen φ.']],'¡Listo el planteo!'),
@@ -3587,7 +3590,7 @@ UM('Pensá','Un cuerpo se mueve con velocidad constante de 20 m/s en línea rect
 UI('Tercera ley','Si A ejerce una fuerza sobre B, B ejerce sobre A una fuerza de igual módulo y sentido contrario: <b><i class="vc">F</i>_AB = −<i class="vc">F</i>_BA</b>. Actúan sobre <b>cuerpos distintos</b>: por eso no se cancelan entre sí.<br><br><b>Fuerzas que vamos a usar</b>:<br>• <b>Peso</b> P = m·g: hacia el centro de la Tierra.<br>• <b>Normal</b>: perpendicular a la superficie; su valor sale de las ecuaciones (condición de vínculo).<br>• <b>Tensión</b>: sogas inextensibles y sin masa.'),
 UM('Pensá','Un libro está apoyado en una mesa. ¿Cuál es la reacción (3.ª ley) del peso del libro?',['La fuerza con que el libro atrae a la Tierra','La normal de la mesa','La fuerza del libro sobre la mesa'],'El peso es la fuerza de la Tierra sobre el libro. Su par actúa sobre…','…la Tierra. ¡La normal no es la reacción del peso!')]);
 
-LEC(6,2,'U6b','Lección: estrategia, rozamiento y plano inclinado','📖 <b>Lección.</b> Cómo encarar cualquier problema de dinámica.',{fig:()=>FU_PLANO(30,{tit:'Pₓ = P·sen θ · Pᵧ = P·cos θ'})},[
+LEC(6,2,'U6b','Lección: estrategia, rozamiento y plano inclinado','📖 <b>Lección.</b> Cómo encarar cualquier problema de dinámica.',{fig:()=>FU_PLANO(30,{tit:'Pₓ = P·sen θ   |   Pᵧ = P·cos θ'})},[
 UOR('Estrategia','Ordená los pasos para resolver un problema de dinámica',['Dibujar el diagrama de cuerpo libre (DCL) de cada cuerpo','Elegir los ejes (uno en la dirección del movimiento)','Descomponer las fuerzas: Fₓ = F·cos α, Fᵧ = F·sen α','Escribir Σ F = m·a en cada eje','Resolver el sistema de ecuaciones'],'Primero el DCL; las cuentas al final.','¡Esa es la estrategia!'),
 UI('Rozamiento','Es una fuerza de contacto, paralela a la superficie (la normal es perpendicular).<br>• <b>Estático</b>: cuando no hay deslizamiento. Toma el valor necesario para que no deslice, con un límite: <b>Fr ≤ μₑ·N</b>.<br>• <b>Dinámico</b>: cuando desliza: <b>Fr = μ_d·N</b>, opuesto al deslizamiento.<br>Normalmente μₑ &gt; μ_d: cuesta más arrancar que mantener el movimiento.'),
 UM('Pensá','Una caja de 10 kg está quieta en el piso (μₑ = 0,5) y la empujás con 20 N. ¿Cuánto vale el rozamiento?',['20 N: el estático iguala tu fuerza','50 N: μₑ·N','0 N'],'μₑ·N = 50 N es el <b>máximo</b>, no el valor.','Fr = 20 N: lo justo para que no se mueva.'),
@@ -3627,7 +3630,7 @@ UN('c) Aceleración','Aceleración del sistema:','a =','m/s²',12.5,'100 / 8.','
 UN('d) Tensión','Tensión en la cuerda:','T =','N',37.5,'3 · 12,5.','T = m₂·a.','T = 37,5 N.',{tol:.1}),
 UM('Reflexión','¿Qué pasaría con T si se aplicara F sobre m₂ en lugar de m₁?',['Cambiaría: T = m₁·a = 62,5 N','Sería la misma','Sería cero'],'La cuerda ahora arrastra a m₁.','T acelera al cuerpo que va «remolcado».')]);
 
-UE(6,'U6e9',9,'Dos cuerpos en el plano','Dos cuerpos <b>m₁ = 60 kg</b> y <b>m₂ = 40 kg</b> unidos por una cuerda ideal en un plano de <b>30°</b> sin rozamiento. Una fuerza F paralela al plano tira de m₁ hacia arriba (g = 10 m/s²).',{fig:()=>FU_PLANO(30,{u:.62,lab:'m₁',F:'F',extra:`<g transform="translate(${20+.35*270*Math.cos(rad(30))} ${246-.35*270*Math.sin(rad(30))}) rotate(-30)"><rect x="-20" y="-28" width="40" height="28" rx="4" fill="#2563eb"/><text x="0" y="-9" font-size="12" fill="#fff" text-anchor="middle">m₂</text></g>`})},[
+UE(6,'U6e9',9,'Dos cuerpos en el plano','Dos cuerpos <b>m₁ = 60 kg</b> y <b>m₂ = 40 kg</b> unidos por una cuerda ideal en un plano de <b>30°</b> sin rozamiento. Una fuerza F paralela al plano tira de m₁ hacia arriba (g = 10 m/s²).',{fig:()=>FU_PLANO(30,{u:.62,lab:'m₁',F:'F',extra:`<g transform="translate(${20+.35*270*Math.cos(rad(30))} ${246-.35*270*Math.sin(rad(30))}) rotate(-30)"><rect x="-20" y="-28" width="40" height="28" rx="4" fill="#2563eb"/><text x="0" y="-9" font-size="12" fill="#fff" text-anchor="middle">m₂</text><line x1="20" y1="-14" x2="${.27*270-20}" y2="-14" stroke="#222" stroke-width="2"/></g>`})},[
 UMT('Componentes','Completá (g = 10 m/s²):',[['P₁ₓ = P₁·sen 30°','300 N'],['P₂ₓ = P₂·sen 30°','200 N']],'P₁ = 600 N y P₂ = 400 N.','¡Bien!',{x:['520 N','346 N']}),
 UMT('Newton','Ecuaciones en x (eje hacia arriba del plano):',[['m₁:','F − T − P₁ₓ = m₁·a'],['m₂:','T − P₂ₓ = m₂·a']],'La cuerda tira de m₁ hacia abajo y de m₂ hacia arriba.','¡Bien!',{x:['F + T − P₁ₓ = m₁·a']}),
 UN('b) v constante','F para que suba con velocidad constante (sumá las ecuaciones con a = 0):','F =','N',500,'F − 300 − 200 = 0.','F = P₁ₓ + P₂ₓ.','F = 500 N.',{tol:.5}),
@@ -3668,7 +3671,7 @@ D_('U7din','Nos piden el <b>estiramiento</b>. En equilibrio la fuerza neta es ce
  ['Fuerzas sobre la masa: F_e hacia arriba (k·Δx) y P hacia abajo:',['k·Δx − m·g = 0','k·Δx + m·g = 0','k − m·g = 0'],'k·Δx − m·g = 0','signos','Hacia arriba +.','F_e (+) y P (−).'],
  ['Despejamos Δx:',['Sumar m·g y dividir por k',OPd('m·g'),OPm('k')],'Δx = m·g / k','+ m·g ; ÷ k',HSUM,'k·Δx = m·g.']],'¡Listo!');
 
-UE(7,'U7e13',13,'¿Hasta dónde se queda quieto?','Un bloque de <b>5 kg</b> está sobre una superficie rugosa (<b>μₑ = 0,4</b>), unido a un resorte de <b>k = 300 N/m</b>. Se lo corre estirando el resorte y se lo suelta (g = 10 m/s²).',{fig:()=>FU_RES({tit:'Superficie rugosa'})+ARW(182,206,-40,0,'#d97706','Fr')},[
+UE(7,'U7e13',13,'¿Hasta dónde se queda quieto?','Un bloque de <b>5 kg</b> está sobre una superficie rugosa (<b>μₑ = 0,4</b>), unido a un resorte de <b>k = 300 N/m</b>. Se lo corre estirando el resorte y se lo suelta (g = 10 m/s²).',{fig:()=>FU_RES({tit:'Superficie rugosa (μₑ = 0,4)'})},[
 UM('c) DCL','En la situación límite (a punto de moverse hacia el resorte), el rozamiento estático apunta…',['Alejándose del resorte, oponiéndose al deslizamiento','Hacia el resorte','No hay rozamiento'],'El resorte tira hacia la pared; el rozamiento se opone.','Fr apunta en contra de la fuerza elástica.'),
 UD('El bloque se queda quieto mientras el rozamiento estático alcance para equilibrar al resorte.',[
  ['Condición límite (Σ Fₓ = 0 con el rozamiento máximo):',['k·Δx = μₑ·N','k·Δx = m·g','k = μₑ·Δx'],'k·Δx = μₑ·m·g','F_e = Fr máx','La normal es N = m·g.','Fr máx = μₑ·N.'],
@@ -3744,7 +3747,7 @@ UN('a) Fuerza neta','Fuerza neta sobre la ropa (R = 0,2 m):','F =','N',6317,'m·
 UM('b) Tipo','¿Qué fuerza real provee esa resultante?',['La normal de la pared del tambor, hacia el eje','El peso','La fuerza centrífuga'],'¿Qué toca a la ropa en la dirección radial?','La pared empuja hacia adentro.'),
 UN('c) En g','¿Cuántas veces g (10 m/s²) es la aceleración?','a_c ≈','g',315.8,'ω²·R = 3158 m/s².','Dividí por 10.','≈ 316 g.',{tol:1.5})]);
 
-UE(8,'U8e11',11,'Sillas voladoras','La plataforma tiene <b>8 m</b> de diámetro; las cadenas miden <b>2,5 m</b> y forman <b>28°</b> con la vertical (g = 10 m/s²).',{fig:()=>`<rect x="60" y="30" width="200" height="10" fill="#64748b"/>`+L_(160,40,160,270,'#94a3b8',1.5,'stroke-dasharray="4 4"')+L_(260,40,260+80*Math.sin(rad(28)),40+80*Math.cos(rad(28))*1.8,'#222',2)+BALL(260+80*Math.sin(rad(28)),40+80*Math.cos(rad(28))*1.8,10)+UT(210,26,'4 m',12)+UT(300,120,'2,5 m',12,'#222','start')+UT(160,284,'R = 4 m + 2,5 m · sen 28°',12)},[
+UE(8,'U8e11',11,'Sillas voladoras','La plataforma tiene <b>8 m</b> de diámetro; las cadenas miden <b>2,5 m</b> y forman <b>28°</b> con la vertical (g = 10 m/s²).',{fig:()=>`<rect x="60" y="30" width="200" height="10" fill="#64748b"/>`+L_(160,40,160,270,'#94a3b8',1.5,'stroke-dasharray="4 4"')+L_(260,40,260+80*Math.sin(rad(28)),40+80*Math.cos(rad(28))*1.8,'#222',2)+BALL(260+80*Math.sin(rad(28)),40+80*Math.cos(rad(28))*1.8,10)+UT(210,26,'4 m',12)+UT(272,110,'2,5 m',12,'#222','end')+L_(260,40,260,110,'#94a3b8',1,'stroke-dasharray="3 3"')+UT(268,72,'28°',11,'#222','start')+UT(160,284,'Radio de giro del asiento: R = ?',12)},[
 UN('Radio','Radio de giro del asiento:','R =','m',5.174,'4 + 2,5 · sen 28°.','La silla se aleja del borde de la plataforma.','R ≈ 5,17 m.',{tol:.02}),
 UN('a) ω','Velocidad angular (tan θ = ω²·R / g):','ω =','rad/s',1.014,'√(10 · tan 28° / 5,174).','Igual que el péndulo cónico, con R distinto.','ω ≈ 1,01 rad/s.',{tol:.01}),
 UN('b) Tensión','Tensión en la cadena (m = 50 kg):','T =','N',566.3,'m·g / cos 28°.','Σ Fᵧ = 0: T·cos θ = m·g.','T ≈ 566 N.',{tol:2}),
@@ -3919,7 +3922,7 @@ UN('Restitución','¿Cuánto vale v₂ − v₁?','v₂ − v₁ =','m/s',12,'0,
 UN('v₁','Velocidad final del de 5 kg:','v₁ =','m/s',-6,'30 = 5·v₁ + 10·(v₁ + 12) → 15·v₁ = −90.','Reemplazá v₂ = v₁ + 12.','v₁ = −6 m/s (rebota hacia la izquierda).',{tol:.02}),
 UN('v₂','Velocidad final del de 10 kg:','v₂ =','m/s',6,'−6 + 12.','v₂ = v₁ + 12.','v₂ = 6 m/s (hacia la derecha).',{tol:.02})]);
 
-UE(10,'U10e29',29,'Bala y bloque','Una bala de <b>1 kg</b> a <b>14 m/s</b> se incrusta en un bloque de <b>3 kg</b> en reposo. El conjunto sube por una rampa de <b>30°</b> con rozamiento y se detiene a <b>0,40 m</b> de altura (g = 10 m/s²).',{fig:()=>FU_PLANO(30,{u:.25,lab:'4 kg'})+`<circle cx="20" cy="236" r="4" fill="#222"/>`+ARW(4,236,10,0,'#dc2626','')},[
+UE(10,'U10e29',29,'Bala y bloque','Una bala de <b>1 kg</b> a <b>14 m/s</b> se incrusta en un bloque de <b>3 kg</b> en reposo. El conjunto sube por una rampa de <b>30°</b> con rozamiento y se detiene a <b>0,40 m</b> de altura (g = 10 m/s²).',{fig:()=>FU_PLANO(30,{u:.25,lab:'4 kg'})+`<circle cx="20" cy="236" r="4" fill="#222"/>`+ARW(4,236,10,0,'#dc2626','')+UT(4,266,'bala: 1 kg a 14 m/s',11,'#dc2626','start',700)},[
 UN('a) Velocidad','Velocidad del conjunto justo después del choque:','v =','m/s',3.5,'1·14 = 4·v.','Choque plástico: se conserva p.','v = 3,5 m/s.',{tol:.01}),
 UN('Energía','Energía cinética del conjunto después del choque:','E_c =','J',24.5,'½ · 4 · 3,5².','½·M·v².','E_c = 24,5 J.',{tol:.05}),
 UN('Distancia','Distancia recorrida sobre la rampa:','d =','m',.8,'h / sen 30°.','sen θ = h/d.','d = 0,8 m.',{tol:.005}),
@@ -3988,7 +3991,7 @@ UN('f) v relativa','Módulo de la velocidad de la piedra respecto de la botella:
 UM('g) Masa','¿El tiempo de encuentro depende de las masas?',['No: las dos tienen la misma aceleración g, sin importar la masa','Sí: la más pesada cae más rápido y llega antes al encuentro','Solo si la botella es más liviana que la piedra lanzada'],'Sin aire, a = g para todos.','¡Correcto!')]);
 
 // ---------- TP 5 (relativo) ----------
-UE(4,'U4e10',10,'La célula en el canal','En un canal microfluídico el fluido va a <b>2 mm/s</b> respecto del laboratorio. Una célula se mueve a <b>1,5 mm/s</b> respecto del fluido, formando <b>30°</b> con el flujo.',{rec:1,fig:()=>FU_VEC([[2,0,'#0369a1','v_FL',0,0,[0,18]],[1.3,.75,'#db2777','v_CF',2,0,[26,10]],[3.3,.75,'#16a34a','v_CL',0,0,[-14,-16]]],70,{cx:40,cy:200,xl:'x (flujo)',yl:'y',tit:'C célula · F fluido · L laboratorio'})},[
+UE(4,'U4e10',10,'La célula en el canal','En un canal microfluídico el fluido va a <b>2 mm/s</b> respecto del laboratorio. Una célula se mueve a <b>1,5 mm/s</b> respecto del fluido, formando <b>30°</b> con el flujo.',{rec:1,fig:()=>FU_VEC([[2,0,'#0369a1','v_FL',0,0,[0,18]],[1.3,.75,'#db2777','v_CF',2,0,[26,10]],[3.3,.75,'#16a34a','v_CL',0,0,[-14,-16]]],70,{cx:40,cy:200,xl:'x (flujo)',yl:'y',tit:'C = célula, F = fluido, L = laboratorio'})},[
 UMT('a) y b) Vectores','En mm/s (x en la dirección del flujo):',[['<i class="vc">v</i>_CF','(1,30 ; 0,75)'],['<i class="vc">v</i>_FL','(2 ; 0)'],['<i class="vc">v</i>_CL = <i class="vc">v</i>_CF + <i class="vc">v</i>_FL','(3,30 ; 0,75)']],'1,5·cos 30° ≈ 1,30 ; 1,5·sen 30° = 0,75.','¡Bien!',{x:['(0,75 ; 1,30)','(3,5 ; 0)']}),
 UN('c) Módulo','Rapidez de la célula respecto del laboratorio:','v =','mm/s',3.383,'√(3,30² + 0,75²).','Pitágoras.','v ≈ 3,38 mm/s.'),
 UN('c) Dirección','Ángulo con el flujo:','α =','°',12.81,'arctan(0,75 / 3,30).','tan α = v_y / vₓ.','α ≈ 12,8°: el flujo «aplasta» la dirección.'),
@@ -4003,7 +4006,7 @@ UN('Rapidez real','Rapidez hacia el norte respecto de la Tierra:','v =','km/h',2
 UN('c) Tiempo','¿Cuánto tarda en llegar a B?','t =','h',1.686,'400 / 237,2.','MRU.','≈ 1,69 h ≈ 1 h 41 min.')]);
 
 // ---------- TP 7 (dinámica) ----------
-const F7_16=()=>UTIT('')+UPL('0,110 150,110 290,227 0,227','#86b84a')+UBX(70,110,0,'m₁','#2563eb',50,34)+UPOL(150,101)+L_(95,94,150,90,'#222',1.5)+L_(158,108,222,162,'#222',1.5)+UBX(228,176,40,'m₂','#2563eb',50,34)+ARW(50,30,22,40,'#111','F')+ARC(72,70,22,180,240)+UT(42,78,'60°',11,'#222','end')+ARC(290,227,40,180,140)+UT(244,222,'40°',12,'#222','end')+`<rect x="0" y="227" width="320" height="12" fill="#8a8f98"/>`;
+const F7_16=()=>UTIT('')+UPL('0,110 150,110 290,227 0,227','#86b84a')+UBX(70,110,0,'m₁','#2563eb',50,34)+UPOL(150,101)+L_(95,94,150,90,'#222',1.5)+L_(158,108,222,162,'#222',1.5)+UBX(228,176,40,'m₂','#2563eb',50,34)+ARW(50,30,22,40,'#111','')+UT(66,40,'F',15,'#111','start',700)+ARC(72,70,22,180,240)+UT(42,78,'60°',11,'#222','end')+ARC(290,227,40,180,140)+UT(244,222,'40°',12,'#222','end')+`<rect x="0" y="227" width="320" height="12" fill="#8a8f98"/>`;
 UE(6,'U6e16',16,'Bloques en el borde','m₁ = <b>3 kg</b> sobre un piso horizontal rugoso, unido por una cuerda (polea ideal) a m₂ = <b>10 kg</b> sobre un plano de <b>40°</b>, también rugoso. <b>μₑ = 0,5 ; μ_d = 0,2</b>. Una fuerza <i class="vc">F</i> empuja a m₁ <b>hacia abajo y hacia atrás, a 60° de la horizontal</b> (g = 10 m/s²).',{rec:1,fig:F7_16},[
 UM('Tendencia','Sin F, ¿hacia dónde tiende a moverse el sistema?',['m₂ baja por el plano y arrastra a m₁ hacia la polea','m₁ se aleja de la polea y m₂ sube por el plano','No tiende a moverse: los pesos se equilibran'],'Solo P₂ₓ = P₂·sen 40° tira.','P₂ₓ ≈ 64,3 N.'),
 UMT('Fuerzas','Valores (con F en m₁):',[['P₂·sen 40°','64,3 N'],['μₑ·N₂ = μₑ·P₂·cos 40°','38,3 N'],['N₁','30 N + F·sen 60°']],'F empuja contra el piso: aumenta N₁.','¡Bien!',{x:['30 N − F·sen 60°','76,6 N']}),
@@ -4023,7 +4026,7 @@ UN('b) F mínima','F para que suba con velocidad constante:','F =','N',2.99,'30 
 UN('c) Tensión','Tensión en esa condición:','T =','N',40,'m₁ con a = 0.','T = m₁·g.','T = 40 N.'),
 UM('d) Con F = 120 N','Si F = 120 N, el sistema daría a ≈ 11,7 m/s² (mayor que g). ¿Qué significa?',['m₂ se acelera más rápido de lo que m₁ puede caer: la cuerda se afloja (T = 0) y m₁ cae libre','Que la cuerda se rompe siempre que la aceleración supera a g','Que el cálculo está bien: los dos bloques aceleran juntos con T > 0'],'m₁ no puede bajar con a > g colgando de una cuerda.','¡Ojo! Siempre verificá que T ≥ 0.')]);
 
-UE(7,'U7e15',15,'Resorte, rozamiento y colgante','m₁ = <b>4 kg</b> en un piso rugoso (<b>μₑ = 0,4 ; μ_d = 0,2</b>), unido a un resorte de <b>k = 100 N/m</b> (pared a la izquierda) y, por la polea, a m₂ = <b>2 kg</b> que cuelga. Una fuerza vertical <i class="vc">F</i> empuja a m₁ hacia abajo (g = 10 m/s²).',{rec:1,fig:()=>FU_RES({mesa:1,m1:'m₁',m2:'m₂'})+ARW(156,62,0,46,'#dc2626','F')},[
+UE(7,'U7e15',15,'Resorte, rozamiento y colgante','m₁ = <b>4 kg</b> en un piso rugoso (<b>μₑ = 0,4 ; μ_d = 0,2</b>), unido a un resorte de <b>k = 100 N/m</b> (pared a la izquierda) y, por la polea, a m₂ = <b>2 kg</b> que cuelga. Una fuerza vertical <i class="vc">F</i> empuja a m₁ hacia abajo (g = 10 m/s²).',{rec:1,fig:()=>FU_RES({mesa:1,m1:'m₁',m2:'m₂'})+ARW(156,62,0,46,'#dc2626','')+UT(166,74,'F',15,'#dc2626','start',700)},[
 UD('a) Resorte sin deformar: solo el peso de m₂ tira. El rozamiento estático máximo tiene que alcanzar.',[
  ['La normal sobre m₁ es…',['N = m₁·g + F','N = m₁·g','N = m₁·g − F'],'N = 40 + F','Σ F_y = 0','F empuja contra el piso.','La normal crece.'],
  ['En el límite:',['m₂·g = μₑ·(40 + F)','m₂·g = μ_d·(40 + F)','m₂·g = μₑ·40'],'20 = 0,4·(40 + F)','rozamiento estático máximo','A punto de deslizar → μₑ.','T = m₂·g (m₂ en reposo).']],'F = 50 − 40.'),
@@ -4199,7 +4202,7 @@ UN('a) v₂′','Velocidad del bloque 2 después:','v₂′ =','m/s',3.25,'v₁�
 UN('b) Pérdida','Porcentaje de energía cinética perdida:','pérdida =','%',39.4,'Antes: ½·m·(16 + 4) = 10·m. Después: ½·m·(1,5625 + 10,5625) ≈ 6,06·m.','(10 − 6,06) / 10.','≈ 39 % se pierde.'),
 UM('c) e','¿Qué mide el coeficiente de restitución?',['Qué fracción de la velocidad relativa de acercamiento se recupera al separarse','Cuánta energía cinética se transforma en calor, en joules','La fuerza media que hacen los bloques durante el contacto'],'e = −(v₂′ − v₁′)/(v₂ − v₁) en valor.','e = 1 elástico; e = 0 plástico.')]);
 
-const F11_24=()=>UTIT('Vista desde arriba')+L_(20,140,300,140,'#94a3b8',1,'stroke-dasharray="5 4"')+BALL(50,140,11,'#2563eb')+ARW(64,140,50,0,'#2563eb','2 m/s')+BALL(160,140,11,'#16a34a')+ARW(170,134,104,-60,'#2563eb','v₁′')+ARW(170,148,80,80,'#16a34a','v₂′')+ARC(170,140,40,0,30)+UT(216,128,'30°',12,'#222','start')+ARC(170,140,40,0,-45)+UT(216,166,'45°',12,'#222','start');
+const F11_24=()=>UTIT('Vista desde arriba')+L_(20,140,300,140,'#94a3b8',1,'stroke-dasharray="5 4"')+BALL(50,140,11,'#2563eb')+ARW(64,140,50,0,'#2563eb','2 m/s')+BALL(160,140,11,'#16a34a')+ARW(170,134,104,-60,'#2563eb','v₁′')+ARW(170,148,80,80,'#16a34a','')+UT(256,236,'v₂′',15,'#16a34a','start')+ARC(170,140,40,0,30)+UT(216,128,'30°',12,'#222','start')+ARC(170,140,40,0,-45)+UT(216,166,'45°',12,'#222','start');
 UE(10,'U10e24',24,'Choque oblicuo de esferas iguales','Una esfera a <b>2 m/s</b> choca con otra igual en reposo. Después, la incidente sale a <b>30°</b> de su dirección original y la otra a <b>45°</b> del otro lado.',{rec:1,fig:F11_24},[
 UD('Eje x: dirección original. Las masas iguales se simplifican.',[
  ['Eje y (antes no hay p_y):',['v₁′·sen 30° = v₂′·sen 45°','v₁′·cos 30° = v₂′·cos 45°','v₁′ = v₂′'],'v₁′ = 1,414·v₂′','p_y = 0','Una sale hacia arriba y la otra hacia abajo.','sen 45° / sen 30° = 1,414.'],
@@ -4890,6 +4893,630 @@ SET('U9e26','b) Vuelta a B',{h:'Energía del punto más alto (quieto, h = 15,48 
 MOD('U9e27','e) v al resorte',[
  ALG('e) Despejá','Sale del rizo con v_B. En los 0,6 m rugosos hasta el resorte, el roce (μ·m·g) le quita energía: ΔE_m = W_Fr.','m·v_B^2/2 − μ·m·g·d = m·v^2/2','v',{lab0:'E_c en B + W_Fr = E_c al llegar'}),
  REP('e) v al resorte','Reemplazá y calculá','v','√(v_B²−2×μ×g×d)',{v_B:'5,717 m/s',μ:'0,2',g:G10,d:'0,6 m'},5.503,'m/s',{extra:['0,6 kg']})]);
+})();
+// ===== Física I · UADE (v16): consignas completas («📋 Te piden») y dibujos que acompañan cada paso =====
+(()=>{
+const LV=id=>{const e=EX.find(x=>x.id==id);if(!e)throw 'PIDE '+id;return e};
+const ST=(id,name)=>{const e=LV(id),s=(e.pasos||[]).find(p=>p.n==name);if(!s)throw 'PIDE '+id+' · '+name;return s};
+// lo que pide cada ejercicio, con las mismas letras que los pasos («|» = renglón nuevo)
+const PIDE={
+U1e3:'a) la velocidad del pulso|b) la ecuación horaria (origen en A, t = 0 cuando pasa por A)|c) la distancia BC|d) cómo se ven A, B y C en el gráfico x(t)',
+U1e8:'a) cuándo están separados 1600 m si van en el <b>mismo sentido</b>|b) y si van en <b>sentidos opuestos</b>',
+U1e11:'la distancia a la campana y cuánto tarda la bala en llegar',
+U2e13:'a) las ecuaciones horarias x(t) y v(t)|b) la velocidad a los 12 s|c) la posición a los 12 s|d) cuándo llega a los 300 m|e) la velocidad en ese punto (sin usar el tiempo)|f) la velocidad media en los primeros 12 s',
+U2e14:'b) el tiempo que tarda en detenerse|c) la distancia de frenado|d) la velocidad a mitad de camino|e) la velocidad media del frenado|g) qué significa que la aceleración sea negativa',
+U2e15:'a) la velocidad que alcanza al terminar de acelerar|b) la distancia de cada tramo|c) la distancia total|e) la velocidad media de todo el viaje|y qué representa el área en el gráfico v(t)',
+U2e17:'a) las ecuaciones horarias (origen en A, eje hacia B)|b) el instante del encuentro|c) la posición del encuentro|d) si se pueden encontrar más de una vez',
+U2e19:'a) las ecuaciones horarias|b) cuándo y dónde se encuentran|c) cómo son las curvas de A y B en el gráfico x(t)',
+U2e22:'a) la altura máxima|b) el tiempo de subida|c) el tiempo hasta volver al punto de lanzamiento|d) la velocidad con que vuelve a ese punto|e) la aceleración en el punto más alto',
+U2e23:'a) los dos instantes en que pasa por 20 m|b) la velocidad la primera vez que pasa|c) la altura máxima',
+U2e25:'la velocidad cuando fallan los motores|a) la altura máxima (respecto de la plataforma)|b) cuánto tarda, desde que fallan los motores, en volver a la plataforma',
+U2e27:'b) la profundidad del pozo|c) el tiempo de caída de la piedra|d) la velocidad con que llega al agua|e) cuánto error habría si no se tuviera en cuenta el sonido',
+U3e2:'a) el ángulo mínimo para pasar justo por encima del muro|b) el otro ángulo posible|c) por qué hay dos ángulos|d) la altura máxima con el ángulo mínimo',
+U3e3:'a) el tiempo de caída|b) a qué distancia del extremo de la cinta cae|c) la velocidad al tocar el piso (componente vertical, módulo y ángulo)|e) qué pasa con el alcance si se duplica la altura',
+U3e5:'la altura máxima de cada uno|el alcance (¡es el mismo para los dos!)|b) si pueden chocar en el aire',
+U3e9:'c) cuándo pasa por el primer árbol y qué altura puede tener ese árbol, como máximo|a) el instante del impacto en el segundo árbol|b) la velocidad en el impacto (módulo y ángulo)',
+U3e11:'b) el tiempo de vuelo del proyectil y dónde cae|a) a qué distancia de la colina estaba el tanque en el momento del disparo|c) la velocidad del proyectil al impactar',
+U3e13:'a) con qué rapidez tiene que salir del borde para llegar justo a la otra orilla|b) la velocidad (módulo y dirección) al aterrizar',
+U3e14:'a) las ecuaciones horarias|b) dónde chocan (x e y)|c) desde qué altura se soltó la piedra 2|e) las velocidades de las dos piedras en el choque',
+U3e15:'a) el ángulo de lanzamiento|b) el instante del encuentro|d) a qué altura se encuentran|f) la velocidad de la piedra respecto de la botella|g) si el resultado depende de las masas',
+U4cinta:'cuánto tarda en recorrer la cinta: a) caminando a favor|b) caminando en contra|c) con la cinta detenida',
+U4e1:'a) las velocidades de A, de B y la de B respecto de A, como vectores|c) el módulo y la dirección de <i class="vc">v</i>_BA|d) cómo ve moverse a B el que viaja en A',
+U4e2:'a) las velocidades en forma vectorial|b) el módulo de la velocidad del operario respecto del suelo|c) su ángulo con el norte|d) qué velocidad le mide alguien sentado en el tren',
+U4e3:'a) hacia dónde y con qué ángulo tiene que apuntar el dron|b) su velocidad respecto del suelo|c) cuánto se desvía si apunta al norte sin corregir',
+U4e4:'a) la velocidad respecto de la orilla si apunta perpendicular|b) cuánto tarda en cruzar|c) cuánto se desvía río abajo|d) con qué ángulo tiene que apuntar para llegar justo enfrente',
+U4e6:'a) con qué ángulo tiene que nadar|b) cuánto tarda en cruzar|d) qué pasa si nada más lento que la corriente',
+U4e9:'a) la velocidad del barco respecto del agua|b) cuánto tarda en volver de B a A',
+U4e10:'a) y b) las velocidades como vectores|c) la rapidez y la dirección de la célula respecto del laboratorio|d) cuánto se desplaza en 10 s',
+U4e11:'a) su rapidez respecto de la Tierra si apunta al norte sin corregir|b) hacia dónde tiene que apuntar para llegar a B y con qué rapidez avanza|c) cuánto tarda en llegar',
+U5e2:'a) la velocidad angular en rad/s|b) la velocidad tangencial de la muestra|c) la aceleración centrípeta (y cuántas veces g es)|d) cuántas vueltas da en un minuto|e) por qué separa los componentes',
+U5e3:'a) la velocidad angular|b) el período|c) la aceleración centrípeta|d) el ángulo girado en 5 s|e) qué pasa con a_c si se duplica la velocidad',
+U5e7:'a) la velocidad angular de la 2 respecto de la 1|b) cuándo se encuentran por primera vez|c) el ángulo que giró la 1 hasta ese momento|d) cuántas vueltas dio la 2',
+U5e8:'a) la aceleración centrípeta en m/s²|b) la velocidad tangencial|c) la velocidad angular|d) las rpm|f) qué pasa si la distancia al eje se reduce a la mitad',
+U5e11:'para un punto del borde, a los 5 s: a) ω|b) el ángulo girado|c) la velocidad tangencial|d) las aceleraciones tangencial y centrípeta|e) el módulo de la aceleración total',
+U5e12:'a) la aceleración angular|b) el ángulo girado hasta detenerse|c) cuántas vueltas da|d) la aceleración tangencial de un punto del borde|e) la centrípeta al principio|f) qué hace cada aceleración',
+U6e2:'el DCL del balde|la tensión del cable si el balde: 1) está en reposo|2) sube con velocidad constante|3) sube acelerando a 2 m/s²|4) sube frenando, con 2 m/s²|c) en qué caso la tensión es menor que el peso',
+U6e1:'el DCL del cuerpo en reposo|a) la fuerza horizontal mínima para moverlo|b) qué pasa si se le aplica una fuerza vertical igual al peso|c) y si es horizontal e igual al peso',
+U6e5:'el diagrama de cuerpo libre (DCL) del bloque|a) el coeficiente de rozamiento estático|b) el dinámico|c) por qué μₑ > μ_d',
+U6e6:'el DCL del bloque en el plano|a) el ángulo a partir del cual el bloque empieza a deslizar|b) con ese ángulo, la aceleración con la que baja|c) cuánto tarda en recorrer 6 m desde el reposo',
+U6e8:'b) el DCL y la 2.ª ley para cada cuerpo|c) la aceleración|d) la tensión de la cuerda',
+U6e9:'el DCL de los dos cuerpos|b) F para que suban con velocidad constante y c) la tensión|d) F para que suban con a = 2 m/s² y e) la tensión|f) si en ese momento se suprime F: la aceleración y la tensión',
+U6e16:'el DCL de los dos cuerpos|a) la F mínima para que el sistema no deslice|b) sin F (desliza, con μ_d): la aceleración y la tensión',
+U6e17:'a) el DCL de los dos cuerpos|b) la F para que m₂ suba con velocidad constante|c) la tensión|d) qué pasa si F = 120 N',
+U7e13:'c) el DCL del bloque en la situación límite|a) hasta cuánto se puede estirar el resorte para que el bloque quede quieto al soltarlo|b) qué pasa si se estira más',
+U7e14:'el DCL de los dos cuerpos|a) hacia dónde se mueve al soltarlo|b) la aceleración en ese instante|c) cuánto está estirado el resorte en la posición de equilibrio|d) la tensión en esa posición',
+U7e15:'a) el DCL de los dos cuerpos y la F mínima para que m₁ no se mueva, con el resorte sin deformar|b) si con F = 5 kgf y el resorte estirado 41 cm el bloque se mueve|c) cuánto vale el rozamiento en ese caso',
+U8e1:'la tensión del cable: a) en el punto más alto|b) en el más bajo|c) cuando pasa por el costado (cable horizontal)|d) la velocidad mínima en el punto más alto para que el cable no se afloje',
+U8e2:'a) la tensión de la cuerda|b) la velocidad angular máxima si la cuerda aguanta hasta 500 N',
+U8e3:'a) la tensión T₂ de la cuerda entre m₁ y m₂|b) la velocidad angular|d) cuál tiene mayor aceleración centrípeta',
+U8e4:'b) la velocidad angular|c) la tensión (tomá m = 5 kg)|d) qué pasa si gira más rápido|e) si puede girar con la cuerda horizontal',
+U8e5:'a) la tensión de la cuerda inferior|b) la frecuencia de rotación (rpm)|c) con qué rpm la cuerda inferior queda floja',
+U8e6:'el radio de giro|a) la normal|b) la tensión|c) con qué ω se despega del cono',
+U8e7:'a) la fuerza de rozamiento a esa velocidad|b) el coeficiente de rozamiento mínimo',
+U8e8:'a) el peralte para tomarla a 10 m/s sin rozamiento|con ese peralte y μ = 0,2: b) la velocidad máxima|c) la velocidad mínima',
+U8e9:'a) la velocidad máxima con asfalto seco, mojado y con hielo|d) si cambia para una moto',
+U8e10:'a) la fuerza neta sobre la ropa|b) qué fuerza real la provee|c) cuántas veces g es la aceleración',
+U8e11:'el radio de giro del asiento|a) la velocidad angular|b) la tensión de la cadena (silla con persona: m = 50 kg)|c) la velocidad tangencial|d) qué pasa con el ángulo si gira más rápido',
+U8e12:'a) las ecuaciones de cada cuerpo|b) la velocidad de m₁|c) su aceleración centrípeta|d) su aceleración tangencial',
+U8e13:'el radio de giro|b) las ecuaciones de Newton (vertical y radial)|c) la rapidez de la esfera',
+U9e1:'a) el trabajo de la fuerza|b) el del peso y el de la normal|c) el trabajo total',
+U9e4:'a) el trabajo de la fuerza|b) el del peso|c) el trabajo total',
+U9e10:'a) el trabajo total sobre el bloque|b) su rapidez al final de los 3,1 m',
+U9e12:'a) con qué rapidez se lanzó|b) la altura máxima',
+U9e15:'a) el trabajo de cada fuerza de A a B|b) la rapidez en B|c) qué fuerzas son constantes|d) la normal en B',
+U9e16:'a) la energía del resorte comprimido|b) la rapidez al despegarse del resorte|c) la rapidez al llegar a la rampa|d) hasta qué altura sube|e) qué distancia recorre sobre la rampa|f) qué cambiaría con rozamiento',
+U9e18:'a) la altura mínima h para completar el rizo|b) con h = 3,5·R (para practicar: R = 20 m), la rapidez y las aceleraciones en C|d) la normal en B con la altura mínima',
+U9e19:'a) dónde se detiene|b) el trabajo total del rozamiento|c) la energía mecánica inicial',
+U9e20:'a) el coeficiente de rozamiento del tramo BC|b) el trabajo del rozamiento en el arco AB',
+U9e21:'a) la velocidad y la normal en una posición θ|b) el ángulo en que pierde contacto|c) su velocidad en ese momento',
+U9e22:'a) la energía mecánica en A|f) la rapidez en B (arriba)|g) qué pasa si k es mayor',
+U9e23:'a) la altura mínima para completar el rizo|c) la rapidez en S|b) la normal en S|d) dónde es mínima la normal',
+U9e24:'b) la rapidez mínima en el punto más alto A|a) la compresión mínima del resorte para que dé la vuelta completa|c) la normal en B (a la altura del centro)|d) qué pasa si se comprime más',
+U9e25:'a) la rapidez en B|c) el trabajo del rozamiento y la energía al llegar al resorte (C)|d) la rapidez en C|e) la compresión máxima',
+U9e26:'a) qué altura alcanza en el segundo plano|b) con qué rapidez vuelve a B|c) el trabajo del rozamiento hasta la altura máxima',
+U9e27:'a) la rapidez en B|b) la rapidez arriba del rizo (D)|c) la normal en B y en D|e) la rapidez al llegar al resorte|f) la compresión máxima',
+U9e28:'a) la energía mecánica inicial|b) la rapidez en B|c) la rapidez arriba del rizo (D)|e) qué distancia recorre en el tramo horizontal hasta frenar|f) la normal en cada punto',
+U9e29:'a) la energía mecánica en A|b) la rapidez en B|c) el trabajo del rozamiento|d) la rapidez en C|e) cuánto comprime el segundo resorte|g) qué pasa si μ es menor',
+U9e30:'a) la energía mecánica en A|b) el trabajo del rozamiento en cada tramo|c) la energía mecánica en D|d) la rapidez en D|e) cuánto comprime el resorte',
+U10e1:'a) la variación de la cantidad de movimiento|b) el impulso|c) la fuerza media de frenado|d) por qué es negativa|e) qué pasa si frena en la mitad del tiempo',
+U10e2:'a) la variación de la cantidad de movimiento del martillo|c) la fuerza media sobre el martillo|d) la que hace el martillo sobre la pieza|e) por qué es tan grande',
+U10e6:'a) las cantidades de movimiento y Δ<i class="vc">p</i>|c) el módulo del impulso|d) el módulo de la fuerza media',
+U10e10:'la posición del centro de masa',
+U10e14:'a) la velocidad del centro de masa|b) la cantidad de movimiento total|c) cuánto vale vista desde el centro de masa',
+U10e17:'a) las velocidades después del choque|b) la energía cinética final (para comprobar que se conserva)',
+U10e18:'a) la velocidad de los dos vagones juntos|b) cuánta energía cinética se pierde',
+U10e19:'a) la velocidad de la segunda partícula después del choque|b) si el choque es elástico',
+U10e20:'a) las velocidades después del choque|b) qué porcentaje de energía cinética se pierde|c) qué mide e',
+U10e21:'la velocidad de B después del choque y la masa de B',
+U10e23:'las velocidades de los dos cuerpos después del choque',
+U10e24:'las rapideces de las dos esferas después del choque y si es elástico',
+U10e28:'las velocidades de las dos esferas después del choque',
+U10e29:'a) la velocidad del conjunto justo después del choque|b) el coeficiente de rozamiento de la rampa|d) qué se conserva en cada etapa'};
+Object.entries(PIDE).forEach(([id,t])=>{const e=LV(id);if(e.mk)throw 'PIDE mk '+id;e.q+=`<span class="pide"><b>📋 Te piden:</b> ${t.split('|').map(x=>`<span class="pi">${x}</span>`).join('')}</span>`});
+
+// ---------- TP 8 ej. 1: un dibujo para cada posición del círculo vertical ----------
+const VC=(pos,tit,o={})=>{const cx=150,cy=140,R=85,P={arriba:[cx,cy-R],abajo:[cx,cy+R],lado:[cx+R,cy]}[pos],[x,y]=P;
+ let s=`<circle cx="${cx}" cy="${cy}" r="${R}" fill="none" stroke="#64748b" stroke-width="2" stroke-dasharray="5 4"/><circle cx="${cx}" cy="${cy}" r="4" fill="#444"/>`+L_(cx,cy,x,y,'#444',1.5)+UT(pos=='lado'?cx+R/2:cx-14,pos=='lado'?cy+18:(cy+y)/2+4,'0,6 m',12,'#222',pos=='lado'?'middle':'end');
+ const v={arriba:[-46,0],abajo:[46,0],lado:[0,-46]}[pos];s+=ARW(x,y,v[0],v[1],'#16a34a','v');
+ if(!o.noT){const d=[(cx-x)/R*46,(cy-y)/R*46];s+=ARW(x+(pos=='arriba'?-6:0),y,d[0],d[1],'#dc2626','T')}
+ s+=ARW(x+(pos=='arriba'?12:0),y,0,pos=='abajo'?42:46,'#7c3aed','P');
+ return s+BALL(x,y,10)+UT(160,18,tit,12,'#222','middle',700)};
+const e1=LV('U8e1');
+e1.fig=()=>`<circle cx="150" cy="145" r="95" fill="none" stroke="#64748b" stroke-width="2" stroke-dasharray="5 4"/><circle cx="150" cy="145" r="4" fill="#444"/>`+L_(150,145,150,50,'#444',1.5)+UT(144,100,'0,6 m',12,'#222','end')+BALL(150,50,10)+BALL(150,240,7,'#cbd5e1')+BALL(245,145,7,'#cbd5e1')+UT(170,44,'a) arriba',12,'#222','start',700)+UT(170,262,'b) abajo',12,'#222','start',700)+UT(258,130,'c) cable',12,'#222','start',700)+UT(258,145,'horizontal',12,'#222','start',700)+UT(160,282,'Círculo vertical, ω constante',12,'#222','middle',700);
+ST('U8e1','Despejá').fig=ST('U8e1','a) Arriba').fig=()=>VC('arriba','a) Arriba: T y P apuntan hacia el centro');
+ST('U8e1','b) Despejá').fig=ST('U8e1','b) Abajo').fig=()=>VC('abajo','b) Abajo: T hacia el centro, P hacia afuera');
+ST('U8e1','c) Horizontal').fig=()=>VC('lado','c) Cable horizontal: P es tangente');
+ST('U8e1','d) Despejá').fig=ST('U8e1','d) v mínima').fig=()=>VC('arriba','d) Arriba con T = 0: solo el peso',{noT:1});
+Object.assign(ST('U8e1','c) Horizontal'),{q:'c) Ahora el bloque pasa por el <b>costado</b> del círculo: el cable queda <b>horizontal</b>. El peso es vertical, o sea tangente a la circunferencia: no apunta al centro. ¿Cuánto vale la tensión?',h:'En el eje radial solo queda la tensión: Σ F_r = m·a_c → T = m·a_c.',w:'1 kg · 23,69 m/s².'});
+
+// ---------- TP 3 ej. 15: el gráfico v(t) mostraba la respuesta; ahora aparece recién al final ----------
+const e15=LV('U2e15'),g15=e15.fig;
+e15.fig=()=>{const X=[20,113,230,300];let s=`<rect x="0" y="176" width="320" height="34" fill="#8a8f98"/>`+L_(14,193,306,193,'#fff',2,'stroke-dasharray="10 8"');
+ [['#16a34a','acelera','a = 3 m/s²','durante 8 s'],['#2563eb','v constante','','durante 10 s'],['#dc2626','frena','hasta parar','en 6 s']].forEach(([c,a,b,d],i)=>{const m=(X[i]+X[i+1])/2;s+=`<rect x="${X[i]}" y="214" width="${X[i+1]-X[i]-3}" height="8" fill="${c}"/>`+UT(m,240,a,12,c,'middle',700)+(b?UT(m,256,b,11):'')+UT(m,b?272:256,d,11)});
+ return s+CAR(36,176,'#4f46e5',.9)+UT(160,40,'Tres tramos (parte del reposo)',13,'#222','middle',700)};
+ST('U2e15','Gráfico').fig=g15;
+})();
+// ===== Física I · UADE (v17): en dinámica el alumno arma el DCL (fuerzas reales con su dirección) y Σ F con signos; simulaciones con barras de fuerzas =====
+(()=>{
+const LV=id=>{const e=EX.find(x=>x.id==id);if(!e)throw 'DYN '+id;return e};
+const IXN=(e,name)=>{const i=e.pasos.findIndex(s=>s.n==name);if(i<0)throw 'DYN '+e.id+' · '+name;return i};
+// DCL: cfg = {B, rect, B2, rect2, rot, bn, bg, F, ok, S, tm, tml, K, axn, axs, dclw, sumw}; at = nombre del paso (se inserta antes) o {rep:nombre}
+const DCL=(id,cfg,at,nm=['DCL','Σ F'])=>{const e=LV(id);Object.assign(e,cfg);const st=[{k:'dcl',n:nm[0]},{k:'suma',n:nm[1]}];
+ if(at==null)e.pasos.unshift(...st);else if(at.rep){const i=IXN(e,at.rep);e.pasos.splice(i,1,...st)}else{const i=IXN(e,at);e.pasos.splice(i,0,...st)}
+ if(e.sim)e.simDesde=e.pasos.findIndex(s=>s.k=='suma')+1};
+const U=(a,l)=>[Math.cos(rad(a))*l,-Math.sin(rad(a))*l];           // vector de largo l con ángulo a (grados, antihorario desde +x)
+const AXS=(x,y,a,lx='+x',ly='+y')=>{const c='#64748b';return ARW(x,y,...U(a,40),c,'')+ARW(x,y,...U(a+90,40),c,'')+UT(x+U(a,52)[0],y+U(a,52)[1]+4,lx,12,c)+UT(x+U(a+90,52)[0],y+U(a+90,52)[1]+4,ly,12,c)};
+const SIMAT=(id,sim)=>{const e=LV(id);e.sim=sim;const i=e.pasos.findIndex(s=>s.k=='suma');e.simDesde=i<0?0:i+1};
+const DIST={Fm:{d:[0,-50],n:'«Fuerza del movimiento»'}}; // distractor: no existe
+
+// ---------- U6e1 · Fuerzas sin cuentas (cuerpo en reposo sobre la mesa) ----------
+DCL('U6e1',{B:[125,186],rect:[70,40],bg:FLOOR,F:{P:{d:[0,62]},N:{d:[0,-62]},F:{d:[70,0],n:'F'}},ok:['P','N'],
+ S:[{a:'Σ Fᵧ',r:'0',e:['+N','-P']}],tm:['N','P','F'],axn:'Eje y hacia arriba. Está en reposo: a = 0.',
+ dclw:'Está quieto y nadie lo empuja: solo la Tierra lo atrae (peso) y la mesa lo sostiene (normal).'});
+
+// ---------- U6e5 · Rozamiento estático y dinámico ----------
+DCL('U6e5',{B:[125,186],rect:[70,40],bg:FLOOR,F:{P:{d:[0,60]},N:{d:[0,-60]},F:{d:[72,0],n:'F'},Fr:{d:[-58,0]},...DIST},ok:['P','N','F','Fr'],
+ S:[{a:'Σ Fₓ',r:'0',e:['+F','-Fr']},{a:'Σ Fᵧ',r:'0',e:['+N','-P']}],tm:['F','Fr','N','P'],
+ axn:'Eje x hacia donde tira F, eje y hacia arriba. Justo antes de deslizar (y también con velocidad constante) la aceleración es cero.',
+ dclw:'Sobre el bloque: el peso, la normal del piso, la fuerza F que tira y el rozamiento, que se opone a que deslice.'});
+SIMAT('U6e5',(()=>{const ph=t=>t<4?{F:2*t,Fr:2*t,x:0,v:0,txt:'Quieto: el rozamiento estático iguala a F'}:t<5?{F:8,Fr:4,x:(t-4)**2,v:2*(t-4),txt:'¡Arranca! Ahora roza con μ_d: Fr = 4 kgf'}:{F:4,Fr:4,x:1+2*(t-5),v:2,txt:'F = Fr: velocidad constante'};
+ return {T:8,at:ph,base:FLOOR+L_(14,262,306,262,'#222',1.5),draw:(f,hd)=>{const x=40+f.x*26;return UBK(x,166,60,40,'#f97316','20 kgf')+ARW(x+60,186,6+f.F*7,0,'#0ea5e9','F')+(f.Fr>0?ARW(x,200,-(4+f.Fr*7),0,'#d97706','Fr'):'')+UT(160,30,f.txt,12,'#222','middle',700)},
+ panel:(f,hd,c)=>PNL('Fuerzas (kgf)',[{n:'F',v:f.F,mx:10,col:'#0ea5e9'},{n:'Fr',v:f.Fr,mx:10,col:'#d97706'},{n:'ΣF',v:f.F-f.Fr,mx:10,col:ZZ}],hd,c),ro:f=>` · v = ${nf(f.v)} m/s`}})());
+
+// ---------- U6e6 · Plano inclinado (37°) ----------
+{const a=37,r=rad(a),C=[129,144];
+ DCL('U6e6',{B:C,rect:[44,32],rot:-a,bg:FU_PLANO(37,{al:'θ',tit:'Plano con rozamiento'}),F:{P:{d:[0,62]},N:{d:U(a+90,55)},Fr:{d:U(a,52)},...DIST},ok:['P','N','Fr'],
+  K:{P:[['Pₓ',[-Math.cos(r)*37,Math.sin(r)*37]],['Pᵧ',[Math.sin(r)*50,Math.cos(r)*50]]]},
+  S:[{a:'Σ Fₓ',r:'0',e:['+Fr','-Pₓ']},{a:'Σ Fᵧ',r:'0',e:['+N','-Pᵧ']}],tm:['Fr','Pₓ','Pᵧ','N','P'],tml:{'Pₓ':'P·sen θ','Pᵧ':'P·cos θ'},
+  axs:AXS(225,70,a),axn:'Ejes inclinados: x a lo largo del plano (hacia arriba), y perpendicular al plano. Justo antes de deslizar, a = 0. El peso se descompone en Pₓ y Pᵧ.',
+  dclw:'Sobre el bloque: peso (vertical), normal (perpendicular al plano) y rozamiento (a lo largo del plano, en contra de hacia donde tiende a deslizar: hacia arriba).'},null);
+ SIMAT('U6e6',(()=>{const m=1,g=10,me=.75,md=.5,t1=3,th=t=>t<t1?15+(36.87-15)*t/t1:36.87,s=t=>t<t1?0:(t-t1)**2;
+  return {T:t1+2.45,at:t=>{const q=th(t),Px=m*g*Math.sin(rad(q)),N=m*g*Math.cos(rad(q));return {q,Px,N,Frm:me*N,Fr:t<t1?Px:md*N,s:s(t),v:t<t1?0:2*(t-t1)}},
+  base:f=>{const r=rad(f.q),L=290,xt=15+L*Math.cos(r),yt=250-L*Math.sin(r);return `<polygon points="15,250 ${xt},250 ${xt},${yt}" fill="#a8a29e"/>`+UT(70,244,nf(f.q)+'°',12,'#222','start',700)},
+  draw:(f,hd)=>{const r=rad(f.q),d=230-f.s*30,x=15+d*Math.cos(r)-16*Math.sin(r),y=250-d*Math.sin(r)-16*Math.cos(r);
+   return `<g transform="translate(${x} ${y}) rotate(${-f.q})"><rect x="-20" y="-15" width="40" height="30" rx="4" fill="#f97316" stroke="#7c2d12"/></g>`+ARW(x,y,0,f.m||48,'#16a34a','P')+ARW(x,y,...U(f.q+90,40),'#7c3aed','N')+ARW(x,y,...U(f.q,10+f.Fr*6),'#d97706','Fr')+UT(160,24,f.v>0?'¡Desliza! a = g·(sen θ − μ_d·cos θ)':'Va aumentando θ: el bloque sigue quieto',12,'#222','middle',700)},
+  panel:(f,hd,c)=>PNL('Fuerzas (N), m = 1 kg',[{n:'P·sen θ',v:f.Px,mx:9,col:'#16a34a'},{n:'Fr',v:f.Fr,mx:9,col:'#d97706'},{n:'μₑ·N',v:f.Frm,mx:9,col:'#64748b'}],hd,c),ro:f=>` · θ = ${nf(f.q)}°`}})())}
+
+// ---------- U6e8 · Dos cuerpos y una cuerda ----------
+DCL('U6e8',{B:[200,186],rect:[60,40],B2:[85,186],rect2:[50,40],bn:['m₁ (5 kg)','m₂ (3 kg)'],bg:FLOOR+L_(110,186,170,186,'#222',2)+UT(200,160,'m₁',13,'#222','middle',700)+UT(85,160,'m₂',13,'#222','middle',700),
+ F:{P1:{d:[0,52],n:'P₁'},N1:{d:[0,-52],n:'N₁'},F:{d:[70,0],n:'F'},T1:{d:[-36,0],n:'T'},P2:{d:[0,52],n:'P₂',b:2},N2:{d:[0,-52],n:'N₂',b:2},T2:{d:[36,0],n:'T',b:2},Fr:{d:[-40,0],n:'Fr',b:2}},
+ ok:['P1','N1','F','T1','P2','N2','T2'],S:[{a:'m₁: Σ Fₓ',r:'m₁·a',e:['+F','-T']},{a:'m₂: Σ Fₓ',r:'m₂·a',e:['+T']}],tm:['F','T','Fr','N','P'],
+ axn:'Eje x hacia la derecha (hacia donde tira F). En y no hay aceleración: N = P en cada cuerpo.',
+ dclw:'Cada cuerpo tiene su peso y su normal. La cuerda tira de m₁ hacia atrás y de m₂ hacia adelante (misma T). La mesa no tiene rozamiento.'},{rep:'b) Newton'},['b) DCL','b) Σ F']);
+
+// ---------- U6e9 · Dos cuerpos en el plano de 30° ----------
+{const a=30;
+ DCL('U6e9',{B:[157,148],rect:[44,32],B2:[95,187],rect2:[40,28],rot:-a,bn:['m₁ (60 kg)','m₂ (40 kg)'],
+  bg:FU_PLANO(30,{u:.62,lab:'',extra:`<g transform="translate(${20+.35*270*Math.cos(rad(30))} ${246-.35*270*Math.sin(rad(30))}) rotate(-30)"><rect x="-20" y="-28" width="40" height="28" rx="4" fill="#2563eb"/><line x1="20" y1="-14" x2="${.27*270-20}" y2="-14" stroke="#222" stroke-width="2"/></g>`})+UT(180,128,'m₁',13,'#222','middle',700)+UT(80,166,'m₂',13,'#222','middle',700),
+  F:{P1:{d:[0,56],n:'P₁'},N1:{d:U(a+90,48),n:'N₁'},F:{d:U(a,64),n:'F'},T1:{d:U(a+180,34),n:'T'},P2:{d:[0,52],n:'P₂',b:2},N2:{d:U(a+90,44),n:'N₂',b:2},T2:{d:U(a,34),n:'T',b:2}},
+  ok:['P1','N1','F','T1','P2','N2','T2'],
+  S:[{a:'m₁: Σ Fₓ',r:'m₁·a',e:['+F','-T','-Pₓ']},{a:'m₂: Σ Fₓ',r:'m₂·a',e:['+T','-Pₓ']}],tm:['F','T','Pₓ','N','P'],tml:{'Pₓ':'Pₓ (= P·sen 30° de ese cuerpo)'},
+  axs:AXS(250,80,a),axn:'Eje x a lo largo del plano, hacia arriba. Sin rozamiento. En cada cuerpo, solo la componente Pₓ del peso actúa a lo largo del plano.',
+  dclw:'Cada cuerpo: su peso, su normal (perpendicular al plano) y la cuerda. F tira de m₁ hacia arriba; la cuerda tira de m₁ hacia abajo y de m₂ hacia arriba.'},{rep:'Newton'},['DCL','Σ F']);
+ SIMAT('U6e9',(()=>{const t1=2,t2=.8,s=t=>t<t1?t*t:t<t1+t2?4+4*(t-t1)-2.5*(t-t1)**2:5.6-2.5*(t-t1-t2)**2,v=t=>t<t1?2*t:t<t1+t2?4-5*(t-t1):-5*(t-t1-t2);
+  return {T:4,at:t=>({s:s(t),v:v(t),F:t<t1?700:0,Tn:t<t1?280:0,a:t<t1?2:-5}),base:FU_PLANO(30,{u:.001,lab:''}).replace(/<g transform[^]*?<\/g>/,''),
+  draw:(f,hd)=>{const r=rad(30),P=d=>[20+d*Math.cos(r)-15*Math.sin(r),246-d*Math.sin(r)-15*Math.cos(r)],d2=50+f.s*20,d1=d2+60,[x1,y1]=P(d1),[x2,y2]=P(d2);
+   const bx=(x,y,c,l)=>`<g transform="translate(${x} ${y}) rotate(-30)"><rect x="-18" y="-13" width="36" height="26" rx="4" fill="${c}"/><text x="0" y="5" font-size="11" fill="#fff" text-anchor="middle">${l}</text></g>`;
+   return (f.Tn>0?L_(x2+15,y2-9,x1-16,y1+9,'#222',2):`<path d="M${x2+15} ${y2-9} Q${(x1+x2)/2} ${(y1+y2)/2+14} ${x1-16} ${y1+9}" fill="none" stroke="#222" stroke-width="2"/>`)+bx(x1,y1,'#f97316','m₁')+bx(x2,y2,'#2563eb','m₂')+(f.F?ARW(x1+16,y1-9,...U(30,60),'#0ea5e9','F'):'')+UT(160,24,f.F?'F = 700 N: suben con a = 2 m/s²':f.v>0?'Sin F: siguen subiendo, pero frenan (T = 0)':'Se detienen y bajan juntos (T = 0)',12,'#222','middle',700)},
+  panel:(f,hd,c)=>PNL('Fuerzas (N)',[{n:'F',v:f.F,mx:800,col:'#0ea5e9'},{n:'T',v:f.Tn,mx:800,col:'#dc2626'}],hd,c),ro:f=>` · a = ${nf(f.a)} m/s²`}})())}
+
+// ---------- U6e16 · Bloques en el borde (con F, a punto de deslizar) ----------
+DCL('U6e16',{B:[70,93],B2:[217,163],bn:['m₁ (sobre el piso)','m₂ (sobre el plano)'],
+ bg:UPL('0,110 150,110 290,227 0,227','#86b84a')+UPOL(150,101)+L_(95,94,150,90,'#222',1.5)+L_(158,108,222,162,'#222',1.5)+`<rect x="0" y="227" width="320" height="12" fill="#8a8f98"/>`+ARC(290,227,40,180,140)+UT(244,222,'40°',12,'#222','end'),
+ F:{P1:{d:[0,40],n:'P₁'},N1:{d:[0,-42],n:'N₁'},F:{d:U(240,46),n:'F'},T1:{d:[46,0],n:'T'},Fr1:{d:[-40,0],n:'Fr₁'},P2:{d:[0,44],n:'P₂',b:2},N2:{d:U(50,40),n:'N₂',b:2},T2:{d:U(140,56),n:'T',b:2},Fr2:{d:U(140,30),n:'Fr₂',b:2}},
+ ok:['P1','N1','F','T1','Fr1','P2','N2','T2','Fr2'],
+ S:[{a:'m₁: Σ Fₓ',r:'0',e:['+T','-Fr','-Fₓ']},{a:'m₁: Σ Fᵧ',r:'0',e:['+N','-P','-Fᵧ']},{a:'m₂: Σ Fₓ',r:'0',e:['+Pₓ','-T','-Fr']}],tm:['T','Fr','Fₓ','Fᵧ','N','P','Pₓ'],tml:{'Fₓ':'F·cos 60°','Fᵧ':'F·sen 60°','Pₓ':'P₂·sen 40°'},
+ axn:'m₁: eje x hacia la polea, eje y hacia arriba. m₂: eje x hacia abajo del plano. Están a punto de deslizar: a = 0, y los rozamientos se oponen a la tendencia (m₂ tiende a bajar).',
+ dclw:'m₁: peso, normal, F (empuja hacia abajo y hacia atrás), la cuerda (hacia la polea) y el rozamiento (en contra de la tendencia). m₂: peso, normal (perpendicular al plano), la cuerda y el rozamiento (los dos hacia arriba del plano).'},'Fuerzas');
+SIMAT('U6e16',(()=>{const a=3.304;return {T:1.2,at:t=>({s:a*t*t/2,v:a*t}),base:UPL('0,110 150,110 290,227 0,227','#86b84a')+UPOL(150,101)+`<rect x="0" y="227" width="320" height="12" fill="#8a8f98"/>`,
+ draw:(f,hd)=>{const d=f.s*25,x1=70+d,r=rad(40),x2=217-(46-d)*0+d*Math.cos(r),y2=163+d*Math.sin(r);return L_(x1+25,94,150,90,'#222',1.5)+L_(158,108,x2-8,y2-12,'#222',1.5)+UBX(x1,110,0,'m₁','#2563eb',50,34)+`<circle cx="${x2}" cy="${y2}" r="16" fill="#2563eb"/>`+UT(x2,y2+5,'m₂',11,'#fff')+UT(160,24,'Sin F: m₂ baja y arrastra a m₁ (a ≈ 3,3 m/s²)',12,'#222','middle',700)},
+ panel:(f,hd,c)=>PNL('Fuerzas (N)',[{n:'P₂ₓ',v:64.3,mx:70,col:'#16a34a'},{n:'T',v:15.9,mx:70,col:'#dc2626'},{n:'Fr₁',v:6,mx:70,col:'#d97706'},{n:'Fr₂',v:15.3,mx:70,col:'#b45309'}],hd,c),ro:f=>` · v = ${nf(f.v)} m/s`}})());
+
+// ---------- U6e17 · Transporte inclinado ----------
+DCL('U6e17',{B:[140,115],B2:[29,188],bn:['m₂ (en el plano)','m₁ (cuelga)'],
+ bg:UPL('40,40 290,232 40,232','#86b84a')+UPOL(40,32)+L_(29,32,29,170,'#222',1.5)+L_(48,26,132,90,'#222',1.5)+ARC(290,232,40,180,142)+UT(244,226,'θ = 30°',12,'#222','end')+`<rect x="0" y="232" width="320" height="12" fill="#8a8f98"/>`,
+ F:{P2:{d:[0,54],n:'P₂'},N2:{d:U(52.5,46),n:'N₂'},T2:{d:U(142.5,40),n:'T'},F:{d:U(142.5,72),n:'F'},Fr:{d:U(-37.5,26),n:'Fr'},Fc:{d:[0,-40],n:'Fuerza centrípeta'},P1:{d:[0,48],n:'P₁',b:2},T1:{d:[0,-48],n:'T',b:2}},
+ ok:['P2','N2','T2','F','Fr','P1','T1'],K:{P2:[['P₂ₓ',U(-37.5,50)]]},
+ S:[{a:'m₂: Σ Fₓ',r:'0',e:['+F','+T','-Pₓ','-Fr']},{a:'m₂: Σ Fᵧ',r:'0',e:['+N','-Pᵧ']},{a:'m₁: Σ Fᵧ',r:'0',e:['+T','-P']}],tm:['F','T','Pₓ','Pᵧ','Fr','N','P'],tml:{'Pₓ':'P₂·sen 30°','Pᵧ':'P₂·cos 30°'},
+ axn:'m₂: eje x a lo largo del plano hacia arriba, eje y perpendicular. m₁: eje y hacia arriba. Velocidad constante: a = 0 en los dos.',
+ dclw:'m₂ sube: peso, normal, la cuerda y F (las dos hacia arriba del plano) y el rozamiento (hacia abajo, en contra del movimiento). m₁: peso y cuerda. La centrípeta no va: acá no hay giro.'},{rep:'a) DCL de m₂'},['a) DCL','a) Σ F']);
+SIMAT('U6e17',(()=>{const t1=1.5,t2=.8,u=[-.793,-.609];return {T:t1+t2,at:t=>{const p=t<t1,tt=t-t1;return {s2:p?t:t1+tt+12.8*tt*tt/2,s1:p?t:t1+tt+5*tt*tt,F:p?3:120,Tn:p?40:0,v:p?1:1+12.8*tt}},
+ base:UPL('40,40 290,232 40,232','#86b84a')+UPOL(40,32)+`<rect x="0" y="232" width="320" height="12" fill="#8a8f98"/>`,
+ draw:(f,hd)=>{const x2=170+u[0]*f.s2*12,y2=140+u[1]*f.s2*12,y1=110+f.s1*12,slack=f.Tn==0;
+  return (slack?`<path d="M29 32 Q14 ${(32+y1)/2} 29 ${y1-14}" fill="none" stroke="#222" stroke-width="1.5"/><path d="M48 26 Q${(48+x2)/2} ${(26+y2)/2+30} ${x2-10} ${y2-14}" fill="none" stroke="#222" stroke-width="1.5"/>`:L_(29,32,29,y1-14,'#222',1.5)+L_(48,26,x2-10,y2-14,'#222',1.5))+UBX(29,y1+14,0,'m₁','#2563eb',30,30)+UBX(x2,y2,37.5,'m₂','#2563eb',44,30)+ARW(x2+14,y2-10,...U(217,20+f.F*.5),'#0ea5e9','F')+UT(180,24,slack?'F = 120 N: m₂ se adelanta, la cuerda se afloja (T = 0) y m₁ cae libre':'F = 3 N: suben y bajan con velocidad constante',11,'#222','middle',700)},
+ panel:(f,hd,c)=>PNL('Fuerzas (N)',[{n:'F',v:f.F,mx:130,col:'#0ea5e9'},{n:'T',v:f.Tn,mx:130,col:'#dc2626'}],hd,c),ro:f=>` · v(m₂) = ${nf(f.v)} m/s`}})());
+
+// ---------- U7din · El dinamómetro (números al azar) ----------
+{const o=PBC.U7din;if(!o)throw 'DYN U7din';o.dcl=1;
+ o.x=v=>({B:[160,162],rect:[50,44],bg:`<rect x="100" y="10" width="120" height="10" fill="#64748b"/>`+(()=>{let p='M160 20';for(let i=1;i<=12;i++)p+=` L${i%2?172:148} ${20+i*10}`;return `<path d="${p} L160 140" fill="none" stroke="#334155" stroke-width="2.5"/>`})(),
+  F:{Fe:{d:[0,-62],n:'F_e'},P:{d:[0,62]},N:{d:[-60,0]}},ok:['Fe','P'],S:[{a:'Σ Fᵧ',r:'0',e:['+Fe','-P']}],tm:['Fe','P','N'],tml:{Fe:'F_e'},axn:'Eje y hacia arriba. En equilibrio: a = 0.',
+  dclw:'Cuelga del resorte: el resorte estirado tira hacia arriba y la Tierra hacia abajo. No toca ninguna superficie: no hay normal.'});
+ o.sim=v=>{const m=v.m,k=v.k,g=10,xe=m*g/k,w=Math.sqrt(k/m),b=.12*w,sc=70/xe,x=t=>xe*(1-Math.exp(-b*t)*Math.cos(w*t));
+  return {T:Math.min(8,30/b),at:t=>({x:x(t),Fe:k*x(t)}),base:`<rect x="100" y="10" width="120" height="10" fill="#64748b"/>`+L_(230,40,230,40+2*70,'#94a3b8',1)+L_(222,110,238,110,'#dc2626',2)+UT(242,114,'equilibrio',10,'#dc2626','start'),
+   draw:(f,hd)=>{const y=40+f.x*sc;let p='M160 20';for(let i=1;i<=12;i++)p+=` L${i%2?172:148} ${20+i*(y-20)/13}`;return `<path d="${p} L160 ${y}" fill="none" stroke="#334155" stroke-width="2.5"/>`+UBK(135,y,50,44,'#f97316','m')+UT(160,282,'Se suelta con el resorte sin estirar',12,'#222','middle',700)},
+   panel:(f,hd,c)=>PNL('Fuerzas (N)',[{n:'P',v:m*g,mx:2*m*g,col:'#16a34a'},{n:'F_e',v:f.Fe,mx:2*m*g,col:'#db2777'}],hd,c),ro:f=>` · Δx = ${nf(f.x*100)} cm`}}}
+
+// ---------- U7e13 · ¿Hasta dónde se queda quieto? ----------
+DCL('U7e13',{B:[156,188],rect:[52,36],bg:FU_RES({tit:'Superficie rugosa (μₑ = 0,4)'}),F:{P:{d:[0,56]},N:{d:[0,-56]},Fe:{d:[-62,0],n:'F_e'},Fr:{d:[56,0]},...DIST},ok:['P','N','Fe','Fr'],
+ S:[{a:'Σ Fₓ',r:'0',e:['+Fr','-Fe']},{a:'Σ Fᵧ',r:'0',e:['+N','-P']}],tm:['Fe','Fr','N','P'],tml:{Fe:'F_e'},axn:'Eje x hacia la derecha (alejándose de la pared). Está quieto: a = 0.',
+ dclw:'El resorte estirado tira del bloque hacia la pared. El rozamiento estático se opone a que deslice: apunta alejándose del resorte. Y además el peso y la normal.'},{rep:'c) DCL'},['c) DCL','Σ F']);
+
+// ---------- U7e14 · Resorte y bloque colgante ----------
+DCL('U7e14',{B:[156,132],rect:[52,36],B2:[264,220],rect2:[40,40],bn:['m₁ (sobre la mesa)','m₂ (cuelga)'],
+ bg:`<rect x="0" y="150" width="240" height="12" fill="#7a5c3a"/><rect x="0" y="70" width="14" height="80" fill="#64748b"/>`+SPR(14,130,132)+`<circle cx="252" cy="150" r="12" fill="none" stroke="#475569" stroke-width="4"/>`+L_(182,128,252,138,'#222',2)+L_(264,150,264,200,'#222',2)+UT(156,104,'m₁',13,'#222','middle',700)+UT(296,224,'m₂',13,'#222','middle',700),
+ F:{P1:{d:[0,50],n:'P₁'},N1:{d:[0,-50],n:'N₁'},T1:{d:[62,0],n:'T'},Fe:{d:[-58,0],n:'F_e'},Fr:{d:[-40,0],n:'Fr'},P2:{d:[0,48],n:'P₂',b:2},T2:{d:[0,-48],n:'T',b:2}},
+ ok:['P1','N1','T1','Fe','P2','T2'],S:[{a:'m₁: Σ Fₓ',r:'m₁·a',e:['+T','-Fe']},{a:'m₂: Σ F (hacia abajo +)',r:'m₂·a',e:['+P','-T']}],tm:['T','Fe','Fr','N','P'],tml:{Fe:'F_e'},
+ axn:'m₁: eje x hacia la polea. m₂: positivo hacia abajo (así a es la misma para los dos). Cuando el resorte se estira, F_e tira de m₁ hacia la pared.',
+ dclw:'m₁: peso, normal, la cuerda (hacia la polea) y el resorte (hacia la pared). La mesa no tiene rozamiento. m₂: peso y cuerda.'},{rep:'Newton'},['DCL','Σ F']);
+SIMAT('U7e14',(()=>{const A=1/30,w=Math.sqrt(600/5),sc=900;return KIN({T:2.4,at:t=>({x:A*(1-Math.cos(w*t))*100,a:A*w*w*Math.cos(w*t),Fe:600*A*(1-Math.cos(w*t)),T:20-2*A*w*w*Math.cos(w*t)}),
+ base:`<rect x="0" y="150" width="240" height="12" fill="#7a5c3a"/><rect x="0" y="70" width="14" height="80" fill="#64748b"/><circle cx="252" cy="150" r="12" fill="none" stroke="#475569" stroke-width="4"/>`+L_(130+sc/30,96,130+sc/30,104,'#dc2626',2)+UT(130+sc/30+26,92,'equilibrio',10,'#dc2626'),
+ draw:(f,hd)=>{const d=f.x/100*sc;return SPR(14,130+d,132)+UBK(130+d,114,52,36,'#f97316','m₁')+L_(182+d,128,252,138,'#222',2)+L_(264,150,264,168+d,'#222',2)+UBK(244,168+d,40,40,'#2563eb','m₂')+UT(160,30,'Oscila: la fuerza del resorte cambia, a no es constante',11,'#222','middle',700)},
+ plots:[['Δx','x','cm','#db2777'],['a','a','m/s²','#dc2626']],ro:f=>` · Δx = ${nf(f.x)} cm · a = ${nf(f.a)} m/s²`})})());
+
+// ---------- U7e15 · Resorte, rozamiento y colgante (a: resorte sin deformar) ----------
+DCL('U7e15',{B:[156,132],rect:[52,36],B2:[264,220],rect2:[40,40],bn:['m₁ (sobre el piso)','m₂ (cuelga)'],
+ bg:`<rect x="0" y="150" width="240" height="12" fill="#7a5c3a"/><rect x="0" y="70" width="14" height="80" fill="#64748b"/>`+SPR(14,130,132)+`<circle cx="252" cy="150" r="12" fill="none" stroke="#475569" stroke-width="4"/>`+L_(182,128,252,138,'#222',2)+L_(264,150,264,200,'#222',2)+UT(122,104,'m₁',13,'#222','middle',700)+UT(296,224,'m₂',13,'#222','middle',700),
+ F:{P1:{d:[0,46],n:'P₁'},F:{d:[0,76],n:'F'},N1:{d:[0,-56],n:'N₁'},T1:{d:[62,0],n:'T'},Fr:{d:[-56,0],n:'Fr'},Fe:{d:[-40,0],n:'F_e'},P2:{d:[0,48],n:'P₂',b:2},T2:{d:[0,-48],n:'T',b:2}},
+ ok:['P1','F','N1','T1','Fr','P2','T2'],S:[{a:'m₁: Σ Fₓ',r:'0',e:['+T','-Fr']},{a:'m₁: Σ Fᵧ',r:'0',e:['+N','-P','-F']},{a:'m₂: Σ Fᵧ',r:'0',e:['+T','-P']}],tm:['T','Fr','F','Fe','N','P'],tml:{Fe:'F_e'},
+ axn:'a) Resorte sin deformar: no hace fuerza. m₁: x hacia la polea, y hacia arriba. A punto de moverse: a = 0.',
+ dclw:'m₁: peso, F (empuja hacia abajo), normal, la cuerda (hacia la polea) y el rozamiento (en contra: hacia la pared). El resorte sin deformar no hace fuerza. m₂: peso y cuerda.'},null,['a) DCL','a) Σ F']);
+
+// ---------- U6e2 · El balde: simulación de los cuatro casos ----------
+SIMAT('U6e2',(()=>{const ph=[[1.5,0,400,'En reposo: T = P'],[1.5,2,480,'Arranca y sube acelerando: T > P'],[1.5,0,400,'Sube con velocidad constante: T = P'],[1.5,-2,320,'Sube frenando: T < P']];
+ const at=t=>{let y=0,v=0,i=0,tt=t;for(;i<3&&tt>ph[i][0];i++){y+=v*ph[i][0]+ph[i][1]*ph[i][0]**2/2;v+=ph[i][1]*ph[i][0];tt-=ph[i][0]}const p=ph[i];return {y:y+v*tt+p[1]*tt*tt/2,v:v+p[1]*tt,a:p[1],T:p[2],txt:p[3]}};
+ return {T:6,at,base:'<rect x="110" y="0" width="100" height="10" fill="#8a8f98"/>',draw:(f,hd)=>{const y=214-f.y*15;return L_(160,10,160,y-28,'#222',2.5)+UBK(132,y-28,56,40,'#f97316','40 kg')+ARW(150,y-8,0,44,'#16a34a','P')+ARW(170,y-28,0,-(f.T/400*44),'#dc2626','T')+UT(160,282,f.txt,12,'#222','middle',700)},
+ panel:(f,hd,c)=>PNL('Fuerzas (N)',[{n:'P',v:400,mx:500,col:'#16a34a'},{n:'T',v:f.T,mx:500,col:'#dc2626'},{n:'ΣF',v:f.T-400,mx:500,col:ZZ}],hd,c),ro:f=>` · a = ${nf(f.a)} m/s²`}})());
+})();
+// ===== Física I · UADE (v18): DCL en dinámica circular (TP 8) =====
+(()=>{
+const LV=id=>{const e=EX.find(x=>x.id==id);if(!e)throw 'DYN8 '+id;return e};
+const IXN=(e,name)=>{const i=e.pasos.findIndex(s=>s.n==name);if(i<0)throw 'DYN8 '+e.id+' · '+name;return i};
+const DCL=(id,cfg,at,nm=['DCL','Σ F'])=>{const e=LV(id);Object.assign(e,cfg);const st=[{k:'dcl',n:nm[0]},{k:'suma',n:nm[1]}];
+ if(at==null)e.pasos.unshift(...st);else if(at.rep){const i=IXN(e,at.rep);e.pasos.splice(i,1,...st)}else{const i=IXN(e,at);e.pasos.splice(i,0,...st)}
+ if(!/DCL/.test(e.q))e.q=e.q.replace('<b>📋 Te piden:</b> ','<b>📋 Te piden:</b> <span class="pi">el diagrama de cuerpo libre (DCL) y Σ F</span>')};
+const U=(a,l)=>[Math.cos(rad(a))*l,-Math.sin(rad(a))*l];
+const AXR=(x,y,a,t)=>ARW(x,y,...U(a,40),'#64748b','')+UT(x+U(a,54)[0],y+U(a,54)[1]+4,t,11,'#64748b','middle',700);   // un eje con su nombre
+const CF={Fcf:{d:[50,0],n:'Fuerza centrífuga'}},CP={Fc:{d:[-50,0],n:'Fuerza centrípeta'}};
+const CEN=(x,y,t='centro')=>UT(x,y,'← '+t,12,'#dc2626','start',700);
+const H_C='La centrípeta no es una fuerza más: es la resultante de las fuerzas reales que apuntan al centro. Y la centrífuga no existe para un observador quieto.';
+
+// ---------- Ej. 1 · Círculo vertical (punto más alto) ----------
+DCL('U8e1',{B:[150,64],bg:`<circle cx="150" cy="154" r="90" fill="none" stroke="#64748b" stroke-width="2" stroke-dasharray="5 4"/><circle cx="150" cy="154" r="4" fill="#444"/>`+L_(150,154,150,64,'#444',1.5)+UT(150,282,'Punto más alto del círculo',12,'#222','middle',700),
+ F:{T:{d:[0,72]},P:{d:[0,44]},Fcf:{d:[0,-50],n:'Fuerza centrífuga'}},ok:['T','P'],S:[{a:'Σ F_r (hacia el centro +)',r:'m·a_c',e:['+T','+P']}],tm:['T','P'],
+ axs:AXR(262,60,-90,'+r (al centro)'),axn:'Arriba, el centro está abajo: eje radial positivo hacia el centro (hacia abajo).',dclw:'Arriba el cable tira hacia el centro (hacia abajo) y el peso también apunta hacia abajo. '+H_C},'Despejá',['DCL arriba','Σ F arriba']);
+// ---------- Ej. 2 · La piedra que gira (vista de costado) ----------
+DCL('U8e2',{B:[232,186],bg:`<rect x="20" y="198" width="280" height="12" fill="#a8a29e"/><rect x="86" y="174" width="8" height="24" fill="#475569"/>`+L_(94,186,232,186,'#222',2)+CEN(30,160,'centro del círculo')+UT(160,240,'Vista de costado (mesa sin rozamiento)',12,'#222','middle',700),
+ F:{T:{d:[-64,0]},P:{d:[0,50]},N:{d:[0,-50]},...CF},ok:['T','P','N'],S:[{a:'Σ F_r (hacia el centro +)',r:'m·ω²·R',e:['+T']},{a:'Σ Fᵧ',r:'0',e:['+N','-P']}],tm:['T','N','P'],
+ axs:AXR(250,60,180,'+r'),axn:'Eje radial hacia el centro (a la izquierda) y eje y hacia arriba.',dclw:'La cuerda tira hacia el centro; además el peso y la normal de la mesa. '+H_C},'a) Tensión');
+// ---------- Ej. 3 · Dos bloques girando (vista desde arriba) ----------
+DCL('U8e3',{B:[140,150],B2:[270,150],bn:['m₁ (r₁ = 0,30 m)','m₂ (r₂ = 0,50 m)'],bg:`<circle cx="40" cy="150" r="6" fill="#475569"/>`+L_(40,150,270,150,'#222',2)+UT(40,130,'centro',11,'#222','middle',700)+UT(160,260,'Vista desde arriba (P y N se equilibran: no se dibujan)',11,'#222','middle',700),
+ F:{T1:{d:[-60,0],n:'T₁'},T2:{d:[48,0],n:'T₂'},Tb:{d:[-56,0],n:'T₂',b:2},Fcf:{d:[50,0],n:'Fuerza centrífuga',b:2}},ok:['T1','T2','Tb'],
+ S:[{a:'m₁: Σ F_r',r:'m₁·ω²·r₁',e:['+T₁','-T₂']},{a:'m₂: Σ F_r',r:'m₂·ω²·r₂',e:['+T₂']}],tm:['T₁','T₂'],axs:AXR(250,60,180,'+r (al centro)'),
+ axn:'Eje radial positivo hacia el centro (a la izquierda), en los dos bloques.',dclw:'La cuerda del centro tira de m₁ hacia el centro; la cuerda del medio tira de m₁ hacia afuera y de m₂ hacia el centro. '+H_C},{rep:'Ecuaciones'});
+// ---------- Ej. 4 · Péndulo cónico ----------
+DCL('U8e4',{B:[230,169],bg:`<rect x="100" y="22" width="100" height="8" fill="#64748b"/>`+L_(150,30,150,200,'#94a3b8',1,'stroke-dasharray="4 4"')+L_(150,30,230,169,'#222',2)+`<ellipse cx="150" cy="169" rx="80" ry="18" fill="none" stroke="#7c3aed" stroke-width="1.5" stroke-dasharray="5 4"/>`+UT(162,62,'θ',13)+CEN(40,250,'eje de giro: hacia el centro'),
+ F:{T:{d:U(120,64)},P:{d:[0,56]},...CP},ok:['T','P'],K:{T:[['Tₓ',[-32,0]],['Tᵧ',[0,-55]]]},
+ S:[{a:'Σ F_r (hacia el eje +)',r:'m·ω²·R',e:['+Tₓ']},{a:'Σ Fᵧ',r:'0',e:['+Tᵧ','-P']}],tm:['Tₓ','Tᵧ','T','P'],tml:{'Tₓ':'T·sen θ','Tᵧ':'T·cos θ'},
+ axs:AXR(270,230,180,'+r'),axn:'Eje radial hacia el eje de giro (a la izquierda) y eje y hacia arriba. T se descompone: T·sen θ (radial) y T·cos θ (vertical).',
+ dclw:'Solo hay dos fuerzas: la cuerda (hacia el punto de donde cuelga) y el peso. '+H_C},{rep:'Ecuaciones'});
+// ---------- Ej. 5 · Dos cuerdas y una varilla ----------
+DCL('U8e5',{B:[180,150],bg:`<rect x="116" y="30" width="8" height="240" fill="#64748b"/>`+L_(120,70,180,150,'#222',2)+L_(120,230,180,150,'#222',2)+UT(108,74,'arriba',10,'#222','end')+UT(108,234,'abajo',10,'#222','end'),
+ F:{T1:{d:U(126.9,62),n:'T₁'},T2:{d:U(233.1,58),n:'T₂'},P:{d:[0,52]},...CF},ok:['T1','T2','P'],K:{T1:[['T₁ₓ',[-37,0]]],T2:[['T₂ₓ',[-35,0]]]},
+ S:[{a:'Σ Fᵧ',r:'0',e:['+T₁ᵧ','-T₂ᵧ','-P']},{a:'Σ F_r (hacia la varilla +)',r:'m·ω²·r',e:['+T₁ₓ','+T₂ₓ']}],tm:['T₁ᵧ','T₂ᵧ','T₁ₓ','T₂ₓ','P'],
+ tml:{'T₁ᵧ':'T₁·cos θ','T₂ᵧ':'T₂·cos θ','T₁ₓ':'T₁·sen θ','T₂ₓ':'T₂·sen θ'},axs:AXR(260,250,180,'+r'),
+ axn:'Eje radial hacia la varilla y eje y hacia arriba. Las dos cuerdas forman θ con la vertical (cos θ = 0,8).',dclw:'La cuerda de arriba tira hacia arriba y hacia la varilla; la de abajo, hacia abajo y hacia la varilla. Y el peso. '+H_C},'Planteá');
+// ---------- Ej. 6 · El cuerpo sobre el cono ----------
+DCL('U8e6',{B:[244,182],bg:`<polygon points="150,40 50,250 250,250" fill="#86b84a" opacity=".85"/>`+L_(150,40,150,262,'#475569',1,'stroke-dasharray="4 4"')+L_(150,40,240,190,'#222',2)+UT(160,80,'θ',13)+CEN(30,30,'eje de giro'),
+ F:{T:{d:U(120,62)},N:{d:U(30,50)},P:{d:[0,56]},...CP},ok:['T','N','P'],
+ S:[{a:'Σ F_r (hacia el eje +)',r:'m·ω²·r',e:['+Tₓ','-Nₓ']},{a:'Σ Fᵧ',r:'0',e:['+Tᵧ','+Nᵧ','-P']}],tm:['Tₓ','Tᵧ','Nₓ','Nᵧ','P'],
+ tml:{'Tₓ':'T·sen θ','Tᵧ':'T·cos θ','Nₓ':'N·cos θ','Nᵧ':'N·sen θ'},axs:AXR(286,232,180,'+r'),
+ axn:'Eje radial hacia el eje del cono (a la izquierda) y eje y hacia arriba. La cuerda va hacia el vértice; la normal es perpendicular a la superficie, hacia afuera.',
+ dclw:'La cuerda tira hacia el vértice, la superficie empuja hacia afuera (normal) y el peso hacia abajo. '+H_C},'Planteá');
+// ---------- Ej. 7 y 9 · Curva plana (vista de frente) ----------
+const CURVA={B:[170,184],rect:[76,36],bg:`<rect x="10" y="202" width="300" height="14" fill="#64748b"/>`+UT(160,250,'Vista de frente (el auto viene hacia vos)',12,'#222','middle',700)+CEN(20,40,'centro de la curva'),
+ F:{P:{d:[0,54]},N:{d:[0,-54]},Fr:{d:[-62,0]},...CF},ok:['P','N','Fr'],S:[{a:'Σ F_r (hacia el centro +)',r:'m·v²/R',e:['+Fr']},{a:'Σ Fᵧ',r:'0',e:['+N','-P']}],tm:['Fr','N','P'],
+ axs:AXR(270,110,180,'+r'),axn:'Eje radial hacia el centro de la curva (a la izquierda) y eje y hacia arriba.',dclw:'Peso, normal y rozamiento. El rozamiento de las ruedas es la única fuerza hacia el centro: es el que hace girar al auto. '+H_C};
+DCL('U8e7',{...CURVA},null);DCL('U8e9',{...CURVA},'a) Despejá');
+// ---------- Ej. 8 · Curva peraltada (sin rozamiento) ----------
+{const a=22,ty=x=>250-(x-10)*Math.tan(rad(a));
+ DCL('U8e8',{B:[164,171],rect:[64,30],rot:-a,bg:`<polygon points="10,250 310,250 310,${ty(310)}" fill="#a8a29e"/>`+UT(250,244,'θ',13)+CEN(20,40,'centro de la curva')+UT(160,284,'Vista de frente',12,'#222','middle',700),
+  F:{P:{d:[0,56]},N:{d:U(a+90,58)},Fr:{d:U(a+180,40),n:'Fr'},...CF},ok:['P','N'],K:{N:[['Nₓ',[-22,0]],['Nᵧ',[0,-54]]]},
+  S:[{a:'Σ F_r (hacia el centro +)',r:'m·v²/R',e:['+Nₓ']},{a:'Σ Fᵧ',r:'0',e:['+Nᵧ','-P']}],tm:['Nₓ','Nᵧ','N','P'],tml:{'Nₓ':'N·sen θ','Nᵧ':'N·cos θ'},
+  axs:AXR(60,110,180,'+r'),axn:'Ejes horizontal (radial, hacia el centro) y vertical: el auto gira en un plano horizontal. La normal se descompone: N·sen θ hacia el centro y N·cos θ hacia arriba.',
+  dclw:'Sin rozamiento quedan solo el peso y la normal, que es perpendicular a la ruta inclinada. '+H_C},'a) Planteá')}
+// ---------- Ej. 10 · Lavadora ----------
+DCL('U8e10',{B:[246,150],rect:[22,40],bg:`<rect x="48" y="40" width="14" height="220" fill="#94a3b8"/><rect x="258" y="40" width="14" height="220" fill="#94a3b8"/>`+L_(160,30,160,270,'#475569',1,'stroke-dasharray="4 4"')+UT(160,24,'eje',11,'#222','middle',700)+UT(160,284,'Tambor visto de costado: la ropa, pegada a la pared',11,'#222','middle',700),
+ F:{N:{d:[-62,0]},P:{d:[0,56]},Fr:{d:[0,-56]},...CF},ok:['N','P','Fr'],S:[{a:'Σ F_r (hacia el eje +)',r:'m·ω²·R',e:['+N']},{a:'Σ Fᵧ',r:'0',e:['+Fr','-P']}],tm:['N','Fr','P'],
+ axs:AXR(110,70,180,'+r'),axn:'Eje radial hacia el eje del tambor y eje y hacia arriba. La ropa no se cae: en y está en equilibrio.',
+ dclw:'La pared empuja la ropa hacia el eje (normal), el peso tira hacia abajo y el rozamiento de la pared la sostiene (hacia arriba). '+H_C},null);
+// ---------- Ej. 11 · Sillas voladoras ----------
+DCL('U8e11',{B:[276,146],bg:`<rect x="60" y="36" width="164" height="8" fill="#64748b"/>`+L_(60,30,60,270,'#94a3b8',1,'stroke-dasharray="4 4"')+L_(220,44,276,146,'#222',2)+L_(220,44,220,110,'#94a3b8',1,'stroke-dasharray="3 3"')+UT(228,80,'28°',11,'#222','start')+CEN(66,250,'eje de giro'),
+ F:{T:{d:U(118,64)},P:{d:[0,56]},...CP},ok:['T','P'],K:{T:[['Tₓ',[-30,0]],['Tᵧ',[0,-56]]]},
+ S:[{a:'Σ F_r (hacia el eje +)',r:'m·ω²·R',e:['+Tₓ']},{a:'Σ Fᵧ',r:'0',e:['+Tᵧ','-P']}],tm:['Tₓ','Tᵧ','T','P'],tml:{'Tₓ':'T·sen 28°','Tᵧ':'T·cos 28°'},
+ axs:AXR(120,170,180,'+r'),axn:'Eje radial hacia el eje de giro y eje y hacia arriba (como en el péndulo cónico).',dclw:'Sobre la silla: la cadena y el peso. '+H_C},'a) Planteá');
+// ---------- Ej. 12 · Mesa con orificio ----------
+DCL('U8e12',{B:[244,138],rect:[30,24],B2:[150,222],rect2:[30,30],bn:['m₁ (gira sobre la mesa)','m₂ (cuelga)'],bg:`<rect x="20" y="150" width="120" height="10" fill="#a8a29e"/><rect x="160" y="150" width="140" height="10" fill="#a8a29e"/>`+L_(150,138,229,138,'#222',2)+L_(150,138,150,207,'#222',2)+CEN(30,120,'orificio = centro'),
+ F:{T1:{d:[-62,0],n:'T'},P1:{d:[0,44],n:'P₁'},N1:{d:[0,-44],n:'N₁'},Fcf:{d:[50,0],n:'Fuerza centrífuga'},T2:{d:[0,-52],n:'T',b:2},P2:{d:[0,48],n:'P₂',b:2}},ok:['T1','P1','N1','T2','P2'],
+ S:[{a:'m₁: Σ F_r',r:'m₁·v²/r',e:['+T']},{a:'m₁: Σ Fᵧ',r:'0',e:['+N','-P']},{a:'m₂: Σ Fᵧ',r:'0',e:['+T','-P']}],tm:['T','N','P'],
+ axn:'m₁: eje radial hacia el orificio. m₂ está en reposo: Σ F = 0.',dclw:'m₁: la cuerda (hacia el orificio), el peso y la normal de la mesa. m₂: la cuerda y su peso. '+H_C},{rep:'a) DCL'},['a) DCL','a) Σ F']);
+// ---------- Ej. 13 · El anillo en el alambre ----------
+DCL('U8e13',{B:[185,205],bg:`<rect x="86" y="20" width="8" height="250" fill="#94a3b8"/>`+L_(90,40,185,205,'#0ea5e9',2)+L_(90,150,185,205,'#0ea5e9',2)+UT(80,44,'A',12,'#222','end',700)+UT(80,154,'B',12,'#222','end',700)+UT(110,90,'30°',11)+UT(122,166,'60°',11),
+ F:{T1:{d:U(120,60),n:'T'},T2:{d:U(150,58),n:'T'},P:{d:[0,54]},...CF},ok:['T1','T2','P'],
+ S:[{a:'Σ Fᵧ',r:'0',e:['+T₁ᵧ','+T₂ᵧ','-P']},{a:'Σ F_r (hacia la varilla +)',r:'m·v²/r',e:['+T₁ₓ','+T₂ₓ']}],tm:['T₁ᵧ','T₂ᵧ','T₁ₓ','T₂ₓ','P'],
+ tml:{'T₁ᵧ':'T·cos 30°','T₂ᵧ':'T·cos 60°','T₁ₓ':'T·sen 30°','T₂ₓ':'T·sen 60°'},axs:AXR(280,120,180,'+r'),
+ axn:'Eje radial hacia la varilla y eje y hacia arriba. Las dos ramas del alambre tienen la misma tensión T.',dclw:'Sobre la esfera: los dos tramos del alambre (hacia A y hacia B) y el peso. '+H_C},{rep:'b) Ecuaciones'},['b) DCL','b) Σ F']);
+// ---------- Ej. 15 · Partícula dentro del cono (ω máxima) ----------
+DCL('U8e15',{B:[223,153],bg:`<polygon points="150,240 300,90 0,90" fill="#86b84a" opacity=".25"/>`+L_(150,240,300,90,'#65a30d',6)+L_(150,240,0,90,'#65a30d',6)+L_(150,40,150,262,'#475569',1,'stroke-dasharray="4 4"')+UT(186,232,'φ = 45°',11)+CEN(40,30,'eje de giro'),
+ F:{N:{d:U(135,58)},Fr:{d:U(225,40)},P:{d:[0,54]},...CF},ok:['N','Fr','P'],
+ S:[{a:'Σ F_r (hacia el eje +)',r:'m·ω²·R',e:['+Nₓ','+Frₓ']},{a:'Σ Fᵧ',r:'0',e:['+Nᵧ','-Frᵧ','-P']}],tm:['Nₓ','Nᵧ','Frₓ','Frᵧ','P'],
+ tml:{'Nₓ':'N·sen φ','Nᵧ':'N·cos φ','Frₓ':'μₑ·N·cos φ','Frᵧ':'μₑ·N·sen φ'},axs:AXR(60,200,180,'+r'),
+ axn:'ω máxima: la partícula tiende a subir, así que el rozamiento apunta hacia abajo, a lo largo de la pared. Eje radial hacia el eje y eje y hacia arriba.',
+ dclw:'La pared empuja perpendicularmente (normal, hacia adentro y arriba); el rozamiento va a lo largo de la pared, hacia abajo (en contra de la tendencia a subir); y el peso. '+H_C},'Planteá');
+// ---------- Ej. 16 · La esfera en la guía ----------
+DCL('U8e16',{B:[237,180],bg:`<path d="M150 30 A100 100 0 0 1 150 230" fill="none" stroke="#94a3b8" stroke-width="6"/>`+L_(150,20,150,270,'#475569',1,'stroke-dasharray="4 4"')+L_(150,130,237,180,'#94a3b8',1,'stroke-dasharray="4 4"')+UT(160,170,'θ',13)+CEN(20,150,'eje'),
+ F:{N:{d:U(150,60)},P:{d:[0,54]},Fc:{d:[-50,0],n:'Fuerza centrípeta'},...CF},ok:['N','P'],
+ S:[{a:'Σ Fᵧ',r:'0',e:['+Nᵧ','-P']},{a:'Σ F_r (hacia el eje +)',r:'m·ω²·R·sen θ',e:['+Nₓ']}],tm:['Nₓ','Nᵧ','N','P'],tml:{'Nₓ':'N·sen θ','Nᵧ':'N·cos θ'},
+ axs:AXR(290,250,180,'+r'),axn:'La normal apunta al centro de la guía. Eje radial hacia el eje de giro (horizontal) y eje y hacia arriba.',dclw:'Sin rozamiento: solo la normal de la guía y el peso. '+H_C},{rep:'a) DCL'},['a) DCL','a) Σ F']);
+})();
+// ===== Física I · UADE (v18): una simulación en cada nivel. Plantillas + simulaciones de los TP 3 a 7 =====
+const SIMS=(()=>{
+const LV=id=>{const e=EX.find(x=>x.id==id);if(!e)throw 'SIM '+id;return e};
+const ROAD=(y=206)=>`<rect x="0" y="${y}" width="320" height="40" fill="#8a8f98"/>`+L_(14,y+20,306,y+20,'#fff',2,'stroke-dasharray="10 8"');
+const TXT=(t,y=24)=>t?UT(160,y,t,12,'#222','middle',700):'';
+const vel=(f,t,T)=>{const h=Math.max(1e-4,T*1e-3);return (f(t+h)-f(Math.max(0,t-h)))/(t<h?h:2*h)};
+// --- 1D: varios móviles sobre una recta; panel con x(t) de todos ---
+const S1D=o=>{const T=o.T,N=150,ts=Array.from({length:N+1},(_,i)=>T*i/N),obs=o.objs,vis=(ob,t)=>!ob.vis||ob.vis(t);
+ const XS=obs.map(ob=>ts.map(t=>ob.x(t))),all=XS.flat().concat(o.xmin!=null?[o.xmin]:[],o.xmax!=null?[o.xmax]:[]);const lo=Math.min(...all),hi=Math.max(...all);
+ const xmin=o.xmin!=null?o.xmin:lo,xmax=o.xmax!=null?o.xmax:hi,px=x=>24+(x-xmin)/((xmax-xmin)||1)*272;
+ const ticks=()=>{const st=niceStep(xmax-xmin);let s='';for(let m=Math.ceil(xmin/st)*st;m<=xmax+1e-9;m+=st)s+=L_(px(m),246,px(m),252,'#444',1.5)+`<text x="${px(m)}" y="264" font-size="10" text-anchor="middle" fill="#222">${nf(m)}</text>`;return s+`<text x="306" y="280" font-size="10" text-anchor="end" fill="#222">x (${o.u||'m'})</text>`};
+ return {T,tf:o.tf,at:t=>({t,xs:obs.map(ob=>ob.x(t)),vs:obs.map(ob=>vel(ob.x,t,T))}),
+  base:()=>ROAD(206)+ticks()+(o.marks||[]).map(([m,t])=>L_(px(m),120,px(m),206,'#888',1,'stroke-dasharray="4 3"')+UT(px(m),114,t,11)).join('')+(o.base||''),
+  draw:(f,hd)=>obs.map((ob,i)=>{if(!vis(ob,f.t))return '';const X=px(f.xs[i]),c=ob.col||'#2563eb',d=f.vs[i]<-1e-9?-1:1;
+    const body=ob.kind=='dot'?`<circle cx="${X}" cy="196" r="7" fill="${c}"/>`:ob.kind=='box'?UBK(X-20,176,40,30,c,ob.in||''):ob.kind=='man'?`<circle cx="${X}" cy="168" r="7" fill="${c}"/>`+L_(X,175,X,196,c,4)+L_(X,196,X-6,206,c,3)+L_(X,196,X+6,206,c,3):CAR(X,206,c,1,ob.fx||d);
+    return body+(ob.lab?UT(X,(ob.kind=='dot'?182:ob.kind=='man'?154:166)-(ob.ly||0),ob.lab,11,c,'middle',700):'')}).join('')+TXT(typeof o.txt=='function'?o.txt(f.t):o.txt)+(o.extra?o.extra(f,px):''),
+  panel:o.panel||((f,hd,c)=>{const x0=30,y0=30,w=112,h=226,X=t=>x0+w*t/T,Y=x=>y0+h-(x-lo)/((hi-lo)||1)*h,z=Y(Math.max(lo,Math.min(hi,0)));
+   let s=`<rect width="150" height="290" fill="${c.cv}"/><text x="75" y="18" font-size="12" font-weight="700" text-anchor="middle" style="fill:var(--ink)">x(t)</text>`+L_(x0,y0,x0,y0+h,c.gd)+L_(x0,z,x0+w,z,c.gd)+`<text x="${x0-3}" y="${Y(hi)+4}" font-size="9" text-anchor="end" style="fill:var(--mut)">${nf(hi)}</text><text x="${x0-3}" y="${Y(lo)+4}" font-size="9" text-anchor="end" style="fill:var(--mut)">${nf(lo)}</text><text x="${x0+w}" y="${y0+h+14}" font-size="9" text-anchor="end" style="fill:var(--mut)">t (${o.tu||'s'})</text>`;
+   XS.forEach((xs,i)=>{const ob=obs[i],col=ob.col||'#2563eb',pt=j=>X(ts[j]).toFixed(1)+','+Y(xs[j]).toFixed(1),idx=ts.map((_,j)=>j).filter(j=>vis(ob,ts[j]));
+    s+=`<polyline points="${idx.map(pt).join(' ')}" fill="none" stroke="${col}" stroke-opacity=".2" stroke-width="2"/><polyline points="${idx.filter(j=>ts[j]<=f.t).map(pt).join(' ')}" fill="none" stroke="${col}" stroke-width="2.2"/>`+(vis(ob,f.t)?`<circle cx="${X(f.t)}" cy="${Y(f.xs[i])}" r="3.5" fill="${col}"/>`:'')});return s}),
+  ro:f=>o.ro?o.ro(f):obs.map((ob,i)=>vis(ob,f.t)?` · ${ob.n||ob.lab||'x'}: x = ${nf(f.xs[i])} ${o.u||'m'}`:'').join('')}};
+// --- 1D con gráficos x, v, a (un móvil) ---
+const K1D=o=>{const xmin=o.xmin||0,xmax=o.xmax,px=x=>24+(x-xmin)/(xmax-xmin)*272;
+ return KIN({T:o.T,tf:o.tf,at:t=>({x:o.x(t),v:o.v(t),a:o.a(t)}),base:()=>{const st=niceStep(xmax-xmin);let s=ROAD(206);for(let m=Math.ceil(xmin/st)*st;m<=xmax+1e-9;m+=st)s+=L_(px(m),246,px(m),252,'#444',1.5)+`<text x="${px(m)}" y="264" font-size="10" text-anchor="middle" fill="#222">${nf(m)}</text>`;return s+(o.base||'')},
+  draw:f=>CAR(px(f.x),206,o.col||'#2563eb',1,f.v<-1e-9?-1:1)+VARR(px(f.x),168,Math.max(-60,Math.min(60,f.v*(o.vsc||2))),0,CV,'v')+TXT(typeof o.txt=='function'?o.txt(f.t):o.txt),
+  plots:[['x','x','m',CX],['v','v','m/s',CV],['a','a','m/s²',CA]],ro:f=>` · x = ${nf(f.x)} m · v = ${nf(f.v)} m/s`})};
+// --- vertical con gráficos y, v, a ---
+const K1V=o=>{const py=y=>246-y/o.ymax*215;
+ return KIN({T:o.T,tf:o.tf,at:t=>({y:o.y(t),v:o.v(t),a:o.a(t)}),base:()=>{let s=`<rect x="0" y="246" width="320" height="44" fill="#8a8f98"/>`;const st=niceStep(o.ymax);for(let m=0;m<=o.ymax+1e-9;m+=st)s+=L_(220,py(m),228,py(m),'#444',1.5)+`<text x="232" y="${py(m)+4}" font-size="10" fill="#222">${nf(m)} m</text>`;return s+L_(224,30,224,246,'#888',1)+(o.base||'')},
+  draw:f=>(o.body?o.body(f,py):BALL(160,py(Math.max(0,f.y))-9))+VARR(184,py(Math.max(0,f.y))-9,0,-Math.max(-60,Math.min(60,f.v*(o.vsc||2))),CV,'v')+TXT(typeof o.txt=='function'?o.txt(f.t):o.txt),
+  plots:[['y','y','m',CX],['v','v','m/s',CV],['a','a','m/s²',CA]],ro:f=>` · y = ${nf(f.y)} m · v = ${nf(f.v)} m/s`})};
+// --- 2D: varios cuerpos en el plano (x, y en metros), con estela y vectores velocidad ---
+const S2D=o=>{const T=o.T,N=220,ts=Array.from({length:N+1},(_,i)=>T*i/N),obs=o.objs,[x0,x1]=o.X,[y0,y1]=o.Y;
+ let KX=280/(x1-x0),KY=(o.top?220:210)/(y1-y0);if(!o.free)KX=KY=Math.min(KX,KY);const PX=x=>20+(x-x0)*KX,PY=y=>(o.top?250:250)-(y-y0)*KY;
+ const PS=obs.map(ob=>ts.map(t=>[ob.x(t),ob.y(t)]));
+ return {T,tf:o.tf,at:t=>({t,ps:obs.map(ob=>[ob.x(t),ob.y(t)]),vs:obs.map(ob=>[vel(ob.x,t,T),vel(ob.y,t,T)])}),
+  base:()=>(o.ground?`<rect x="0" y="${PY(y0)}" width="320" height="${290-PY(y0)}" fill="#8a8f98"/>`:'')+(o.base?o.base(PX,PY,KX,KY):''),
+  draw:(f,hd)=>PS.map((p,i)=>{const ob=obs[i];if(ob.trail===false)return '';const q=ts.map((t,j)=>[t,p[j]]).filter(([t])=>t<=f.t&&(!ob.vis||ob.vis(t))).map(([,[x,y]])=>PX(x).toFixed(1)+','+PY(y).toFixed(1));return q.length>1?`<polyline points="${q.join(' ')}" fill="none" stroke="${ob.col||'#f97316'}" stroke-width="1.6" stroke-dasharray="4 4" opacity=".7"/>`:''}).join('')+
+   obs.map((ob,i)=>{if(ob.vis&&!ob.vis(f.t))return '';const [x,y]=f.ps[i],X=PX(x),Y=PY(y),c=ob.col||'#f97316',[vx,vy]=f.vs[i];let s='';
+    if(ob.vec)s+=VARR(X,Y,vx*KX*(o.vsc||1),-vy*KY*(o.vsc||1),ob.vcol||'#16a34a',ob.vlab||'');
+    s+=ob.kind=='car'?CAR(X,Y,c,.7,vx<0?-1:1):ob.kind=='box'?UBK(X-12,Y-24,24,24,c,ob.in||''):ob.kind=='boat'?`<g transform="translate(${X} ${Y}) rotate(${(-Math.atan2(vy,vx)*180/Math.PI).toFixed(1)})"><path d="M-12 -6 L8 -6 L14 0 L8 6 L-12 6 Z" fill="${c}" stroke="#7c2d12"/></g>`:ob.kind=='plane'?`<g transform="translate(${X} ${Y}) rotate(${(-Math.atan2(ob.hy?ob.hy:vy,ob.hx!=null?ob.hx:vx)*180/Math.PI).toFixed(1)})"><path d="M14 0 L-10 -4 L-14 -12 L-16 -12 L-14 0 L-16 12 L-14 12 L-10 4 Z" fill="${c}"/></g>`:`<circle cx="${X}" cy="${Y}" r="${ob.r||7}" fill="${c}" stroke="#7c2d12" stroke-width="1"/>`;
+    return s+(ob.lab?UT(X+(ob.lx||0),Y-(ob.r||7)-6+(ob.ly||0),ob.lab,11,c,'middle',700):'')}).join('')+TXT(typeof o.txt=='function'?o.txt(f.t):o.txt)+(o.extra?o.extra(f,PX,PY):''),
+  panel:o.panel||((f,hd,c)=>PNL(o.pt||'Rapidez',obs.map((ob,i)=>({n:ob.n||ob.lab||'v',v:Math.hypot(...f.vs[i]),mx:o.vmax||Math.max(...PS[i].map((_,j)=>Math.hypot(vel(ob.x,ts[j],T),vel(ob.y,ts[j],T))))*1.05||1,col:ob.col||'#f97316'})),hd,c)),
+  ro:f=>o.ro?o.ro(f):''}};
+const SET=(id,sim,desde)=>{const e=LV(id);if(e.mk){const m0=e.mk;e.mk=function(){const X=m0.apply(this,arguments);X.sim=sim;X.simDesde=desde||0;return X};return}e.sim=sim;e.simDesde=desde!=null?desde:(e.simDesde||0)};
+const H=t=>`t = ${nf(t)} h`,MIN=t=>`t = ${nf(t)} min`;
+const RIO=(PX,PY,w,x0,x1)=>`<rect x="0" y="${PY(w)}" width="320" height="${PY(0)-PY(w)}" fill="#7dd3fc" opacity=".55"/><rect x="0" y="${PY(0)}" width="320" height="${290-PY(0)}" fill="#a3e635" opacity=".6"/><rect x="0" y="0" width="320" height="${PY(w)}" fill="#a3e635" opacity=".6"/>`;
+
+// ================= TP 3 · MRU =================
+SET('U1a',S1D({T:6,xmin:0,xmax:60,objs:[{x:t=>10*t,lab:'v = 10 m/s'}],txt:'MRU: en cada segundo avanza lo mismo (10 m)'}));
+SET('U1b',S1D({T:30,xmin:0,xmax:320,objs:[{x:t=>10*t,lab:'tren',col:'#dc2626'},{x:t=>180+4*t,lab:'zorra',col:'#2563eb'}],marks:[[300,'desvío']],txt:'La zorra, a 4 m/s, llega al desvío justo con el tren'}));
+SET('U1e2',S1D({T:1,xmin:0,xmax:200,u:'km',tu:'ms',tf:t=>`t = ${nf(t)} ms`,objs:[{x:t=>200*t,kind:'dot',lab:'pulso',col:'#7c3aed'}],txt:'Cámara lenta: el pulso cruza los 200 km en 1 ms'}));
+SET('U1e3',S1D({T:3,xmin:0,xmax:160,u:'km',tu:'h',tf:t=>`t = ${nf(t)} h desde las 12:00`,objs:[{x:t=>50*t,kind:'dot',lab:'pulso',col:'#7c3aed'}],marks:[[0,'A'],[50,'B'],[150,'C']],txt:'1 s de animación = 1 h'}));
+SET('U1e4',S1D({T:12.333,xmin:0,xmax:600,u:'km',tu:'h',tf:H,objs:[{x:t=>t<5?40*t:t<9?200+50*(t-5):Math.min(600,400+60*(t-9)),lab:'móvil'}],marks:[[200,'L/3'],[400,'2L/3']],txt:t=>(t<5?'1.er tercio a 40 km/h':t<9?'2.º tercio a 50 km/h':'3.er tercio a 60 km/h')+' (1 s = 1 h)'}));
+SET('U1e8',S1D({T:80,xmin:0,xmax:4000,objs:[{x:t=>30*t,lab:'A',col:'#2563eb'},{x:t=>50*t,lab:'B',col:'#dc2626'}],txt:t=>`Mismo sentido: B se aleja de A a 20 m/s`,ro:f=>` · separación = ${nf(f.xs[1]-f.xs[0])} m`}));
+SET('U1e10',S1D({T:3,xmin:0,xmax:300,u:'km',tu:'h',tf:t=>`t = ${nf(t-1)} h (0 = sale el tren 1)`,objs:[{x:t=>t<1?0:80*(t-1),lab:'tren 1',col:'#2563eb'},{x:t=>300-50*t,lab:'tren 2',col:'#dc2626',fx:-1}],marks:[[0,'A'],[300,'B']],txt:t=>t<1?'El tren 2 sale 1 h antes':'Se encuentran a los 1,92 h (1 s = 1 h)'}));
+SET('U1e11',S1D({T:1.89,xmin:0,xmax:250,objs:[{x:t=>Math.min(200*t,238),lab:'bala',kind:'dot',col:'#334155',vis:t=>t<1.19},{x:t=>238-340*(t-1.19),lab:'sonido',kind:'dot',col:'#7c3aed',vis:t=>t>=1.19}],marks:[[0,'tirador'],[238,'campana']],txt:t=>t<1.19?'La bala va a 200 m/s':'El sonido vuelve a 340 m/s'}));
+
+// ================= TP 3 · MRUV, caída libre y tiro vertical =================
+SET('U2a',simH({T:5,x:t=>t*t,v:t=>2*t,a:2,xmin:0,xmax:26}));
+SET('U2b',simV({T:3,y:t=>45-5*t*t,v:t=>-10*t,ymax:50,tower:1}));
+SET('U2e15',K1D({T:24,xmin:0,xmax:420,x:t=>t<8?1.5*t*t:t<18?96+24*(t-8):336+24*(t-18)-2*(t-18)**2,v:t=>t<8?3*t:t<18?24:24-4*(t-18),a:t=>t<8?3:t<18?0:-4,txt:t=>t<8?'Tramo 1: acelera':t<18?'Tramo 2: velocidad constante':'Tramo 3: frena',vsc:2}));
+SET('U2e19',S1D({T:12.92,xmin:0,xmax:400,objs:[{x:t=>10*t+t*t,lab:'A',col:'#2563eb'},{x:t=>t<6?400:400-15*(t-6),lab:'B',col:'#f97316',fx:-1}],txt:t=>t<6?'B todavía no salió':'B sale a los 6 s'}));
+SET('U2e20',S1D({T:25.82,xmin:0,xmax:142,objs:[{x:t=>6*t-.1162*t*t,lab:'A',col:'#2563eb'},{x:t=>142-5*t+.0968*t*t,lab:'B',col:'#f97316',fx:-1}],marks:[[0,'P'],[142,'Q']],txt:'Los dos frenan y se detienen juntos, sin tocarse'}));
+SET('U2e25',K1V({T:37.8,ymax:700,y:t=>t<21.6?1.125*t*t:525+48.6*(t-21.6)-5*(t-21.6)**2,v:t=>t<21.6?2.25*t:48.6-10*(t-21.6),a:t=>t<21.6?2.25:-10,vsc:.8,txt:t=>t<21.6?'Con motor: a = 2,25 m/s²':'Sin motor: solo actúa la gravedad',base:L_(0,246-525/700*215,320,246-525/700*215,'#dc2626',1,'stroke-dasharray="5 4"'),
+ body:(f,py)=>`<path d="M${160} ${py(Math.max(0,f.y))-26} l7 14 h-14 z" fill="#dc2626"/><rect x="153" y="${py(Math.max(0,f.y))-12}" width="14" height="12" fill="#94a3b8"/>`}));
+SET('U2e27',KIN({T:8,at:t=>({y:t<7.231?-5*t*t:-261.4,s:t<7.231?null:-261.4+340*(t-7.231),v:t<7.231?-10*t:0}),base:`<rect x="0" y="30" width="110" height="20" fill="#8a8f98"/><rect x="210" y="30" width="110" height="20" fill="#8a8f98"/><rect x="110" y="30" width="100" height="240" fill="#e7e5e4"/><rect x="110" y="262" width="100" height="10" fill="#7dd3fc"/>`,
+ draw:f=>{const py=y=>40-y/261.4*218;return BALL(140,py(f.y)+2,7)+(f.s!=null?`<circle cx="180" cy="${py(f.s)}" r="9" fill="none" stroke="#7c3aed" stroke-width="2"/><circle cx="180" cy="${py(f.s)}" r="15" fill="none" stroke="#7c3aed" stroke-width="1" opacity=".5"/>`:'')+TXT(f.s==null?'La piedra cae…':'…y el sonido sube a 340 m/s',20)},
+ plots:[['y piedra','y','m',CX],['v piedra','v','m/s',CV]],ro:f=>` · y = ${nf(f.y)} m`}));
+
+// ================= TP 4 · Tiro oblicuo y tiro horizontal =================
+const PR=(vx,vy,x0=0,y0=0)=>({x:t=>x0+vx*t,y:t=>Math.max(0,y0+vy*t-5*t*t)});
+SET('U3b',simP({v0:2.81,al:30,h0:27,xmax:8,ymax:30,vsc:6}));
+SET('U3e2',S2D({T:4.92,X:[0,64],Y:[0,32],ground:1,objs:[{...PR(20,15),lab:'37°',col:'#f97316',vec:1},{...PR(4.47,24.6),lab:'80°',col:'#7c3aed',vec:1}],vsc:.5,
+ base:(PX,PY)=>`<rect x="${PX(20)-3}" y="${PY(10)}" width="6" height="${PY(0)-PY(10)}" fill="#a16207"/>`+UT(PX(20),PY(10)-6,'muro 10 m',10),txt:'Con 25 m/s, los dos ángulos pasan justo por arriba del muro'}));
+SET('U3e5',S2D({T:5.2,X:[0,82],Y:[0,36],ground:1,objs:[{...PR(15,25.98),lab:'60°',col:'#7c3aed',vec:1},{...PR(25.98,15),lab:'30°',col:'#f97316',vec:1}],vsc:.4,txt:'Mismo alcance, distinta altura y distinto tiempo'}));
+SET('U3e11',S2D({T:21.4,X:[0,4300],Y:[0,700],free:1,ground:1,objs:[{...PR(173.2,100,0,150),lab:'',col:'#f97316'},{x:t=>4135-20*t,y:()=>0,kind:'car',col:'#3f6212',lab:'tanque',trail:false}],
+ base:(PX,PY)=>`<rect x="0" y="${PY(150)}" width="${PX(0)+8}" height="${PY(0)-PY(150)}" fill="#94a3b8"/>`+UT(160,282,'Escalas distintas en x y en y',10,'#fff'),txt:'El tanque avanza mientras el proyectil vuela 21,4 s',ro:f=>` · tanque en x = ${nf(f.ps[1][0])} m`}));
+SET('U3e13',S2D({T:3.15,X:[-6,70],Y:[0,30],objs:[{x:t=>19.05*t,y:t=>20+11*t-5*t*t,kind:'car',col:'#2563eb',vec:1}],vsc:.6,
+ base:(PX,PY)=>`<rect x="0" y="${PY(0)}" width="320" height="${290-PY(0)}" fill="#7dd3fc"/><rect x="0" y="${PY(20)}" width="${PX(0)}" height="${290-PY(20)}" fill="#a8a29e"/><rect x="${PX(60)}" y="${PY(5)}" width="${320-PX(60)}" height="${290-PY(5)}" fill="#a8a29e"/>`,txt:'Sale a 22 m/s y aterriza justo en el borde'}));
+SET('U3e14',S2D({T:3,X:[0,1.6],Y:[0,1],tf:t=>`t = ${nf(t/10)} s (cámara lenta ×10)`,ground:1,objs:[{x:t=>.4*t,y:t=>.3*t-.05*t*t,lab:'1',col:'#f97316'},{x:()=>1.2,y:t=>.9-.05*t*t,lab:'2',col:'#2563eb'}],txt:'Chocan a los 0,3 s'}));
+SET('U3e15',S2D({T:2.404,X:[0,24],Y:[0,32],ground:1,objs:[{x:t=>8.32*t,y:t=>12.48*t-5*t*t,lab:'piedra',col:'#f97316'},{x:()=>20,y:t=>30-5*t*t,lab:'botella',col:'#16a34a',kind:'box'}],
+ base:(PX,PY)=>L_(PX(0),PY(0),PX(20),PY(30),'#94a3b8',1,'stroke-dasharray="4 4"'),txt:'Apuntando derecho a la botella: las dos caen igual'}));
+
+// ================= TP 5 · Movimiento relativo =================
+SET('U4a',S1D({T:8,xmin:0,xmax:90,objs:[{x:t=>10*t,lab:'auto 1 (10 m/s)',col:'#2563eb'},{x:t=>20+5*t,lab:'auto 2 (5 m/s)',col:'#dc2626',ly:14}],txt:'Desde el auto 2, el auto 1 se acerca a 5 m/s',ro:f=>` · distancia entre ellos = ${nf(f.xs[1]-f.xs[0])} m`}));
+SET('U4b',S2D({T:217,X:[0,450],Y:[0,800],objs:[{x:t=>Math.min(2*t,381),y:t=>Math.min(800,4.2*t),kind:'boat',col:'#f97316',lab:'apunta derecho',ly:-4},{x:t=>200,y:t=>Math.min(800,3.69*t),kind:'boat',col:'#7c3aed',lab:'compensa',ly:-4,lx:0}],
+ base:(PX,PY)=>RIO(PX,PY,800)+[0,1,2].map(i=>ARW(30+i*100,PY(400)+i*20-20,36,0,'#0369a1','')).join(''),txt:'Uno apunta perpendicular (se desvía); el otro, río arriba'}));
+SET('U4cinta',S1D({T:15,xmin:0,xmax:32,objs:[{x:t=>Math.min(30,3.5*t),lab:'sobre la cinta',kind:'man',col:'#db2777'},{x:t=>2*t,lab:'en el piso',kind:'man',col:'#2563eb'}],marks:[[30,'fin']],txt:'A favor de la cinta: 2 + 1,5 = 3,5 m/s'}));
+SET('U4e1',S2D({T:1,X:[-4,30],Y:[-4,24],tf:H,objs:[{x:t=>25*t,y:()=>0,kind:'car',col:'#2563eb',lab:'A',trail:false},{x:()=>0,y:t=>20*t,lab:'B',col:'#dc2626'}],
+ base:(PX,PY)=>L_(PX(-4),PY(0),PX(30),PY(0),'#94a3b8',1)+L_(PX(0),PY(-4),PX(0),PY(24),'#94a3b8',1)+UT(300,PY(0)-6,'este',10,'#64748b','end')+UT(PX(0)+6,40,'norte',10,'#64748b','start'),
+ extra:(f,PX,PY)=>L_(PX(f.ps[0][0]),PY(f.ps[0][1])-8,PX(f.ps[1][0]),PY(f.ps[1][1]),'#7c3aed',2,'stroke-dasharray="5 4"')+UT((PX(f.ps[0][0])+PX(f.ps[1][0]))/2+6,(PY(f.ps[0][1])+PY(f.ps[1][1]))/2,'B visto desde A',10,'#7c3aed','start',700),txt:'Visto desde A, B se va hacia el noroeste'}));
+SET('U4e2',S2D({T:1,X:[0,6],Y:[0,95],free:1,tf:t=>`t = ${nf(t*60)} min`,objs:[{x:()=>0,y:t=>90*t,kind:'box',col:'#64748b',lab:'tren',trail:false},{x:t=>5*t,y:t=>90*t,lab:'operario',col:'#db2777'}],base:()=>UT(160,282,'Escala del eje x (este) exagerada',10),txt:'Respecto del suelo: casi todo es la velocidad del tren'}));
+SET('U4e3',S2D({T:1,X:[-16,6],Y:[0,42],tf:H,objs:[{x:()=>0,y:t=>37.08*t,kind:'plane',hx:15,hy:37.1,col:'#16a34a',lab:'corrige'},{x:t=>-15*t,y:t=>40*t,kind:'plane',hx:0,hy:1,col:'#dc2626',lab:'sin corregir'}],
+ base:(PX,PY)=>ARW(PX(5),PY(20),-30,0,'#0369a1','')+UT(PX(5)-15,PY(20)-8,'viento',10,'#0369a1'),txt:'Para ir al norte, el dron apunta un poco al este'}));
+SET('U4e4',LV('U4e4').sim);
+SET('U4e6',S2D({T:46.2,X:[0,50],Y:[0,80],objs:[{x:()=>15,y:t=>Math.min(80,1.732*t),kind:'boat',col:'#16a34a',lab:'compensa'},{x:t=>Math.min(40,30+1*t),y:t=>Math.min(80,2*t),kind:'boat',col:'#f97316',lab:'apunta derecho'}],
+ base:(PX,PY)=>RIO(PX,PY,80),txt:'Nadando 30° río arriba cruza sin desviarse'}));
+SET('U4e9',S1D({T:60,xmin:0,xmax:3000,tu:'min',tf:MIN,objs:[{x:t=>t<10?300*t:Math.max(0,3000-60*(t-10)),lab:'barco',kind:'box',col:'#2563eb'}],marks:[[0,'A'],[3000,'B']],txt:t=>(t<10?'Ida, a favor de la corriente: 300 m/min':'Vuelta, en contra: 60 m/min')+' (1 s = 1 min)'}));
+SET('U4e10',S2D({T:10,X:[0,36],Y:[0,10],objs:[{x:t=>3.3*t,y:t=>.75*t,lab:'célula',col:'#db2777'},{x:t=>2*t,y:()=>0,lab:'fluido',col:'#0369a1',r:4}],base:()=>UT(160,282,'Posiciones en mm',10),txt:'La célula: su velocidad + la del fluido'}));
+SET('U4e11',S2D({T:1.686,X:[-10,160],Y:[0,420],tf:H,objs:[{x:()=>0,y:t=>237.2*t,kind:'plane',hx:-.29,hy:1,col:'#16a34a',lab:'corrige'},{x:t=>86.6*t,y:t=>250*t,kind:'plane',hx:0,hy:1,col:'#dc2626',lab:'sin corregir'}],base:(PX,PY)=>UT(PX(0),PY(400)-6,'B',12,'#222','middle',700)+`<circle cx="${PX(0)}" cy="${PY(400)}" r="4" fill="#222"/>`,txt:'El viento empuja hacia el sudeste'}));
+
+// ================= TP 6 · Movimiento circular =================
+SET('U5b',simC({T:6,th:t=>t*t/2,w:t=>t,r:1}));
+SET('U5e2',{...simC({T:8,th:t=>3.1416*t,w:()=>314.16,r:.1}),tf:t=>`t = ${nf(t/100)} s (cámara lenta ×100)`});
+SET('U5e3',simC({T:6.3,th:t=>2*t,w:()=>2,r:1.5}));
+SET('U5e8',{...simC({T:8,th:t=>5*t,w:()=>500,r:.12}),tf:t=>`t = ${nf(t/100)} s (cámara lenta ×100)`});
+
+// ================= TP 7 · lecciones y los que faltaban =================
+SET('U6a',S1D({T:2,xmin:-3,xmax:3,objs:[{x:t=>t<.5?-.6-2*t*t:-1.1-2*(t-.5),lab:'A (50 kg)',kind:'man',col:'#2563eb'},{x:t=>t<.5?.6+1.25*t*t:.9125+1.25*(t-.5),lab:'B (80 kg)',kind:'man',col:'#f97316'}],
+ txt:t=>t<.5?'Se empujan: F_AB y F_BA son iguales y opuestas':'Se separan: el más liviano sale más rápido',panel:(f,hd,c)=>PNL('Fuerzas (N)',[{n:'F sobre A',v:f.t<.5?-200:0,mx:250,col:'#2563eb'},{n:'F sobre B',v:f.t<.5?200:0,mx:250,col:'#f97316'}],hd,c)}));
+SET('U6b',LV('U6e6').sim);
+SET('U6e1',S1D({T:4,xmin:0,xmax:17,objs:[{x:t=>t*t,kind:'box',col:'#f97316',in:'m'}],txt:'Sin rozamiento, cualquier F > 0 lo acelera: a = F/m',panel:(f,hd,c)=>PNL('Fuerzas (N), m = 10 kg',[{n:'F',v:20,mx:30,col:'#0ea5e9'},{n:'P',v:100,mx:120,col:'#16a34a'},{n:'N',v:100,mx:120,col:'#7c3aed'}],hd,c),ro:f=>` · a = 2 m/s² · v = ${nf(2*f.t)} m/s`}));
+{const sp=(x,y,x1)=>{let p=`M14 ${y}`;for(let i=1;i<12;i++)p+=` L${14+(x1-14)*i/12} ${y+(i%2?-8:8)}`;return `<path d="${p} L${x1} ${y}" fill="none" stroke="#334155" stroke-width="2.5"/>`};
+ SET('U7a',KIN({T:3,at:t=>({x:10*Math.cos(10*t),Fe:-100*.1*Math.cos(10*t)}),base:`<rect x="0" y="206" width="320" height="40" fill="#8a8f98"/><rect x="0" y="120" width="14" height="86" fill="#64748b"/>`+L_(160,110,160,206,'#dc2626',1,'stroke-dasharray="4 4"')+UT(160,104,'equilibrio',10,'#dc2626'),
+  draw:f=>{const X=160+f.x*8;return sp(14,188,X-26)+UBK(X-26,170,52,36,'#f97316','m')+VARR(X,150,f.Fe*4,0,'#db2777','F_e')+TXT('La fuerza apunta siempre hacia el equilibrio',30)},plots:[['x','x','cm','#2563eb'],['F_e','Fe','N','#db2777']],ro:f=>` · x = ${nf(f.x)} cm · F_e = ${nf(f.Fe)} N`}));
+ SET('U7b',LV('U7e14').sim);
+ // U7e13: hasta 6,7 cm se queda; estirado 10 cm y suelto, desliza (para la simulación, μ_d = 0,3)
+ const w13=Math.sqrt(60),x13=t=>t<1.2?.0667:t<1.5?.0667+(t-1.2)/.3*.0333:t<1.5+Math.PI/w13?.05+.05*Math.cos(w13*(t-1.5)):0;
+ SET('U7e13',KIN({T:2.6,at:t=>{const x=x13(t),mv=t>1.5&&t<1.5+Math.PI/w13;return {x:x*100,Fe:300*x,Fr:mv?15:t<1.5?300*x:0}},base:`<rect x="0" y="206" width="320" height="40" fill="#8a8f98"/><rect x="0" y="126" width="14" height="80" fill="#64748b"/>`+L_(100,120,100,206,'#888',1,'stroke-dasharray="4 4"')+UT(100,114,'sin estirar',10),
+  draw:f=>{const X=100+f.x*14;return sp(14,188,X)+UBK(X,170,52,36,'#f97316','5 kg')+VARR(X,150,-f.Fe*1.6,0,'#db2777','F_e')+VARR(X+52,214,f.Fr*1.6,0,'#d97706','Fr')+TXT(f.x>6.6&&f.Fr==f.Fe?'Estirado ≤ 6,7 cm: el rozamiento estático alcanza':f.Fr==15?'Estirado 10 cm: F_e > μₑ·N y desliza (μ_d = 0,3)':'',30)},
+  plots:[['Δx','x','cm','#2563eb'],['F_e','Fe','N','#db2777'],['Fr','Fr','N','#d97706']],ro:f=>` · Δx = ${nf(f.x)} cm`}));
+ // U7e15: con F = 15 N no se mueve; si F baja a 5 N, arranca y el resorte lo frena
+ const w15=Math.sqrt(100/6),x15=t=>t<1.5?0:t<1.5+Math.PI/w15?.11-.11*Math.cos(w15*(t-1.5)):.22;
+ SET('U7e15',KIN({T:3,at:t=>{const x=x15(t),mv=t>1.5&&t<1.5+Math.PI/w15;return {x:x*100,F:t<1.5?15:5,Fe:100*x,Fr:mv?9:t<1.5?20:Math.max(0,20-100*x)}},base:`<rect x="0" y="150" width="240" height="12" fill="#7a5c3a"/><rect x="0" y="70" width="14" height="80" fill="#64748b"/><circle cx="252" cy="150" r="12" fill="none" stroke="#475569" stroke-width="4"/>`,
+  draw:f=>{const d=f.x*2.4;return sp(14,132,130+d)+UBK(130+d,114,52,36,'#f97316','m₁')+L_(182+d,128,252,138,'#222',2)+L_(264,150,264,190+d,'#222',2)+UBK(244,190+d,40,40,'#2563eb','m₂')+ARW(156+d,60,0,f.F*2.6,'#dc2626','F')+TXT(f.F==15?'F = 15 N: el rozamiento estático alcanza':'F = 5 N: arranca, y el resorte lo frena',24)},
+  plots:[['Δx','x','cm','#2563eb'],['F_e','Fe','N','#db2777'],['Fr','Fr','N','#d97706']],ro:f=>` · F = ${f.F} N`}))}
+return {S1D,S2D,K1D,K1V,SET,LV,TXT,ROAD}})();
+// ===== Física I · UADE (v18): simulaciones de los TP 8, 10 y 11 =====
+(()=>{
+const {S1D,S2D,K1D,SET,LV,TXT}=SIMS;
+const W=(x,y,rx,ry,c='#7c3aed')=>`<ellipse cx="${x}" cy="${y}" rx="${rx}" ry="${ry}" fill="none" stroke="${c}" stroke-width="1.5" stroke-dasharray="5 4"/>`;
+const SL=t=>`t = ${nf(t)} s`;
+
+// ================= TP 8 · Dinámica circular =================
+SET('U8a',simC({T:6.3,th:t=>2*t,w:()=>2,r:1}));
+// lección: auto en la curva, uno a menos de v_máx y otro a más
+SET('U8b',S2D({T:6,X:[-50,190],Y:[-110,70],top:1,objs:[
+ {x:t=>t<1?-30+30*t:100*Math.cos(-Math.PI/2+.3*(t-1)),y:t=>t<1?-100:100*Math.sin(-Math.PI/2+.3*(t-1)),kind:'boat',col:'#16a34a',lab:'v < v_máx'},
+ {x:t=>-40+40*t,y:()=>-92,kind:'boat',col:'#dc2626',lab:'v > v_máx',ly:-22}],
+ base:(PX,PY)=>`<path d="M${PX(-40)} ${PY(-100)} L${PX(0)} ${PY(-100)} A${100*(PX(1)-PX(0))} ${100*(PX(1)-PX(0))} 0 0 0 ${PX(100)} ${PY(0)}" fill="none" stroke="#cbd5e1" stroke-width="20"/>`,txt:'Vista desde arriba: con poco rozamiento, el rápido sigue derecho',vmax:45}));
+// Ej. 1: círculo vertical, T cambia en cada punto
+SET('U8e1',KIN({T:3,at:t=>{const b=2*Math.PI*t;return {b,T:23.69-10*Math.cos(b)}},base:`<circle cx="150" cy="150" r="95" fill="none" stroke="#64748b" stroke-width="2" stroke-dasharray="5 4"/><circle cx="150" cy="150" r="4" fill="#444"/>`,
+ draw:f=>{const x=150+95*Math.sin(f.b),y=150-95*Math.cos(f.b),ux=(150-x)/95,uy=(150-y)/95,k=1.9;return L_(150,150,x,y,'#444',1.5)+BALL(x,y,10)+ARW(x,y,ux*f.T*k,uy*f.T*k,'#dc2626','T')+ARW(x+14,y,0,30,'#16a34a','P')+TXT('T es máxima abajo y mínima arriba',20)},
+ plots:[['T','T','N','#dc2626']],ro:f=>` · T = ${nf(f.T)} N`}));
+SET('U8e2',simC({T:3,th:t=>8.378*t,w:()=>8.378,r:.8}));
+// Ej. 3: dos bloques que giran juntos (vista desde arriba)
+SET('U8e3',{T:4.4,at:t=>({a:4.364*t}),base:`<circle cx="150" cy="145" r="5" fill="#475569"/>`+W(150,145,72,72,'#94a3b8')+W(150,145,120,120,'#94a3b8'),
+ draw:f=>{const c=Math.cos(f.a),s=Math.sin(f.a);return L_(150,145,150+120*c,145-120*s,'#222',2)+BALL(150+72*c,145-72*s,10,'#2563eb')+BALL(150+120*c,145-120*s,12,'#16a34a')+UT(150+72*c,145-72*s-14,'m₁',11,'#2563eb','middle',700)+UT(150+120*c,145-120*s-16,'m₂',11,'#16a34a','middle',700)+TXT('Misma ω: el de afuera necesita más fuerza hacia el centro',20)},
+ panel:(f,hd,c)=>PNL('Fuerzas (N)',[{n:'T₁',v:40,mx:45,col:'#dc2626'},{n:'T₂',v:28.57,mx:45,col:'#ea580c'},{n:'T₁ − T₂',v:11.43,mx:45,col:'#2563eb'}],hd,c),ro:f=>' · ω = 4,36 rad/s'});
+// rotación en perspectiva: ángulo φ, centro (cx, cy), radio rx, aplastado
+const PER=(f,cx,cy,rx,ry)=>{const c=Math.cos(f),s=Math.sin(f);return [cx+rx*c,cy+ry*s,s]};
+SET('U8e4',{T:8,at:t=>({a:1.602*t}),base:`<rect x="100" y="22" width="100" height="8" fill="#64748b"/>`+L_(150,30,150,200,'#94a3b8',1,'stroke-dasharray="4 4"')+W(150,169,80,20),
+ draw:f=>{const [x,y,s]=PER(f.a,150,169,80,20);return L_(150,30,x,y,'#222',2)+BALL(x,y,s<0?8:11)+ARW(x,y,(150-x)*.35,(30-y)*.35,'#dc2626','T')+ARW(x+12,y,0,40,'#16a34a','P')+TXT('T·cos θ sostiene el peso; T·sen θ hace de centrípeta',282)},
+ panel:(f,hd,c)=>PNL('Fuerzas (N), m = 5 kg',[{n:'T',v:57.7,mx:65,col:'#dc2626'},{n:'P',v:50,mx:65,col:'#16a34a'},{n:'T·sen θ',v:28.9,mx:65,col:'#7c3aed'}],hd,c),ro:()=>' · ω ≈ 1,60 rad/s'});
+SET('U8e5',{T:6,at:t=>({a:4.24*t}),base:`<rect x="116" y="30" width="8" height="240" fill="#64748b"/>`+W(120,150,60,15),
+ draw:f=>{const [x,y]=PER(f.a,120,150,60,15);return L_(120,70,x,y,'#222',2)+L_(120,230,x,y,'#222',2)+`<rect x="${x-9}" y="${y-9}" width="18" height="18" fill="#475569"/>`+TXT('Las dos cuerdas tiran hacia la varilla',282)},
+ panel:(f,hd,c)=>PNL('Fuerzas (N)',[{n:'T₁',v:70,mx:80,col:'#dc2626'},{n:'T₂',v:20,mx:80,col:'#ea580c'},{n:'P',v:40,mx:80,col:'#16a34a'}],hd,c),ro:()=>' · ≈ 40,5 rpm'});
+SET('U8e6',{T:12,at:t=>({a:1.047*t}),base:`<polygon points="150,40 50,250 250,250" fill="#86b84a" opacity=".85"/>`+L_(150,40,150,262,'#475569',1,'stroke-dasharray="4 4"')+W(150,187,94,18,'#334155'),
+ draw:f=>{const [x,y,s]=PER(f.a,150,187,94,18);return (s<0?'':L_(150,40,x,y,'#222',2))+`<circle cx="${x}" cy="${y}" r="${s<0?6:9}" fill="#f97316" opacity="${s<0?.45:1}"/>`+TXT('Si gira más rápido, la normal baja hasta 0 y se despega',282)},
+ panel:(f,hd,c)=>PNL('Fuerzas (N)',[{n:'T',v:49.5,mx:60,col:'#dc2626'},{n:'N',v:14.3,mx:60,col:'#7c3aed'},{n:'P',v:50,mx:60,col:'#16a34a'}],hd,c),ro:()=>' · 10 rpm'});
+const CURV=(v,R,col,lab)=>({x:t=>t<1?-v*(1-t):R*Math.sin(v/R*(t-1)),y:t=>t<1?-R:-R*Math.cos(v/R*(t-1)),kind:'boat',col,lab});
+SET('U8e7',S2D({T:5,X:[-40,160],Y:[-160,10],top:1,objs:[CURV(20,150,'#2563eb','auto')],base:(PX,PY)=>`<path d="M${PX(-25)} ${PY(-150)} L${PX(0)} ${PY(-150)} A${150*(PX(1)-PX(0))} ${150*(PX(1)-PX(0))} 0 0 0 ${PX(150)} ${PY(0)}" fill="none" stroke="#cbd5e1" stroke-width="16"/>`+`<circle cx="${PX(0)}" cy="${PY(0)}" r="3" fill="#475569"/>`,
+ txt:'Vista desde arriba: el rozamiento apunta al centro',panel:(f,hd,c)=>PNL('Rozamiento (N)',[{n:'necesario',v:2667,mx:3000,col:'#d97706'},{n:'máximo',v:2667,mx:3000,col:'#64748b'}],hd,c),ro:()=>' · v = 20 m/s'}));
+{const R=300,v=40,road=(PX,PY)=>`<path d="M${PX(-40)} ${PY(-R)} L${PX(0)} ${PY(-R)} A${R*(PX(1)-PX(0))} ${R*(PX(1)-PX(0))} 0 0 0 ${PX(R)} ${PY(0)}" fill="none" stroke="#cbd5e1" stroke-width="18"/>`;
+ const st=(dy,col,lab,ok)=>({x:t=>t<1?-v*(1-t):ok?R*Math.sin(v/R*(t-1)):v*(t-1),y:t=>(t<1||!ok?-R:-R*Math.cos(v/R*(t-1)))+dy,kind:'boat',col,lab});
+ SET('U8e9',S2D({T:7,X:[-60,320],Y:[-330,20],top:1,objs:[st(0,'#16a34a','seco',1),st(-18,'#2563eb','mojado',0),st(-36,'#dc2626','hielo',0)],base:road,txt:'Los tres camiones a 40 m/s (144 km/h)',
+  panel:(f,hd,c)=>PNL('Rozamiento (kN)',[{n:'necesario',v:74.7,mx:110,col:'#334155'},{n:'seco',v:105,mx:110,col:'#16a34a'},{n:'mojado',v:70,mx:110,col:'#2563eb'},{n:'hielo',v:35,mx:110,col:'#dc2626'}],hd,c)}))}
+SET('U8e8',S2D({T:5,X:[-20,40],Y:[-30,5],top:1,objs:[CURV(10,25,'#2563eb','auto')],base:(PX,PY)=>`<path d="M${PX(-15)} ${PY(-25)} L${PX(0)} ${PY(-25)} A${25*(PX(1)-PX(0))} ${25*(PX(1)-PX(0))} 0 0 0 ${PX(25)} ${PY(0)}" fill="none" stroke="#cbd5e1" stroke-width="16"/>`,
+ txt:'Peraltada a 21,8°: a 10 m/s no necesita rozamiento',panel:(f,hd,c)=>PNL('Normal (N)',[{n:'N·sen θ',v:5600,mx:16000,col:'#7c3aed'},{n:'N·cos θ',v:14000,mx:16000,col:'#6d28d9'},{n:'P',v:14000,mx:16000,col:'#16a34a'}],hd,c),ro:()=>' · v = 10 m/s'}));
+SET('U8e10',{...simC({T:6,th:t=>2.513*t,w:()=>125.66,r:.2}),tf:t=>`t = ${nf(t/50)} s (cámara lenta ×50)`});
+SET('U8e11',{T:9,at:t=>({a:1.014*t}),base:`<rect x="60" y="44" width="200" height="8" fill="#64748b"/>`+L_(160,30,160,270,'#94a3b8',1,'stroke-dasharray="4 4"')+W(160,140,129,30),
+ draw:f=>[0,Math.PI].map(d=>{const [x,y,s]=PER(f.a+d,160,140,129,30),[xa,ya]=PER(f.a+d,160,48,100,23);return L_(xa,ya,x,y,'#222',2)+`<rect x="${x-8}" y="${y-6}" width="16" height="14" rx="3" fill="#f97316" opacity="${s<0?.5:1}"/>`}).join('')+TXT('Las cadenas se abren: T·sen θ apunta al eje',282),
+ panel:(f,hd,c)=>PNL('Fuerzas (N), m = 50 kg',[{n:'T',v:566,mx:650,col:'#dc2626'},{n:'P',v:500,mx:650,col:'#16a34a'}],hd,c),ro:()=>' · ω ≈ 1,01 rad/s'});
+SET('U8e12',{...simC({T:6,th:t=>4*t,w:()=>20,r:.1}),tf:t=>`t = ${nf(t/5)} s (cámara lenta ×5)`});
+SET('U8e13',{T:6,at:t=>({a:3.97*t}),tf:t=>`t = ${nf(t)} s`,base:`<rect x="86" y="20" width="8" height="250" fill="#94a3b8"/>`+W(90,205,95,22),
+ draw:f=>{const [x,y,s]=PER(f.a,90,205,95,22);return L_(90,40,x,y,'#0ea5e9',2)+L_(90,150,x,y,'#0ea5e9',2)+BALL(x,y,s<0?7:10,'#dc2626')+TXT('v² = g·r: no depende de la masa',282)},
+ panel:(f,hd,c)=>PNL('Movimiento',[{n:'v (m/s)',v:2.518,mx:3,col:'#16a34a'},{n:'ω (rad/s)',v:3.97,mx:5,col:'#7c3aed'}],hd,c)});
+SET('U8e15',{T:8,at:t=>({w:2+10*t/8,a:2*t+5*t*t/8}),base:`<polygon points="150,240 300,90 0,90" fill="#86b84a" opacity=".25"/>`+L_(150,240,300,90,'#65a30d',6)+L_(150,240,0,90,'#65a30d',6)+L_(150,40,150,262,'#475569',1,'stroke-dasharray="4 4"'),
+ draw:f=>{const ok=f.w>=3.333&&f.w<=10,dy=f.w<3.333?(3.333-f.w)*14:f.w>10?-(f.w-10)*14:0,[x,y,s]=PER(f.a,150,160+dy,80-dy,16);return `<circle cx="${x}" cy="${y}" r="${s<0?6:9}" fill="${ok?'#16a34a':'#dc2626'}" opacity="${s<0?.5:1}"/>`+TXT(f.w<3.333?'ω muy chica: desliza hacia abajo':f.w>10?'ω muy grande: desliza hacia arriba':'Entre ω mín y ω máx: no desliza',24)},
+ panel:(f,hd,c)=>PNL('ω (rad/s)',[{n:'ω mín',v:3.333,mx:12,col:'#64748b'},{n:'ω',v:f.w,mx:12,col:f.w>=3.333&&f.w<=10?'#16a34a':'#dc2626'},{n:'ω máx',v:10,mx:12,col:'#64748b'}],hd,c),ro:f=>` · ω = ${nf(f.w)} rad/s`});
+SET('U8e16',{T:6,at:t=>({a:2*t}),tf:t=>`t = ${nf(t/5)} s (cámara lenta ×5)`,base:L_(150,20,150,270,'#475569',1,'stroke-dasharray="4 4"'),
+ draw:f=>{const c=Math.cos(f.a),k=Math.abs(c);return `<path d="M150 30 A${Math.max(1,100*k)} 100 0 0 ${c>=0?1:0} 150 230" fill="none" stroke="#94a3b8" stroke-width="6"/>`+BALL(150+86.6*c,180,10,'#dc2626')+TXT('Con ω = 10 rad/s queda quieta en θ = 60°',282)},
+ panel:(f,hd,c)=>PNL('Equilibrio',[{n:'θ (°)',v:60,mx:90,col:'#7c3aed'},{n:'ω (rad/s)',v:10,mx:12,col:'#16a34a'}],hd,c)});
+
+// ================= TP 10 · Trabajo y energía (pistas) =================
+// segs: ['L',dx,dy,mu,largo real] (mu se multiplica por cos de la pendiente) · ['A',R,a0,a1,mu] (arco desde el punto actual)
+const TRK=o=>{const P=[];let x=o.p0[0],y=o.p0[1],s=0;P.push([0,x,y,0,0]);
+ o.segs.forEach(g=>{if(g[0]=='L'){const [,dx,dy,mu=0,len]=g,L0=Math.hypot(dx,dy),L=len||L0,n=Math.max(2,Math.ceil(L/.01)),a=Math.atan2(dy,dx),me=mu*Math.abs(Math.cos(a));for(let i=1;i<=n;i++)P.push([s+L*i/n,x+dx*i/n,y+dy*i/n,a,me]);x+=dx;y+=dy;s+=L}
+  else{const [,R,a0,a1,mu=0]=g,cx=x-R*Math.cos(rad(a0)),cy=y-R*Math.sin(rad(a0)),L=R*Math.abs(rad(a1-a0)),n=Math.max(4,Math.ceil(L/.01)),sg=a1>a0?1:-1;
+   for(let i=1;i<=n;i++){const a=rad(a0+(a1-a0)*i/n);P.push([s+L*i/n,cx+R*Math.cos(a),cy+R*Math.sin(a),a+sg*Math.PI/2,mu])}x=cx+R*Math.cos(rad(a1));y=cy+R*Math.sin(rad(a1));s+=L}});
+ const Ltot=s,xs=P.map(p=>p[1]),ys=P.map(p=>p[2]),x0=Math.min(...xs),x1=Math.max(...xs),y0=Math.min(...ys,0),y1=Math.max(...ys),k=Math.min(280/((x1-x0)||1),190/((y1-y0)||1)),PX=x=>20+(x-x0)*k,PY=y=>256-(y-y0)*k;
+ const idx=s=>{let lo=0,hi=P.length-1;if(s<=0)return 0;if(s>=P[hi][0])return hi-1;while(hi-lo>1){const m=(lo+hi)>>1;if(P[m][0]<=s)lo=m;else hi=m}return lo};
+ const at=s=>{const i=idx(s),a=P[i],b=P[i+1]||a,u=b[0]>a[0]?(s-a[0])/(b[0]-a[0]):0;return [a[1]+(b[1]-a[1])*u,a[2]+(b[2]-a[2])*u,b[3],b[4]]};
+ const hb=o.bh||12,E0=o.m*10*o.p0[1]+.5*o.m*(o.v0||0)**2+(o.ee?o.ee(0):0);
+ const pos=s=>{const [x,y,a]=at(s);return [PX(x)-Math.sin(a)*hb/2*1.05,PY(y)-Math.cos(a)*hb/2*1.05,-a*180/Math.PI]};
+ const trk=`<polyline points="${P.filter((_,i)=>i%3==0||i==P.length-1).map(p=>PX(p[1]).toFixed(1)+','+(PY(p[2])+3).toFixed(1)).join(' ')}" fill="none" stroke="#7a5c3a" stroke-width="5" stroke-linejoin="round"/>`+
+  P.filter((p,i)=>i%3==0&&p[4]>0).map(p=>`<circle cx="${PX(p[1]).toFixed(1)}" cy="${(PY(p[2])+3).toFixed(1)}" r="2.6" fill="#b45309"/>`).join('')+(o.labs||[]).map(([sx,t])=>{const [x,y]=at(sx);return `<circle cx="${PX(x)}" cy="${PY(y)+3}" r="3.5" fill="#0ea5e9"/>`+UT(PX(x),PY(y)+19,t,11,'#222','middle',700)}).join('');
+ const SPZ=(x1,y1,x2,y2)=>{const n=8,dx=(x2-x1)/n,dy=(y2-y1)/n,l=Math.hypot(dx,dy)||1,nx=-dy/l*6,ny=dx/l*6;let p=`M${x1} ${y1}`;for(let i=1;i<n;i++)p+=` L${x1+dx*i+(i%2?nx:-nx)} ${y1+dy*i+(i%2?ny:-ny)}`;return `<path d="${p} L${x2} ${y2}" fill="none" stroke="#334155" stroke-width="2.2"/>`};
+ const dyn=f=>{let s='';if(o.launch){const [ax,ay]=at(0),[bx,by]=at(Math.min(f.s,o.launch.d)),[cx,cy,a]=at(0);const back=24;s+=`<rect x="${PX(ax)-Math.cos(a)*back-4}" y="${PY(ay)-16}" width="6" height="22" fill="#475569"/>`+SPZ(PX(ax)-Math.cos(a)*back,PY(ay)-4,PX(bx)-Math.cos(a)*8,PY(by)-4)}
+  if(o.spring){const sc=o.spring.at,L=o.spring.L||.6,[wx,wy]=at(sc+L),[bx,by]=at(Math.max(sc,Math.min(f.s,sc+L*.9)));s+=`<rect x="${PX(wx)-2}" y="${PY(wy)-18}" width="6" height="22" fill="#475569"/>`+SPZ(PX(bx)+6,PY(by)-4,PX(wx),PY(wy)-4)}
+  if(o.ring){const [cx,cy]=o.ring,[x,y]=at(f.s);s+=SPZ(PX(cx),PY(cy),PX(x),PY(y))}return s+(o.txt?TXT(typeof o.txt=='function'?o.txt(f):o.txt,20):'')};
+ // integración (energía potencial + resortes + rozamiento μ·m·g con μ ya proyectado)
+ const m=o.m,g=10,ee=o.ee||(o.launch?(s=>.5*o.launch.k*Math.max(0,o.launch.d-s)**2):(s=>0)),es=o.spring?(s=>.5*o.spring.k*Math.max(0,s-o.spring.at)**2):(s=>0),U=s=>m*g*at(s)[1]+ee(s)+es(s);
+ const FR=[];let S=0,V=o.v0||0,t=0,dt=.0005,stop=null;const rec=()=>{const Ec=.5*m*V*V,Ep=m*g*at(S)[1],Epe=ee(S)+es(S);FR.push({s:S,v:V,Ec,Ep,Epe,Q:Math.max(0,E0-Ec-Ep-Epe)})};rec();
+ while(t<o.T){const d=.002,F=-(U(S+d)-U(S-d))/(2*d),fr=at(S)[3]*m*g;let a;if(V==0&&Math.abs(F)<=fr)a=0;else a=(F-(V!=0?Math.sign(V):Math.sign(F))*fr)/m;let nv=V+a*dt;if(V!=0&&Math.sign(nv)!=Math.sign(V)&&Math.abs(F)<=fr)nv=0;
+  V=nv;S+=V*dt;t+=dt;if(S<0){S=0;V=Math.max(0,V)}if(S>=Ltot){S=Ltot;V=0;stop=stop??t}if(V==0&&fr>0&&Math.abs(F)<=fr)stop=stop??t;if(FR.length<=t*60)rec();if(stop!=null&&t>stop+.6)break}
+ const T=(FR.length-1)/60,hasQ=FR.some(f=>f.Q>E0*.01),hasE=!!(o.launch||o.spring||o.ee),EM=o.Emax||E0*1.05;
+ return {T,at:t=>FR[Math.min(FR.length-1,Math.round(t*60))],base:(o.base?o.base(PX,PY):'')+trk,
+  draw:f=>{const [x,y,r]=pos(f.s);return dyn(f)+`<g transform="translate(${x} ${y}) rotate(${r})"><rect x="${-(o.bw||16)/2}" y="${-hb/2}" width="${o.bw||16}" height="${hb}" rx="3" fill="#f97316" stroke="#c2410c" stroke-width="1.5"/></g>`},
+  panel:(f,hd,c)=>PNL('Energía (J)',[{n:'E_c',v:f.Ec,mx:EM,col:'#2563eb'},{n:'E_pg',v:f.Ep,mx:EM,col:'#16a34a'},...(hasE?[{n:'E_pe',v:f.Epe,mx:EM,col:'#7c3aed'}]:[]),{n:'E_m',v:f.Ec+f.Ep+f.Epe,mx:EM,col:'#0d9488'},...(hasQ?[{n:'calor',v:f.Q,mx:EM,col:'#dc2626'}]:[])],hd,c),
+  ro:f=>` · v = ${nf(Math.abs(f.v))} m/s`}};
+const LOOP=(h,R,m=1)=>TRK({m,p0:[0,h],segs:[['L',h*.8,-h],['L',R*.5,0],['A',R,-90,270],['L',R*2,0]],T:12,labs:[[h*1.28+R*.5+Math.PI*R,'B']],txt:'Sin rozamiento: E_m se conserva'});
+SET('U9b',LOOP(50,20));SET('U9e18',LOOP(70,20));SET('U9e23',LOOP(60,20));
+SET('U9e15',TRK({m:.2,p0:[-.5,.5],segs:[['A',.5,180,360,.14]],T:8,labs:[[0,'A'],[Math.PI*.25,'B']],txt:'Con rozamiento, cada vez sube menos'}));
+SET('U9e16',TRK({m:2,p0:[0,0],segs:[['L',3,0],['L',12*.8,12*.6]],launch:{k:5400,d:.22},T:4,labs:[[3,'rampa']],txt:'Energía elástica → cinética → potencial'}));
+SET('U9e19',TRK({m:2,p0:[0,2],segs:[['A',2,180,270],['L',5,0,.5],['L',.6,0,.5]],T:4,end:false,labs:[[Math.PI,'inicio rugoso']],txt:'El rozamiento se lleva toda la energía'}));
+SET('U9e20',TRK({m:.2,p0:[0,1.6],segs:[['A',1.6,180,270,.178],['L',3.4,0,.384]],T:4,labs:[[0,'A'],[2.513,'B'],[5.513,'C']],txt:'Pierde energía en el arco y en el tramo horizontal'}));
+SET('U9e22',TRK({m:.5,p0:[.5,0],segs:[['A',.5,0,180]],ee:s=>50*(Math.cos(s)-.5)**2,ring:[-.5,0],T:3,labs:[[0,'A'],[Math.PI*.25,'B'],[Math.PI*.5,'C']],txt:'El resorte (anclado en C) entrega su energía'}));
+SET('U9e24',TRK({m:.5,p0:[0,0],segs:[['L',.6,0],['A',.4,-90,270],['L',.8,0]],launch:{k:1000,d:.1},T:2.5,labs:[[.6+Math.PI*.4,'A']],txt:'Con 10 cm de compresión llega arriba con v = √(g·R)'}));
+SET('U9e25',TRK({m:3,p0:[0,6],segs:[['A',6,180,270],['L',9,0,.2],['L',1.4,0]],spring:{k:400,at:3*Math.PI+9,L:1.3},T:8,labs:[[0,'A'],[3*Math.PI,'B'],[3*Math.PI+9,'C']],txt:'Lisa → rugoso (μ = 0,2) → resorte'}));
+SET('U9e26',TRK({m:50,p0:[0,30],segs:[['L',51.96,-30,.2],['L',32,24,.2]],T:16,labs:[[60,'B']],txt:'Baja 60 m y sube por el otro plano (con rozamiento)'}));
+SET('U9e27',TRK({m:.6,p0:[0,2.5],segs:[['L',4.33,-2.5,.2],['L',.3,0],['A',.5,-90,270],['L',.6,0,.2],['L',.5,0]],spring:{k:500,at:5.3+Math.PI+.6,L:.45},T:5,labs:[[5,'B'],[5.3+Math.PI*.5,'D']],txt:'Plano con roce, rizo liso, tramo rugoso y resorte'}));
+SET('U9e28',TRK({m:.4,p0:[0,.45],segs:[['L',.78,-.45,.2],['L',.3,0],['A',.5,-90,270],['L',4,0,.2,13]],launch:{k:750,d:.15},T:9,labs:[[.9,'B']],txt:'Resorte, plano, rizo y frenada (el tramo final está achicado)'}));
+SET('U9e29',TRK({m:7,p0:[0,5],segs:[['L',5,-5],['L',3,0,.5],['L',3,3],['L',1.2,0]],launch:{k:400,d:.1},spring:{k:600,at:5*Math.SQRT2+3+3*Math.SQRT2,L:.9},T:6,labs:[[5*Math.SQRT2,'B'],[5*Math.SQRT2+3+3*Math.SQRT2,'C']],txt:'Resorte, bajada lisa, tramo rugoso, subida y otro resorte'}));
+SET('U9e30',TRK({m:10,p0:[0,7],segs:[['L',4.04,-7,.3],['L',2,0,.3],['L',2.38,2,.3],['L',1.2,0]],launch:{k:2000,d:.1},spring:{k:1500,at:8.083+2+3.111,L:1},T:6,labs:[[8.083,'B'],[10.083,'C'],[13.194,'D']],txt:'Todo el recorrido ABCD con rozamiento (μ = 0,3)'}));
+SET('U9e12',simEn({m:2,h:0,v0:30.41}));
+// trabajo de una fuerza: bloque arrastrado, barras de trabajo
+const WRK=o=>({T:o.T,at:t=>{const x=o.x(t),k=x/o.d;return {x,k,v:o.v(t)}},base:o.base,draw:f=>o.draw(f)+TXT(o.txt,24),panel:(f,hd,c)=>PNL('Trabajo (J)',o.W.map(([n,w,col])=>({n,v:w*f.k,mx:o.mx,col})),hd,c),ro:f=>` · d = ${nf(f.x)} m · v = ${nf(f.v)} m/s`});
+SET('U9a',WRK({T:2.2,d:10,x:t=>2.165*t*t,v:t=>4.33*t,mx:100,W:[['W_F',86.6,'#0ea5e9'],['ΔE_c',86.6,'#2563eb']],base:`<rect x="0" y="206" width="320" height="40" fill="#8a8f98"/>`,txt:'Solo la componente de F a lo largo del camino hace trabajo',
+ draw:f=>{const X=30+f.x*22;return UBK(X,176,50,30,'#f97316','2 kg')+ARW(X+50,180,60*Math.cos(rad(30)),-60*Math.sin(rad(30)),'#0ea5e9','F')}}));
+SET('U9e1',WRK({T:1.46,d:8,x:t=>3.75*t*t,v:t=>7.5*t,mx:1300,W:[['W_F',1200,'#0ea5e9'],['W_P',0,'#16a34a'],['W_N',0,'#7c3aed'],['ΔE_c',1200,'#2563eb']],base:`<rect x="0" y="206" width="320" height="40" fill="#8a8f98"/>`,txt:'W total = ΔE_c',
+ draw:f=>{const X=20+f.x*28;return UBK(X,176,50,30,'#f97316','20 kg')+ARW(X+50,191,50,0,'#0ea5e9','150 N')}}));
+{const a=rad(25),pt=x=>[20+x*25*Math.cos(a),246-x*25*Math.sin(a)];
+ SET('U9e4',WRK({T:2.47,d:10,x:t=>1.64*t*t,v:t=>3.27*t,mx:3300,W:[['W_F',3000,'#0ea5e9'],['W_P',-1690,'#16a34a'],['ΔE_c',1310,'#2563eb']],base:`<polygon points="20,246 300,246 300,${246-280*Math.tan(a)}" fill="#a8a29e"/>`,txt:'El peso hace trabajo negativo al subir',
+  draw:f=>{const [x,y]=pt(f.x);return `<g transform="translate(${x} ${y}) rotate(-25)"><rect x="-18" y="-26" width="36" height="26" rx="4" fill="#f97316"/></g>`+ARW(x+10,y-24,50*Math.cos(a),-50*Math.sin(a),'#0ea5e9','F')}}))}
+{const a=rad(20),pt=x=>[20+x*70*Math.cos(a),246-x*70*Math.sin(a)];
+ SET('U9e10',WRK({T:1.81,d:3.1,x:t=>.8*t+.514*t*t,v:t=>.8+1.03*t,mx:50,W:[['W_F',46.6,'#0ea5e9'],['W_P',-23.3,'#16a34a'],['W_Fr',-16.2,'#d97706'],['W_res',7.07,'#2563eb']],base:`<polygon points="20,246 300,246 300,${246-280*Math.tan(a)}" fill="#a8a29e"/>`,txt:'W_res = ΔE_c',
+  draw:f=>{const [x,y]=pt(f.x);return `<g transform="translate(${x} ${y}) rotate(-20)"><rect x="-16" y="-24" width="32" height="24" rx="4" fill="#f97316"/></g>`+ARW(x-60,y-12,44,0,'#0ea5e9','F')}}))}
+// Ej. 21: sobre la semiesfera (desliza y se despega)
+{const R=.2,g=10,dt=1e-4,F=[];let th=.02,w=0,t=0;while(th<Math.acos(2/3)){w+=g/R*Math.sin(th)*dt;th+=w*dt;t+=dt;if(F.length<t*600)F.push([t,th,w])}const t1=t,v1=w*R,x1=R*Math.sin(th),y1=R*Math.cos(th),vx=v1*Math.cos(th),vy=-v1*Math.sin(th);
+ const st=t=>{if(t<t1){const i=Math.min(F.length-1,Math.floor(t*600)),[,q,ww]=F[i];return {x:R*Math.sin(q),y:R*Math.cos(q),v:ww*R,N:Math.max(0,g*Math.cos(q)-(ww*R)**2/R),q}}const u=t-t1;return {x:x1+vx*u,y:Math.max(0,y1+vy*u-5*u*u),v:Math.hypot(vx,vy-10*u),N:0,q:null}};
+ SET('U9e21',{T:t1+.25,at:st,base:`<path d="M40 240 A120 120 0 0 1 280 240 Z" fill="#cbd5e1"/>`+`<rect x="0" y="240" width="320" height="50" fill="#8a8f98"/>`,
+  draw:f=>BALL(160+f.x*600,240-f.y*600-9,9)+TXT(f.q==null?'¡Se despegó! (N = 0, a 48,2°)':'Desliza pegado: N disminuye',24),
+  panel:(f,hd,c)=>PNL('Por unidad de masa (N/kg)',[{n:'g·cos θ',v:f.q==null?0:g*Math.cos(f.q),mx:10,col:'#16a34a'},{n:'v²/R',v:f.v*f.v/R,mx:10,col:'#2563eb'},{n:'N/m',v:f.N,mx:10,col:'#7c3aed'}],hd,c),ro:f=>` · v = ${nf(f.v)} m/s`})}
+
+// ================= TP 11 · Impulso y choques =================
+const COL1D=o=>{const {m1,v1,m2,v2,u1,u2}=o,T=o.T||4,tc=o.tc||1.6,w1=o.w1||46,w2=o.w2||46,vm=Math.max(...[v1,v2,u1,u2].map(Math.abs))||1,k=118/(vm*Math.max(tc,T-tc)),P0=m1*v1+m2*v2,E0=.5*m1*v1*v1+.5*m2*v2*v2,pm=Math.max(Math.abs(m1*v1),Math.abs(m2*v2),Math.abs(m1*u1),Math.abs(m2*u2),Math.abs(P0))||1;
+ return {T,at:t=>{const a=t<tc,va=a?v1:u1,vb=a?v2:u2;return {t,p1:160-w1/2+(t-tc)*va*k,p2:160+w2/2+(t-tc)*vb*k,va,vb}},base:`<rect x="0" y="206" width="320" height="40" fill="#8a8f98"/>`,
+  draw:f=>UBK(f.p1-w1/2,170,w1,36,'#2563eb',o.l1||m1+' kg')+UBK(f.p2-w2/2,170,w2,36,'#f97316',o.l2||m2+' kg')+VARR(f.p1,154,f.va*o.vs,0,'#16a34a',nf(Math.abs(f.va))+' m/s')+VARR(f.p2,134,f.vb*o.vs,0,'#16a34a',nf(Math.abs(f.vb))+' m/s')+TXT(f.t<tc?'Antes del choque':o.txt||'Después del choque',30),
+  panel:(f,hd,c)=>PNL('p (kg·m/s) · E_c',[{n:'p₁',v:m1*f.va,mx:pm,col:'#2563eb'},{n:'p₂',v:m2*f.vb,mx:pm,col:'#f97316'},{n:'P total',v:m1*f.va+m2*f.vb,mx:pm,col:'#334155'},{n:'E_c',v:.5*m1*f.va**2+.5*m2*f.vb**2,mx:E0,col:'#dc2626'}],hd,c),
+  ro:f=>` · E_c = ${nf(.5*m1*f.va**2+.5*m2*f.vb**2)} J`}};
+SET('U10e17',COL1D({m1:4,v1:6,m2:2,v2:0,u1:2,u2:8,vs:5,txt:'Elástico: se conservan p y E_c'}));
+SET('U10e18',COL1D({m1:1000,v1:4,m2:1500,v2:0,u1:1.6,u2:1.6,vs:8,l1:'1000 kg',l2:'1500 kg',txt:'Plástico: quedan pegados y se pierde E_c'}));
+SET('U10e20',COL1D({m1:1,v1:4,m2:1,v2:-2,u1:-1.25,u2:3.25,vs:8,l1:'m',l2:'m',txt:'e = 0,75: rebotan, pero se pierde E_c'}));
+SET('U10e21',COL1D({m1:2,v1:7,m2:12,v2:0,u1:-5,u2:2,vs:5,l2:'B: 12 kg',txt:'Elástico: A rebota porque B es más pesado'}));
+SET('U10e23',COL1D({m1:5,v1:12,m2:10,v2:-3,u1:-6,u2:6,vs:3,txt:'e = 0,8'}));
+SET('U10e29',COL1D({m1:1,v1:14,m2:3,v2:0,u1:3.5,u2:3.5,vs:3,w1:16,l1:'',l2:'3 kg',txt:'La bala queda incrustada: 3,5 m/s y después sube por la rampa'}));
+const COL2D=o=>{const {m1,v1,m2,v2,u1,u2}=o,T=o.T||3,tc=o.tc||1.4,n=o.n||[1,0],r=o.r||.35,c1=[-n[0]*r,-n[1]*r],c2=[n[0]*r,n[1]*r],P=(c,v,u,t)=>t<tc?[c[0]+v[0]*(t-tc),c[1]+v[1]*(t-tc)]:[c[0]+u[0]*(t-tc),c[1]+u[1]*(t-tc)];
+ const E0=.5*m1*Math.hypot(...v1)**2+.5*m2*Math.hypot(...v2)**2,pm=Math.max(Math.abs(m1*v1[0]+m2*v2[0]),Math.abs(m1*v1[1]+m2*v2[1]),Math.abs(m1*u1[0]+m2*u2[0]),Math.abs(m1*u1[1]+m2*u2[1]))*1.4||1;
+ return S2D({T,X:o.X||[-4,4],Y:o.Y||[-3,3],top:1,objs:[{x:t=>P(c1,v1,u1,t)[0],y:t=>P(c1,v1,u1,t)[1],lab:o.l1||m1+' kg',col:'#2563eb',r:10,vec:1},{x:t=>P(c2,v2,u2,t)[0],y:t=>P(c2,v2,u2,t)[1],lab:o.l2||m2+' kg',col:'#f97316',r:10,vec:1}],vsc:o.vsc||.35,
+  base:(PX,PY)=>L_(0,PY(0),320,PY(0),'#cbd5e1',1,'stroke-dasharray="5 4"'),txt:o.txt,
+  panel:(f,hd,c)=>{const a=f.t<tc;const va=a?v1:u1,vb=a?v2:u2;return PNL('P total y E_c',[{n:'Pₓ',v:m1*va[0]+m2*vb[0],mx:pm,col:'#334155'},{n:'Pᵧ',v:m1*va[1]+m2*vb[1],mx:pm,col:'#64748b'},{n:'E_c',v:.5*m1*Math.hypot(...va)**2+.5*m2*Math.hypot(...vb)**2,mx:E0,col:'#dc2626'}],hd,c)}})};
+SET('U10e19',COL2D({m1:1,v1:[4,2],m2:2,v2:[0,0],u1:[2,1],u2:[1,.5],n:[.894,.447],T:4.5,tc:1.5,X:[-6,4],Y:[-3,2.5],txt:'La cantidad de movimiento total se conserva en x y en y'}));
+SET('U10e24',COL2D({m1:1,v1:[2,0],m2:1,v2:[0,0],u1:[1.268,.732],u2:[.732,-.732],n:[.707,-.707],l1:'m',l2:'m',vsc:.6,X:[-4,3],Y:[-2.5,2],txt:'Masas iguales: se reparten la cantidad de movimiento'}));
+SET('U10e26',COL2D({m1:5,v1:[8.66,5],m2:10,v2:[-6.13,5.14],u1:[-9.09,5],u2:[2.74,5.14],X:[-14,14],Y:[-9,9],vsc:.12,txt:'Cambian solo las componentes sobre la línea de choque'}));
+SET('U10e28',COL2D({m1:8,v1:[1.5,2.598],m2:5,v2:[-5,0],u1:[-2.5,2.598],u2:[1.4,0],X:[-8,6],Y:[-5,5],vsc:.25,txt:'Línea de choque horizontal: vᵧ no cambia'}));
+SET('U10a',S1D({T:4,xmin:0,xmax:45,objs:[{x:t=>10+10*t,lab:'pelota 0,5 kg',kind:'dot',col:'#f97316'},{x:t=>10*t,lab:'camión 2000 kg',col:'#334155'}],txt:'Misma velocidad, muy distinta cantidad de movimiento',panel:(f,hd,c)=>PNL('p (kg·m/s)',[{n:'pelota',v:5,mx:20000,col:'#f97316'},{n:'camión',v:20000,mx:20000,col:'#334155'}],hd,c)}));
+SET('U10b',S1D({T:2.5,xmin:-3,xmax:3,objs:[{x:t=>-2+t,lab:'1 kg',kind:'dot',col:'#2563eb'},{x:t=>1.6-.5*t,lab:'2 kg',kind:'dot',col:'#16a34a'}],extra:(f,px)=>{const x=(f.xs[0]+2*f.xs[1])/3;return L_(px(x),150,px(x),206,'#dc2626',2,'stroke-dasharray="4 3"')+UT(px(x),144,'CM',11,'#dc2626','middle',700)},txt:'P total = 0: el centro de masa no se mueve'}));
+SET('U10e1',K1D({T:4.5,xmin:0,xmax:52,x:t=>22*t-2.444*t*t,v:t=>22-4.889*t,a:()=>-4.889,txt:'Frena: la fuerza media es F = Δp / Δt',vsc:2}));
+{const k=20,y=tr=>tr<.02?.12-6*tr:tr<.035?0:1.5*(tr-.035)-5*(tr-.035)**2,v=tr=>tr<.02?-6:tr<.035?-6+7.5*(tr-.02)/.015:1.5-10*(tr-.035);
+ SET('U10e2',KIN({T:1.2,tf:t=>`t = ${nf(t/k*1000)} ms (cámara lenta)`,at:t=>{const tr=t/k;return {y:y(tr)*100,v:v(tr),F:tr>=.02&&tr<.035?1500:0}},base:`<rect x="0" y="246" width="320" height="44" fill="#8a8f98"/><rect x="130" y="226" width="60" height="20" fill="#94a3b8"/>`,
+  draw:f=>`<rect x="135" y="${226-36-f.y*1.4}" width="50" height="36" rx="4" fill="#475569"/>`+L_(160,226-36-f.y*1.4,160,20,'#a16207',5)+TXT(f.F?'Contacto: 0,015 s y 1500 N':'',24),plots:[['v','v','m/s',CV],['F','F','N','#dc2626']],ro:f=>` · v = ${nf(f.v)} m/s`}))}
+SET('U10e6',S2D({T:2.1,X:[-.5,4],Y:[-.5,4.6],top:1,objs:[{x:t=>t<1?3*t:t<1.1?3+.3*((t-1)/.1)-.15*((t-1)/.1)**2:3.15,y:t=>t<1?0:t<1.1?.2*((t-1)/.1)**2:.2+4*(t-1.1),kind:'box',col:'#f97316',vec:1}],vsc:.35,txt:'Cambiar la dirección también cambia p (es un vector)',
+ panel:(f,hd,c)=>PNL('p (kg·m/s), m = 2 kg',[{n:'pₓ',v:2*f.vs[0][0],mx:9,col:'#2563eb'},{n:'pᵧ',v:2*f.vs[0][1],mx:9,col:'#16a34a'}],hd,c)}));
+SET('U10e10',{T:3.5,at:t=>({n:t<1?1:t<2?2:3}),base:`<rect x="20" y="190" width="280" height="10" rx="3" fill="#a16207"/>`+[0,2,5].map(x=>UT(30+x*52,220,x+' m',11)).join(''),
+ draw:f=>{const M=[[5,0,'#2563eb'],[10,2,'#f97316'],[15,5,'#16a34a']].slice(0,f.n);const mt=M.reduce((a,b)=>a+b[0],0),xc=M.reduce((a,b)=>a+b[0]*b[1],0)/mt;return M.map(([m,x,c])=>`<circle cx="${30+x*52}" cy="${190-m*1.6}" r="${m*1.6}" fill="${c}"/>`+UT(30+x*52,182-m*3.2,m+' kg',10)).join('')+L_(30+xc*52,130,30+xc*52,240,'#dc2626',2,'stroke-dasharray="4 3"')+UT(30+xc*52,124,'CM',11,'#dc2626','middle',700)+TXT('El CM se corre hacia la masa más grande',24)},
+ panel:(f,hd,c)=>PNL('x_cm (m)',[{n:'x_cm',v:[0,0,4/3,3.167][f.n],mx:5,col:'#dc2626'}],hd,c)});
+SET('U10e14',S1D({T:.8,xmin:-2.5,xmax:3.5,objs:[{x:t=>-2+4*t,lab:'2 kg',kind:'box',col:'#2563eb'},{x:t=>3-2*t,lab:'3 kg',kind:'box',col:'#f97316'}],extra:(f,px)=>{const x=(2*f.xs[0]+3*f.xs[1])/5;return L_(px(x),140,px(x),206,'#dc2626',2,'stroke-dasharray="4 3"')+UT(px(x),134,'CM',11,'#dc2626','middle',700)},txt:'El CM avanza a 0,4 m/s, siempre igual'}));
 })();
 // ===== Física I · UADE: quedan solo los niveles de la facultad (y el tutorial) =====
 dsApply();
